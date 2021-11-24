@@ -9,6 +9,23 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
+
 package-lock.json
+
+.env.local
+.env.development
+.env.test
+.env.production
+.env.staging    
+.env.demo
+.env.demo.local
+.env.demo.development
+.env.demo.test
+.env.demo.production
+.env.demo.staging
+.env.demo.demo
+.env.demo.demo.local
+.env
 # macOS
 .DS_Store
+package-lock.json/
