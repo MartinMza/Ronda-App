@@ -15,12 +15,9 @@ export default function App() {
         }}
         style={styles.container}
       >
-<<<<<<< HEAD
       <Login />
-=======
        <Register></Register>
       <Text>Hello app!</Text>
->>>>>>> e3a380b17f4db996a8b6422aa2f6e9aa792c4f17
       <StatusBar style="auto" />
       </LinearGradient>
     </View>
