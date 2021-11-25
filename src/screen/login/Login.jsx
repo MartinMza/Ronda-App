@@ -1,6 +1,6 @@
 import React from "react";
-import { LinearGradient } from "expo-linear-gradient";
 import {
+  Button,
   Image,
   View,
   TouchableOpacity,
@@ -8,8 +8,11 @@ import {
   TextInput,
   StyleSheet,
 } from "react-native";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
+import axios from "axios";
 
 const Login = (props) => {
   const { navigation } = props;
@@ -18,26 +21,45 @@ const Login = (props) => {
     navigation.navigate("Register");
   };
 
+  const formik = useFormik({
+    initialValues: { email: "", password: "" },
+    validationSchema: Yup.object(validationSchema()),
+    validateOnChange: false,
+    onSubmit: async (data) => {
+      const user = await axios.post("http://localhost:3001/api/auth/login", data)
+    },
+  });
+
   return (
     <View style={styles.container}>
       <Gradient>
         <Image source={logo} style={styles.logo} />
-        <TextInput placeholder="email" style={styles.input} />
-        <TextInput placeholder="password" style={styles.input} />
+        <TextInput
+          placeholder="email"
+          style={styles.input}
+          autoCapitalize="none"
+          value={formik.values.email}
+          onChangeText={(text) => formik.setFieldValue("email", text)}
+        />
+        <Text style={styles.error}>{formik.errors.email}</Text>
+        <TextInput
+          placeholder="password"
+          style={styles.input}
+          autoCapitalize="none"
+          secureTextEntry={true}
+          value={formik.values.password}
+          onChangeText={(text) => formik.setFieldValue("password", text)}
+        />
+        <Text style={styles.error}>{formik.errors.password}</Text>
 
-        <Text style={styles.textForgot}>Forgot Password?</Text>
         <Text alingText={"left"} onPress={goToRegister}>
           Register
         </Text>
-
-        <TouchableOpacity
-          onPress={() => alert("Hello, world!")}
-          style={styles.button}
-        >
+        <TouchableOpacity onPress={formik.handleSubmit} style={styles.button}>
           <Text style={styles.buttonText}>Log in</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => alert("Hello, world!")}
+          onPress={() => console.log("Hello, world!")}
           style={styles.button}
         >
           <Text style={styles.buttonText}>Log in with Google</Text>
@@ -47,6 +69,12 @@ const Login = (props) => {
   );
 };
 
+function validationSchema() {
+  return {
+    email: Yup.string().email().required("Email is required"),
+    password: Yup.string().min(6).max(12).required("Pass is required"),
+  };
+}
 const styles = StyleSheet.create({
   container: {
     width: "100%",
@@ -67,7 +95,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 6,
     marginVertical: 5,
-    marginBottom: 15,
+    marginBottom: 5,
     justifyContent: "center",
     padding: 20,
   },
@@ -86,6 +114,12 @@ const styles = StyleSheet.create({
   },
   textForgot: {
     textAlign: "left",
+  },
+  error: {
+    textAlign: "center",
+    color: "red",
+    marginTop: 2,
+    fontSize: 13,
   },
 });
 export default Login;
