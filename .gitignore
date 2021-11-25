@@ -11,8 +11,8 @@ npm-debug.*
 web-build/
 
 package-lock.json
-localHostIP.json
 
+.yarn.lock
 .env.local
 .env.development
 .env.test
@@ -30,4 +30,4 @@ localHostIP.json
 # macOS
 .DS_Store
 package-lock.json/
-localHostIP.json
+
