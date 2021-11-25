@@ -7,7 +7,7 @@ import {
   TextInput,
   StyleSheet,
 } from "react-native";
-import logo from "../../../assets/logo.svg";
+import logo from "../../../assets/logo.png";
 
 
 

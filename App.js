@@ -1,11 +1,16 @@
-import { StatusBar } from "expo-status-bar";
+import 'react-native-gesture-handler';
 import React from "react";
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import Register from "./src/views/register/Register";
 import { LinearGradient } from "expo-linear-gradient";
+import Register from "./src/views/register/Register";
+import Login from "./src/views/login/Login";
 
 export default function App() {
   return (
+    <NavigationContainer>
     <View style={styles.container}>
       <LinearGradient
         colors={["purple", "rgba(72, 154, 199, 0.59)"]}
@@ -15,15 +20,12 @@ export default function App() {
         }}
         style={styles.container}
       >
-<<<<<<< HEAD
       <Login />
-=======
-       <Register></Register>
-      <Text>Hello app!</Text>
->>>>>>> e3a380b17f4db996a8b6422aa2f6e9aa792c4f17
+      {/* <Register /> */}
       <StatusBar style="auto" />
       </LinearGradient>
     </View>
+    </NavigationContainer>
   );
 }
 
