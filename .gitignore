@@ -11,6 +11,7 @@ npm-debug.*
 web-build/
 
 package-lock.json
+localHostIP.json
 
 .env.local
 .env.development
