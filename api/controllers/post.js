@@ -51,9 +51,8 @@ class PostController{
 
     static async create(req, res){
         try{
-            const content = req.body.content;
             const post = await Post.create({
-                content,
+                content: req.body.content,
                 userId: req.user.id,
             });
             res.send(post);
