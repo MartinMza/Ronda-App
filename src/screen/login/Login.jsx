@@ -9,6 +9,7 @@ import {
   StyleSheet,
 } from "react-native";
 import logo from "../../../assets/logo.png";
+import Gradient from "../../components/gradient/Gradient";
 
 const Login = (props) => {
   const { navigation } = props;
@@ -19,20 +20,15 @@ const Login = (props) => {
 
   return (
     <View style={styles.container}>
-      <LinearGradient
-        colors={["purple", "rgba(72, 154, 199, 0.59)"]}
-        start={{
-          x: 2,
-          y: 0.5,
-        }}
-        style={styles.container}
-      >
+      <Gradient>
         <Image source={logo} style={styles.logo} />
         <TextInput placeholder="email" style={styles.input} />
         <TextInput placeholder="password" style={styles.input} />
 
         <Text style={styles.textForgot}>Forgot Password?</Text>
-        <Text alingText={'left'} onPress={goToRegister}>Register</Text>
+        <Text alingText={"left"} onPress={goToRegister}>
+          Register
+        </Text>
 
         <TouchableOpacity
           onPress={() => alert("Hello, world!")}
@@ -46,15 +42,15 @@ const Login = (props) => {
         >
           <Text style={styles.buttonText}>Log in with Google</Text>
         </TouchableOpacity>
-      </LinearGradient>
+      </Gradient>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    width: 411,
-    height: 929,
+    width: "100%",
+    height: "100%",
     left: 0,
     top: 0,
     alignItems: "center",

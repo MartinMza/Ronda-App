@@ -1,21 +1,20 @@
 import React from "react";
 import {
   Image,
-  SafeAreaView,
+  View,
   TouchableOpacity,
   Text,
   TextInput,
   StyleSheet,
 } from "react-native";
 import logo from "../../../assets/logo.png";
-
-
+import Gradient from "../../components/gradient/Gradient";
 
 const Register = () => {
   const styles = StyleSheet.create({
     container: {
-      width: 411,
-      height: 929,
+      width: "100%",
+      height: "100%",
       left: 0,
       top: 0,
       alignItems: "center",
@@ -40,26 +39,27 @@ const Register = () => {
       height: 52,
       margin: 20,
       borderRadius: 6,
-      
     },
   });
   return (
-    <SafeAreaView style={styles.container}>
-      <Image source={logo} style={styles.logo} />
-      <TextInput placeholder="Name" style={styles.input} />
-      <TextInput placeholder="Last Name" style={styles.input} />
-      <TextInput placeholder="Phone" style={styles.input} />
-      <TextInput placeholder="Empresa" style={styles.input} />
-      <TextInput placeholder="Email" style={styles.input} />
-      <TextInput placeholder="Password" style={styles.input} />
+    <View style={styles.container}>
+      <Gradient>
+        <Image source={logo} style={styles.logo} />
+        <TextInput placeholder="Name" style={styles.input} />
+        <TextInput placeholder="Last Name" style={styles.input} />
+        <TextInput placeholder="Phone" style={styles.input} />
+        <TextInput placeholder="Empresa" style={styles.input} />
+        <TextInput placeholder="Email" style={styles.input} />
+        <TextInput placeholder="Password" style={styles.input} />
 
-      <TouchableOpacity
-        onPress={() => alert("Registrado con éxito")}
-        style={styles.button}
-      >
-        <Text style={{ fontSize: 20, color: "#fff"}}>Register</Text>
-      </TouchableOpacity>
-    </SafeAreaView>
+        <TouchableOpacity
+          onPress={() => alert("Registrado con éxito")}
+          style={styles.button}
+        >
+          <Text style={{ fontSize: 20, color: "#fff" }}>Register</Text>
+        </TouchableOpacity>
+      </Gradient>
+    </View>
   );
 };
 
