@@ -35,7 +35,6 @@ app.use("/api", router)
 db.sync({force:false})
 .then(() => 
     app.listen(process.env.PORT, () => {
-        console.log(`${process.env.DATABASE}`);
         console.log(`server on ${process.env.PORT}`);
     }
 ))
