@@ -11,6 +11,7 @@ import Gradient from "./src/components/gradient/Gradient"
 
 export default function App() {
   return (
+
     <NavigationContainer>
         <NavigationStack />
         <StatusBar style="auto" />
