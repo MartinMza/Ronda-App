@@ -12,6 +12,7 @@ web-build/
 
 package-lock.json
 
+.yarn.lock
 .env.local
 .env.development
 .env.test
@@ -29,3 +30,4 @@ package-lock.json
 # macOS
 .DS_Store
 package-lock.json/
+
