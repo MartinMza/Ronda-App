@@ -32,7 +32,11 @@ app.use(passport.session());
 
 app.use("/api", router)
 
-db.sync({force:false})
+app.get("/", (req, res) => {
+    res.send("its working");
+});
+
+db.sync({force: false})
 .then(() => 
     app.listen(process.env.PORT, () => {
         console.log(`server on ${process.env.PORT}`);
