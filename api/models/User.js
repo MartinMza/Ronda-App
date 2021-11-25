@@ -33,10 +33,12 @@ User.init(
       allowedValues: ["user", "admin", "superadmin"],
     },
     phone: {
-      type: S.INTEGER,
+      type: S.STRING,
+      defaultValue: "Not Specified",
     },
     company: {
       type: S.STRING,
+      defaultValue: "Not Specified",
     },
     credits: {
       type: S.INTEGER,
