@@ -1,30 +1,25 @@
 import 'react-native-gesture-handler';
 import React from "react";
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
-import Register from "./src/views/register/Register";
-import Login from "./src/views/login/Login";
+import { StyleSheet, View } from "react-native";
+
+import NavigationStack from './src/navigation/NavigationStack';
 
 export default function App() {
   return (
     <NavigationContainer>
-    <View style={styles.container}>
-      <LinearGradient
+      {/* <LinearGradient
         colors={["purple", "rgba(72, 154, 199, 0.59)"]}
         start={{
           x: 2,
           y: 0.5,
         }}
         style={styles.container}
-      >
-      <Login />
-      {/* <Register /> */}
+      > */}
+        <NavigationStack />
       <StatusBar style="auto" />
-      </LinearGradient>
-    </View>
+      {/* </LinearGradient> */}
     </NavigationContainer>
   );
 }
