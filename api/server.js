@@ -30,7 +30,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use("/api", router);
+app.use("/api", router)
 
 db.sync({force:false})
 .then(() => 

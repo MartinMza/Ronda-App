@@ -20,8 +20,8 @@ export default function App() {
         }}
         style={styles.container}
       >
-      <Login />
-      {/* <Register /> */}
+      {/* <Login /> */}
+      <Register /> 
       <StatusBar style="auto" />
       </LinearGradient>
     </View>
