@@ -16,6 +16,8 @@ export default function Start(props) {
   };
   const goToGoogle = () => {
     axios.get(`http://192.168.40.5:3001/api/auth/google`)
+    .then((user)=> navigation.navigate("Home"))
+    .catch((error) => console.error(error))
   };
 
   return (
