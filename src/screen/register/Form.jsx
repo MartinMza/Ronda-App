@@ -13,6 +13,7 @@ import * as Yup from "yup";
 import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
 import { useFonts } from "expo-font";
+import {localhost} from "../../localHostIP.json"
 
 const Form = (props) => {
  
@@ -32,7 +33,7 @@ const Form = (props) => {
     validateOnChange: false,
     onSubmit: async (data) => {
       const user = await axios.put(
-        "http://localhost:3001/api/user/",
+        `http://${localhost}/api/user/`,
         data
       )
       .then((user)=>user? goToLogin():alert("Algo anda mal"))

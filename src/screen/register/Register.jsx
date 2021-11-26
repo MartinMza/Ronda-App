@@ -13,6 +13,7 @@ import * as Yup from "yup";
 import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
 import { useFonts } from "expo-font";
+import {localhost} from "../../localHostIP.json"
 
 const Register = (props) => {
   const { navigation } = props;
@@ -27,7 +28,7 @@ const Register = (props) => {
     validateOnChange: false,
     onSubmit: async (data) => {
       const user = await axios.post(
-        "http://localhost:3001/api/auth/register",
+        `http://localhost:3001/api/auth/register/`,
         data
       )
       .then((user)=>user? goToForm():alert("Algo anda mal"))
@@ -60,8 +61,6 @@ const Register = (props) => {
           value={formik.values.password}
           onChangeText={(text) => formik.setFieldValue("password", text)}
         />
-        <Text style={styles.error}>{formik.errors.password}</Text>
-        <Text style={styles.error}>{formik.errors.email}</Text>
         <TouchableOpacity onPress={formik.handleSubmit} style={styles.button}>
           <Text style={{ fontSize: 20, color: "#fff" }}>Register</Text>
         </TouchableOpacity>
