@@ -12,7 +12,8 @@ import * as Yup from "yup";
 import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
 import axios from "axios";
-import {localhost} from "../../localHostIP.json"
+import {localhost} from "../../../localHostIP.json"
+import { useFonts, Lato_900Black } from '@expo-google-fonts/lato';
 
 const Login = (props) => {
   const { navigation } = props;
@@ -20,6 +21,10 @@ const Login = (props) => {
   const goToRegister = () => {
     navigation.navigate("Register");
   };
+
+  let [fontsLoaded] = useFonts({
+    Lato_900Black,
+  });
 
   const formik = useFormik({
     initialValues: { email: "", password: "" },
@@ -54,7 +59,7 @@ const Login = (props) => {
         <Text style={styles.error}>{formik.errors.password}</Text>
 
         <TouchableOpacity onPress={formik.handleSubmit} style={styles.button}>
-          <Text style={styles.buttonText}>Log in</Text>
+          <Text style={styles.buttonText}>LOG IN</Text>
         </TouchableOpacity>
       </Gradient>
     </View>
@@ -103,6 +108,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontSize: 20,
+    fontFamily: "Lato_900Black"
   },
   textForgot: {
     textAlign: "left",

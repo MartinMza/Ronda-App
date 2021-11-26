@@ -10,6 +10,7 @@ class Auth {
     }
   }
   static async register(req, res) {
+  
     try {
       // if(req.body.role === "admin") {//you cant create an admin account
       //   return res.status(403).send({
@@ -28,6 +29,7 @@ class Auth {
       found && res.status(409).send("Email already exists") 
 
       const user = await User.create(req.body);
+  
       return res.status(201).send(user);
     } catch (error) {
       console.log(error);
