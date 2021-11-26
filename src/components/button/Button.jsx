@@ -2,7 +2,7 @@ import React from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
 
 export default function Button(props) {
-  console.log(props)
+
   const { children, onPress } = props;
   
   return <TouchableOpacity style={styles.button} onPress={onPress}>{children}</TouchableOpacity>;

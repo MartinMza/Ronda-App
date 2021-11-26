@@ -12,7 +12,7 @@ import * as Yup from "yup";
 import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
 import axios from "axios";
-import localhost from "../../localHostIP.json"
+import {localhost} from "../../../localHostIP.json"
 
 const Login = (props) => {
   const { navigation } = props;
@@ -26,7 +26,7 @@ const Login = (props) => {
     validationSchema: Yup.object(validationSchema()),
     validateOnChange: false,
     onSubmit: async (data) => {
-      const user = await axios.post(`http://192.168.40.5:3001/api/auth/login`, data)
+      const user = await axios.post(`http://${localhost}/api/auth/login`, data)
     },
   });
 
