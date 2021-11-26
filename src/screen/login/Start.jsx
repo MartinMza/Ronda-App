@@ -14,11 +14,11 @@ export default function Start(props) {
   const goToLogin = () => {
     navigation.navigate("Login");
   };
-  const goToGoogle = () => {
-    axios.get(`http://192.168.40.5:3001/api/auth/google`)
-    .then((user)=> navigation.navigate("Home"))
-    .catch((error) => console.error(error))
-  };
+  // const goToGoogle = () => {
+  //   axios.get(`http://192.168.40.5:3001/api/auth/google`)
+  //   .then((user)=> navigation.navigate("Home"))
+  //   .catch((error) => console.error(error))
+  // };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -34,16 +34,16 @@ export default function Start(props) {
             Register
           </Text>
         </Button>
-        <Button onPress={goToGoogle}>
+        {/* <Button onPress={goToGoogle}>
           <Text style={styles.buttonText}>Sign In with Google</Text>
-        </Button>
+        </Button> */}
       </Gradient>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  conteiner: {
+  container: {
     width: "100%",
     height: "100%",
     left: 0,
