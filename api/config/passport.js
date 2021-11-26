@@ -14,6 +14,7 @@ passport.deserializeUser(function (id, done) {
   User.findByPk(id).then((user) => done(null, user));
 });
 
+
 passport.use(
   new GoogleStrategy(
     {
@@ -46,6 +47,7 @@ passport.use(
     }
   )
 );
+
 
 passport.use(
   new localStrategy(

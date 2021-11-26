@@ -5,10 +5,10 @@ import { LinearGradient } from "expo-linear-gradient";
 export default function Gradient({ children }) {
   return (
     <LinearGradient
-      colors={["purple", "rgba(72, 154, 199, 0.59)"]}
+      colors={["#EB76FF","#8144CF", "#44CFC7"]}
       start={{
-        x: 2,
-        y: 0.5,
+        x: -1,
+        y: -1.5,
       }}
       style={styles.container}
     >

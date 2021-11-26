@@ -1,4 +1,5 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import {
   Image,
   View,
@@ -11,23 +12,31 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
-import axios from "axios";
+import { useFonts } from "expo-font";
 import {localhost} from "../../../localHostIP.json"
 
-const Login = (props) => {
+const Form = (props) => {
+ 
   const { navigation } = props;
 
-  const goToRegister = () => {
-    navigation.navigate("Register");
+  const goToLogin = () => {
+    navigation.navigate("Login");
   };
 
   const formik = useFormik({
-    initialValues: { email: "", password: "" },
+    initialValues: {
+      phone: "",
+      company: "",
+      profession: "",
+    },
     validationSchema: Yup.object(validationSchema()),
     validateOnChange: false,
     onSubmit: async (data) => {
-      const user = await axios.post(`http://localhost:3001/api/auth/login`, data)
-      if(user) navigation.navigate("Home")
+      const user = await axios.put(
+        `http://localhost:3001/api/user/`,
+        data
+      )
+      .then((user)=>user? goToLogin():alert("Algo anda mal"))
     },
   });
 
@@ -36,35 +45,39 @@ const Login = (props) => {
       <Gradient>
         <Image source={logo} style={styles.logo} />
         <TextInput
-          placeholder="email"
+          placeholder="Phone"
           style={styles.input}
-          autoCapitalize="none"
-          value={formik.values.email}
-          onChangeText={(text) => formik.setFieldValue("email", text)}
+          value={formik.values.phone}
+          onChangeText={(text) => formik.setFieldValue("phone", text)}
         />
-        <Text style={styles.error}>{formik.errors.email}</Text>
         <TextInput
-          placeholder="password"
+          placeholder="Profession"
           style={styles.input}
-          autoCapitalize="none"
-          secureTextEntry={true}
-          value={formik.values.password}
-          onChangeText={(text) => formik.setFieldValue("password", text)}
+          value={formik.values.profession}
+          onChangeText={(text) => formik.setFieldValue("profession", text)}
         />
-        <Text style={styles.error}>{formik.errors.password}</Text>
+        <TextInput
+          placeholder="Company"
+          style={styles.input}
+          value={formik.values.company}
+          onChangeText={(text) => formik.setFieldValue("company", text)}
+        />
 
         <TouchableOpacity onPress={formik.handleSubmit} style={styles.button}>
-          <Text style={styles.buttonText}>LOG IN</Text>
+          <Text style={{ fontSize: 18, color: "#fff" }}>Actualizar Información</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={formik.handleSubmit} style={styles.button}>
+          <Text style={{ fontSize: 18, color: "#fff" }}>Ahora no</Text>
         </TouchableOpacity>
       </Gradient>
     </View>
   );
 };
-
 function validationSchema() {
   return {
-    email: Yup.string().email().required("Email is required"),
-    password: Yup.string().min(6).max(12).required("Pass is required"),
+    phone: Yup.string().max(18).required("Phone is required"),
+    company: Yup.string(),
+    profession: Yup.string(),
   };
 }
 const styles = StyleSheet.create({
@@ -78,8 +91,8 @@ const styles = StyleSheet.create({
   logo: {
     width: 300,
     height: 70,
-    marginHorizontal: 68,
-    marginVertical: 100,
+    marginHorizontal: 70,
+    marginVertical: 90,
   },
   input: {
     width: 300,
@@ -98,21 +111,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#8144CF",
     alignItems: "center",
     justifyContent: "center",
-    margin: 5,
+    margin: 15,
   },
   buttonText: {
     color: "white",
-    fontSize: 15,
-
-  },
-  textForgot: {
-    textAlign: "left",
-  },
-  error: {
-    textAlign: "center",
-    color: "red",
-    marginTop: 2,
-    fontSize: 13,
+    fontSize: 20,
   },
 });
-export default Login;
+
+export default Form;
