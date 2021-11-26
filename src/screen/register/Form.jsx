@@ -35,6 +35,7 @@ const Form = (props) => {
         "http://localhost:3001/api/user/",
         data
       )
+      .then((user)=>user? goToLogin():alert("Algo anda mal"))
     },
   });
 

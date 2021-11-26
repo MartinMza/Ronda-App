@@ -1,6 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-
+import Start from "../screen/login/Start";
 import Login from "../screen/login/Login";
 import Register from "../screen/register/Register";
 import Form from "../screen/register/Form"
@@ -11,6 +11,7 @@ export default function NavigationStack() {
   return (
     
       <Stack.Navigator>
+        <Stack.Screen name="Start" component={Start} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Form" component={Form} />
