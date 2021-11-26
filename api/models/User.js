@@ -51,11 +51,27 @@ User.init(
     },
     salt: {
         type: S.STRING,
+    },
+    profession: {
+      type: S.STRING,
+      defaultValue: "Not Specified",
+    },
+    googleId: {
+      type: S.STRING
     }
   },
   {
     hooks: {
+      beforeValidate: (user) => {
+        if(user.googleId){
+            user.password = "123456"; //password is not required for google users
+        }
+    },
       beforeCreate: (user) => {
+        //admins or superAdmins cant be created
+        if (user.role === "admin" || user.role === "superadmin") {
+          throw new Error("You cant create an admin or superadmin");
+        }
         return bcrypt
           .genSalt(12)
           .then((newSalt) => {
@@ -66,6 +82,20 @@ User.init(
             user.password = hash;
           });
       },
+      beforeUpdate: (user) => {
+        //rehash the password if it has changed
+        if(user.changed('password')){
+            return bcrypt
+              .genSalt(12)
+              .then((newSalt) => {
+                user.salt = newSalt;
+                return user.hash(user.password, user.salt)
+              })
+              .then((hash) => {
+                user.password = hash;
+              });
+        }
+    },
     },
     sequelize: sequelize,
     modelName: "user",

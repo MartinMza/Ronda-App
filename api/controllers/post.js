@@ -60,17 +60,19 @@ class PostController{
             res.status(500).send(err);
         }
     }
-
     //----------------------------UPDATE---------------------------------
 
     static async update(req, res){
         try{
-            const post = await Post.update(req.body, {
-                where: {
-                    id: req.params.id
-                }
-            });
-            res.send(post);
+            const post = await Post.findOne({where: {
+                id: req.params.id
+            }})
+            if (req.user.id !== post.userId && req.user.role !== "admin") {
+                return res.status(403).json({
+                  message: "You are not authorized to update this post",
+                });
+              }
+            return res.send(post);
         }catch(err){
             res.status(500).send(err);
         }
@@ -80,11 +82,15 @@ class PostController{
 
     static async delete(req, res){
         try{
-            const post = await Post.destroy({
-                where: {
-                    id: req.params.id
-                }
-            });
+            const post = await Post.findOne({where: {
+                id: req.params.id
+            }});
+            if (req.user.id !== post.userId && req.user.role !== "admin") {
+                return res.status(403).json({
+                  message: "You are not authorized to delete this post",
+                });
+              }
+            await post.destroy();
             res.send(post);
         }catch(err){
             res.status(500).send(err);
