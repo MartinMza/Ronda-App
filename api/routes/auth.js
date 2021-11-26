@@ -20,17 +20,19 @@ router.get('/me', AuthController.me);
 
 //auth google
 
-// router.get(
-//     "/google",
-//     passport.authenticate("google", { scope: ["email", "profile"] })
-//   );
+
+router.get(
+    "/google",
+    passport.authenticate("google", { scope: ["email", "profile"] })
+  );
   
-//   router.get(
-//     "/google/callback",
-//     passport.authenticate("google", {
-//       successRedirect: "http://localhost:19006/",
-//       failureRedirect: "http://localhost:19006/login",
-//     })
-//   );
+  router.get(
+    "/google/callback",
+    passport.authenticate("google", {
+      successRedirect: "http://localhost:19006/",
+      failureRedirect: "http://localhost:19006/login",
+    })
+  );
+
 
 module.exports = router;

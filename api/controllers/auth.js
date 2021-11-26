@@ -30,6 +30,7 @@ class Auth {
           });
         }
       }
+      
 
       const found = await User.findOne({
         where: { email: req.body.email },
