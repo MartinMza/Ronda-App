@@ -3,6 +3,7 @@ import { Image, Text, SafeAreaView, StyleSheet } from "react-native";
 import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
 import Button from "../../components/button/Button";
+import axios from 'axios'
 
 export default function Start(props) {
   const { navigation } = props;
@@ -14,7 +15,7 @@ export default function Start(props) {
     navigation.navigate("Login");
   };
   const goToGoogle = () => {
-    navigation.navigate("Google");
+    axios.get(`http://192.168.40.5:3001/api/auth/google`)
   };
 
   return (
@@ -31,7 +32,7 @@ export default function Start(props) {
             Register
           </Text>
         </Button>
-        <Button>
+        <Button onPress={goToGoogle}>
           <Text style={styles.buttonText}>Sign In with Google</Text>
         </Button>
       </Gradient>
