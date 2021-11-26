@@ -19,11 +19,11 @@ export default function Start(props) {
   const goToLogin = () => {
     navigation.navigate("Login");
   };
-  const goToGoogle = () => {
-    axios.get(`http://localhost:3001/api/auth/google`)
-    .then((user)=> navigation.navigate("Home"))
-    .catch((error) => console.error(error))
-  };
+  // const goToGoogle = () => {
+  //   axios.get(`http://localhost:3001/api/auth/google`)
+  //   .then((user)=> navigation.navigate("Home"))
+  //   .catch((error) => console.error(error))
+  // };
 
   return (
     <View style={styles.container}>
@@ -39,9 +39,9 @@ export default function Start(props) {
             REGISTER
           </Text>
         </Button>
-        <Button onPress={goToGoogle}>
+        {/* <Button onPress={goToGoogle}>
           <Text style={styles.buttonText}>SIGN IN WITH GOOGLE</Text>
-        </Button>
+        </Button> */}
        </Gradient> 
     </View>
   );
