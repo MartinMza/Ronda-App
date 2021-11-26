@@ -16,7 +16,7 @@ class AdminController {
 
     static async deleteUser(req, res) {
         try {
-            const user = await User.destroy({
+            await User.destroy({
               where: {
                 id: req.params.userId,
               },
@@ -29,7 +29,7 @@ class AdminController {
 
     static async deleteComment(req, res) {
         try {
-            const user = await User.destroy({
+            await User.destroy({
                 where: {
                     id: req.params.userId,
                 },
@@ -42,7 +42,7 @@ class AdminController {
     
     static async deletePost(req, res) {
         try {
-            const user = await User.destroy({
+            await User.destroy({
                 where: {
                     id: req.params.userId,
                 },
