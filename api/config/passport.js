@@ -14,38 +14,38 @@ passport.deserializeUser(function (id, done) {
   User.findByPk(id).then((user) => done(null, user));
 });
 
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID:
-        process.env.GOOGLE_CLIENT,
-      clientSecret: process.env.GOOGLE_SECRET,
-      callbackURL: "http://localhost:3001/api/auth/google/callback",
-      passReqToCallback: true,
-    },
-    function (request, accessToken, refreshToken, profile, done) {
-      User.findOne({
-        where: {
-          googleId: profile.id,
-        }
-      })
-      .then(user => {
-        if (user) {
-          return done(null, user);
-        }
-        else{
-          User.create({
-            name: profile.displayName,
-            googleId: profile.id,
-            email: profile.emails[0].value,
-          })
-          .then(user => done(null, user))
-          .catch(err => done(err));
-        }
-      })
-    }
-  )
-);
+// passport.use(
+//   new GoogleStrategy(
+//     {
+//       clientID:
+//         process.env.GOOGLE_CLIENT,
+//       clientSecret: process.env.GOOGLE_SECRET,
+//       callbackURL: "http://localhost:3001/api/auth/google/callback",
+//       passReqToCallback: true,
+//     },
+//     function (request, accessToken, refreshToken, profile, done) {
+//       User.findOne({
+//         where: {
+//           googleId: profile.id,
+//         }
+//       })
+//       .then(user => {
+//         if (user) {
+//           return done(null, user);
+//         }
+//         else{
+//           User.create({
+//             name: profile.displayName,
+//             googleId: profile.id,
+//             email: profile.emails[0].value,
+//           })
+//           .then(user => done(null, user))
+//           .catch(err => done(err));
+//         }
+//       })
+//     }
+//   )
+// );
 
 passport.use(
   new localStrategy(

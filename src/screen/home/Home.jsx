@@ -1,14 +1,14 @@
 import React from "react";
-import { Image, Text, SafeAreaView, StyleSheet } from "react-native";
+import { Image, Text, View, StyleSheet } from "react-native";
 import Gradient from "../../components/gradient/Gradient";
 
 export default function Home() {
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <Gradient>
         <Text>Home</Text>
       </Gradient>
-    </SafeAreaView>
+    </View>
   );
 
 }

@@ -19,13 +19,10 @@ import { useFonts, Lato_900Black } from '@expo-google-fonts/lato';
 const Register = (props) => {
   const { navigation } = props;
 
-  const goToForm = () => {
-    navigation.navigate("Form");
+  const goToLogin = () => {
+    navigation.navigate("Login");
   };
 
-  let [fontsLoaded] = useFonts({
-    Lato_900Black,
-  });
 
   const formik = useFormik({
     initialValues:initialValuesSchema(),
@@ -33,13 +30,14 @@ const Register = (props) => {
     validateOnChange: false,
     onSubmit: async (data) => {
       const user = await axios.post(
-        `http://${localhost}:3001/api/auth/register/`,
+        `http://localhost:3001/api/auth/register/`,
         data
       )
-      .then(()=>goToForm())
+      .then(()=>goToLogin())
     },
   });
 
+ 
   return (
     <View style={styles.container}>
       <Gradient>
@@ -66,6 +64,8 @@ const Register = (props) => {
           value={formik.values.password}
           onChangeText={(text) => formik.setFieldValue("password", text)}
         />
+         <Text style={styles.error}>{formik.errors.password}</Text>
+         <Text style={styles.error}>{formik.errors.email}</Text>
         <TouchableOpacity onPress={formik.handleSubmit} style={styles.button}>
           <Text style={styles.buttonText}>REGISTER</Text>
         </TouchableOpacity>
@@ -124,8 +124,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "white",
-    fontSize: 20,
-    fontFamily: "Lato_900Black"
+    fontSize: 15,
   },
   error: {
     textAlign: "center",

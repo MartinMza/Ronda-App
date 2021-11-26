@@ -12,16 +12,16 @@ class Auth {
   static async register(req, res) {
   
     try {
-      if(req.body.role === "admin") {//you cant create an admin account
-        return res.status(403).send({
-          status: 403,
-          error: "You are not allowed to create an admin account"
-        });
-      }
-      const foundSuperAdmin = await User.findOne({
-        where: { role: "superAdmin" },
-      })
-      foundSuperAdmin && res.status(409).send("SuperAdmin already exists") 
+      // if(req.body.role === "admin") {//you cant create an admin account
+      //   return res.status(403).send({
+      //     status: 403,
+      //     error: "You are not allowed to create an admin account"
+      //   });
+      // }
+      // const foundSuperAdmin = await User.findOne({
+      //   where: { role: "superAdmin" },
+      // })
+      // foundSuperAdmin && res.status(409).send("SuperAdmin already exists") 
 
       const found = await User.findOne({
         where: { email: req.body.email },
@@ -29,7 +29,7 @@ class Auth {
       found && res.status(409).send("Email already exists") 
 
       const user = await User.create(req.body);
-  
+
       return res.status(201).send(user);
     } catch (error) {
       console.log(error);
