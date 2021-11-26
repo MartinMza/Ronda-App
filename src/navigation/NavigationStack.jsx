@@ -4,6 +4,7 @@ import Start from "../screen/login/Start";
 import Home from "../screen/home/Home";
 import Login from "../screen/login/Login";
 import Register from "../screen/register/Register";
+import Form from "../screen/register/Form"
 
 const Stack = createStackNavigator();
 
@@ -15,6 +16,7 @@ export default function NavigationStack() {
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen name="Form" component={Form} />
       </Stack.Navigator>
 
   );

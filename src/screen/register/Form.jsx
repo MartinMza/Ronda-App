@@ -14,23 +14,28 @@ import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
 import { useFonts } from "expo-font";
 
-const Register = (props) => {
+const Form = (props) => {
+ 
   const { navigation } = props;
 
-  const goToForm = () => {
-    navigation.navigate("Form");
+  const goToLogin = () => {
+    navigation.navigate("Login");
   };
 
   const formik = useFormik({
-    initialValues:initialValuesSchema(),
+    initialValues: {
+      phone: "",
+      company: "",
+      profession: "",
+    },
     validationSchema: Yup.object(validationSchema()),
     validateOnChange: false,
     onSubmit: async (data) => {
-      const user = await axios.post(
-        "http://localhost:3001/api/auth/register",
+      const user = await axios.put(
+        "http://localhost:3001/api/user/",
         data
       )
-      .then((user)=>user? goToForm():alert("Algo anda mal"))
+      .then((user)=>user? goToLogin():alert("Algo anda mal"))
     },
   });
 
@@ -39,50 +44,39 @@ const Register = (props) => {
       <Gradient>
         <Image source={logo} style={styles.logo} />
         <TextInput
-          placeholder="Full Name"
+          placeholder="Phone"
           style={styles.input}
-          value={formik.values.name}
-          onChangeText={(text) => formik.setFieldValue("name", text)}
+          value={formik.values.phone}
+          onChangeText={(text) => formik.setFieldValue("phone", text)}
         />
         <TextInput
-          placeholder="Your email"
+          placeholder="Profession"
           style={styles.input}
-          autoCapitalize="none"
-          value={formik.values.email}
-          onChangeText={(text) => formik.setFieldValue("email", text)}
+          value={formik.values.profession}
+          onChangeText={(text) => formik.setFieldValue("profession", text)}
         />
-      
         <TextInput
-          placeholder="Your password"
+          placeholder="Company"
           style={styles.input}
-          autoCapitalize="none"
-          secureTextEntry={true}
-          value={formik.values.password}
-          onChangeText={(text) => formik.setFieldValue("password", text)}
+          value={formik.values.company}
+          onChangeText={(text) => formik.setFieldValue("company", text)}
         />
-        <Text style={styles.error}>{formik.errors.password}</Text>
-        <Text style={styles.error}>{formik.errors.email}</Text>
+
         <TouchableOpacity onPress={formik.handleSubmit} style={styles.button}>
-          <Text style={{ fontSize: 20, color: "#fff" }}>Register</Text>
+          <Text style={{ fontSize: 18, color: "#fff" }}>Actualizar Información</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={formik.handleSubmit} style={styles.button}>
+          <Text style={{ fontSize: 18, color: "#fff" }}>Ahora no</Text>
         </TouchableOpacity>
       </Gradient>
     </View>
   );
 };
-
-function initialValuesSchema(){
-  return {
-    name: "",
-    email: "",
-    password: "",
-  };
-};
-
 function validationSchema() {
   return {
-    name: Yup.string().max(50).required("Name is required"),
-    email: Yup.string().email().required("Email is required"),
-    password: Yup.string().min(6).max(12).required("Password is required"),
+    phone: Yup.string().max(18).required("Phone is required"),
+    company: Yup.string(),
+    profession: Yup.string(),
   };
 }
 const styles = StyleSheet.create({
@@ -116,18 +110,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#8144CF",
     alignItems: "center",
     justifyContent: "center",
-    margin: 29,
+    margin: 15,
   },
   buttonText: {
     color: "white",
     fontSize: 20,
   },
-  error: {
-    textAlign: "center",
-    color: "red",
-
-    fontSize: 13,
-  },
 });
 
-export default Register;
+export default Form;
