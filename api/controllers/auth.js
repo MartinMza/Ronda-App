@@ -17,11 +17,18 @@ class Auth {
           error: "You are not allowed to create an admin account"
         });
       }
-      const foundSuperAdmin = await User.findOne({
+      if(req.body.role === "superAdmin"){
+        const foundSuperAdmin = await User.findOne({
         where: { role: "superAdmin" },
       })
-      foundSuperAdmin && res.status(409).send("SuperAdmin already exists") 
-
+      if(foundSuperAdmin){
+        return res.status(403).send({
+          status: 403,
+          error: "Only one super admin account is allowed"
+        });
+      }
+      }
+      
       const found = await User.findOne({
         where: { email: req.body.email },
       })

@@ -55,10 +55,18 @@ User.init(
     profession: {
       type: S.STRING,
       defaultValue: "Not Specified",
+    },
+    googleId: {
+      type: S.STRING
     }
   },
   {
     hooks: {
+      beforeValidate: (user) => {
+        if(user.googleId){
+            user.password = "123456"; //password is not required for google users
+        }
+    },
       beforeCreate: (user) => {
         //admins or superAdmins cant be created
         if (user.role === "admin" || user.role === "superadmin") {
