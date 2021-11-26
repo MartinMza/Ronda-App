@@ -12,8 +12,8 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
-import { useFonts } from "expo-font";
 import {localhost} from "../../../localHostIP.json"
+import { useFonts, Lato_900Black } from '@expo-google-fonts/lato';
 
 
 const Register = (props) => {
@@ -23,13 +23,17 @@ const Register = (props) => {
     navigation.navigate("Form");
   };
 
+  let [fontsLoaded] = useFonts({
+    Lato_900Black,
+  });
+
   const formik = useFormik({
     initialValues:initialValuesSchema(),
     validationSchema: Yup.object(validationSchema()),
     validateOnChange: false,
     onSubmit: async (data) => {
       const user = await axios.post(
-        `http://localhost:3001/api/auth/register`,
+        `http://${localhost}:3001/api/auth/register/`,
         data
       )
       .then(()=>goToForm())
@@ -62,10 +66,8 @@ const Register = (props) => {
           value={formik.values.password}
           onChangeText={(text) => formik.setFieldValue("password", text)}
         />
-        <Text style={styles.error}>{formik.errors.password}</Text>
-        <Text style={styles.error}>{formik.errors.email}</Text>
         <TouchableOpacity onPress={formik.handleSubmit} style={styles.button}>
-          <Text style={{ fontSize: 20, color: "#fff" }}>Register</Text>
+          <Text style={styles.buttonText}>REGISTER</Text>
         </TouchableOpacity>
       </Gradient>
     </View>
@@ -123,6 +125,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontSize: 20,
+    fontFamily: "Lato_900Black"
   },
   error: {
     textAlign: "center",

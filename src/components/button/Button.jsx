@@ -10,7 +10,7 @@ export default function Button(props) {
 
 const styles = StyleSheet.create({
   button: {
-    width: 343,
+    width: 258,
     height: 52,
     borderRadius: 6,
     backgroundColor: "#8144CF",

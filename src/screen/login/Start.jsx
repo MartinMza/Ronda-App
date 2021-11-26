@@ -3,9 +3,15 @@ import { Image, Text, SafeAreaView, StyleSheet } from "react-native";
 import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
 import Button from "../../components/button/Button";
+import axios from 'axios'
+import { useFonts, Lato_900Black } from '@expo-google-fonts/lato';
 
 export default function Start(props) {
   const { navigation } = props;
+
+  let [fontsLoaded] = useFonts({
+    Lato_900Black,
+  });
 
   const goToRegister = () => {
     navigation.navigate("Register");
@@ -14,7 +20,9 @@ export default function Start(props) {
     navigation.navigate("Login");
   };
   const goToGoogle = () => {
-    navigation.navigate("Google");
+    axios.get(`http://192.168.40.5:3001/api/auth/google`)
+    .then((user)=> navigation.navigate("Home"))
+    .catch((error) => console.error(error))
   };
 
   return (
@@ -23,16 +31,16 @@ export default function Start(props) {
         <Image source={logo} style={styles.logo} />
         <Button onPress={goToLogin} >
           <Text style={styles.buttonText}>
-            Sign In
+            SIGN IN
           </Text>
         </Button>
         <Button onPress={goToRegister}>
           <Text style={styles.buttonText} >
-            Register
+            REGISTER
           </Text>
         </Button>
-        <Button>
-          <Text style={styles.buttonText}>Sign In with Google</Text>
+        <Button onPress={goToGoogle}>
+          <Text style={styles.buttonText}>SIGN IN WITH GOOGLE</Text>
         </Button>
       </Gradient>
     </SafeAreaView>
@@ -55,6 +63,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "white",
-    fontSize: 20,
+    fontSize: 15,
+    fontFamily: "Lato_900Black"
   },
 });

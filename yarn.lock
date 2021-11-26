@@ -1052,6 +1052,11 @@
   "resolved" "https://registry.npmjs.org/@expo-google-fonts/inter/-/inter-0.2.0.tgz"
   "version" "0.2.0"
 
+"@expo-google-fonts/lato@^0.2.0":
+  "integrity" "sha512-euVC8IfCpHlI0MDgvf6MNWrgnp4pPvAMiEDUCBmau3cvJBeMASQdtOF+Lz555hzgsMfDV5MbFbWRe+RvylZ1qQ=="
+  "resolved" "https://registry.npmjs.org/@expo-google-fonts/lato/-/lato-0.2.0.tgz"
+  "version" "0.2.0"
+
 "@expo/config-plugins@^4.0.2":
   "integrity" "sha512-m160Y039LJcI8Q4arzA9edWNRPPnLnTe5tB41812Mn1BAmtoZy9OMs4Rj78OKFkMx6A9JJKUTWMnP/FVAbeMiw=="
   "resolved" "https://registry.npmjs.org/@expo/config-plugins/-/config-plugins-4.0.7.tgz"
