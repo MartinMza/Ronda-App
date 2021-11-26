@@ -8,63 +8,76 @@ import {
   TextInput,
   StyleSheet,
 } from "react-native";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import logo from "../../../assets/logo.png";
-import { useInput } from "../../hooks/customHook";
 import Gradient from "../../components/gradient/Gradient";
+import { useFonts } from "expo-font";
 
-const Register = (props) => {
-  const [name, setName] = useState();
-  const [lastName, setLastName] = useState();
-  const [email, setEmail] = useState();
-  const [phone, setPhone] = useState();
-  const [company, setCompany] = useState();
-  const [profesion, setProfesion] = useState();
-  const [password, setPassword] = useState();
+const Form = (props) => {
+ 
   const { navigation } = props;
 
   const goToLogin = () => {
     navigation.navigate("Login");
   };
 
-  const handleSubmit = () => {
-    axios.put(`http://localhost:3001/api/auth/register`, {
-      phone: phone,
-      company: company,
-      profesion: profesion,
-    });
-  };
+  const formik = useFormik({
+    initialValues: {
+      phone: "",
+      company: "",
+      profession: "",
+    },
+    validationSchema: Yup.object(validationSchema()),
+    validateOnChange: false,
+    onSubmit: async (data) => {
+      const user = await axios.put(
+        "http://localhost:3001/api/user/",
+        data
+      )
+    },
+  });
 
   return (
     <View style={styles.container}>
       <Gradient>
         <Image source={logo} style={styles.logo} />
-
         <TextInput
           placeholder="Phone"
           style={styles.input}
-          value={phone}
-          onChangeText={(data) => setPhone(data)}
+          value={formik.values.phone}
+          onChangeText={(text) => formik.setFieldValue("phone", text)}
         />
         <TextInput
-          placeholder="Profesion"
+          placeholder="Profession"
           style={styles.input}
-          value={profesion}
-          onChangeText={(data) => setProfesion(data)}
+          value={formik.values.profession}
+          onChangeText={(text) => formik.setFieldValue("profession", text)}
         />
         <TextInput
           placeholder="Company"
           style={styles.input}
-          value={company}
-          onChangeText={(data) => setCompany(data)}
+          value={formik.values.company}
+          onChangeText={(text) => formik.setFieldValue("company", text)}
         />
 
-        <TouchableOpacity onPress={handleSubmit} style={styles.button}>
-          <Text style={{ fontSize: 20, color: "#fff" }}>Register</Text>
+        <TouchableOpacity onPress={formik.handleSubmit} style={styles.button}>
+          <Text style={{ fontSize: 18, color: "#fff" }}>Actualizar Información</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={formik.handleSubmit} style={styles.button}>
+          <Text style={{ fontSize: 18, color: "#fff" }}>Ahora no</Text>
         </TouchableOpacity>
       </Gradient>
     </View>
   );
 };
+function validationSchema() {
+  return {
+    phone: Yup.string().max(18).required("Phone is required"),
+    company: Yup.string(),
+    profession: Yup.string(),
+  };
+}
 const styles = StyleSheet.create({
   container: {
     width: "100%",
@@ -77,10 +90,10 @@ const styles = StyleSheet.create({
     width: 300,
     height: 70,
     marginHorizontal: 70,
-    marginVertical: 50,
+    marginVertical: 90,
   },
   input: {
-    width: 343,
+    width: 300,
     height: 52,
     backgroundColor: "white",
     borderRadius: 6,
@@ -90,13 +103,13 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   button: {
-    width: 343,
+    width: 243,
     height: 52,
     borderRadius: 6,
     backgroundColor: "#8144CF",
     alignItems: "center",
     justifyContent: "center",
-    margin: 29,
+    margin: 15,
   },
   buttonText: {
     color: "white",
@@ -104,4 +117,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Register;
+export default Form;
