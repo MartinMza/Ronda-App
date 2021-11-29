@@ -33,7 +33,7 @@ const Form = (props) => {
     validateOnChange: false,
     onSubmit: async (data) => {
       const user = await axios.put(
-        `http://localhost:3001/api/user/`,
+        `http://${localhost}:3001/api/user/`,
         data
       )
       .then((user)=>user? goToLogin():alert("Algo anda mal"))

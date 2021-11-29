@@ -1,5 +1,6 @@
 const { User } = require("../models");
-const passport = require("passport");
+const sendEmail = require("../config/nodemailer");
+const jwt = require("jsonwebtoken");
 
 class Auth {
   static async login(req, res) {
@@ -30,14 +31,49 @@ class Auth {
           });
         }
       }
+      
 
       const found = await User.findOne({
         where: { email: req.body.email },
       });
       found && res.status(409).send("Email already exists");
 
+      //---------------------Email verification-------------------
+      const token = jwt.sign({email: req.body.email}, process.env.JWT_SECRET, {expiresIn: '1h'});
+      const email = req.body.email;
+      const subject = "Verificacion del mail";
+      const html = `<h1>Clickee este link para verificar su correo electronico:</h1><br>
+      <a href="http://localhost:3001/api/auth/verify/${token}">Verificar</a>
+      `
+
+      await sendEmail(email, subject, html);
+
+      //----------------------------------------------------------
+
       const user = await User.create(req.body);
       return res.status(201).send(user);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  static async verify(req, res) {
+    try {
+      const {email} = jwt.verify(req.params.token, process.env.JWT_SECRET);
+      const user = await User.findOne({
+        where: { email },
+      });
+      if (user) {
+        await User.update(
+          {
+            confirmed: true,
+          },
+          {
+            where: { email },
+          }
+        );
+        return res.send("Email verified");
+      }
+      res.send("Email not found");
     } catch (error) {
       console.log(error);
     }

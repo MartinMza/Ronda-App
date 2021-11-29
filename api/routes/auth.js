@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const passport = require('passport');
 const {AuthController} = require('../controllers');
+const {User} = require('../models');
+const jwt = require('jsonwebtoken');
 
 // auth login
 
@@ -18,19 +20,25 @@ router.post('/register', AuthController.register);
 
 router.get('/me', AuthController.me);
 
+//verify token
+
+router.put('/verify/:token', AuthController.verify);
+
 //auth google
 
-// router.get(
-//     "/google",
-//     passport.authenticate("google", { scope: ["email", "profile"] })
-//   );
+
+router.get(
+    "/google",
+    passport.authenticate("google", { scope: ["email", "profile"] })
+  );
   
-//   router.get(
-//     "/google/callback",
-//     passport.authenticate("google", {
-//       successRedirect: "http://localhost:19006/",
-//       failureRedirect: "http://localhost:19006/login",
-//     })
-//   );
+  router.get(
+    "/google/callback",
+    passport.authenticate("google", {
+      successRedirect: "http://localhost:19006/",
+      failureRedirect: "http://localhost:19006/login",
+    })
+  );
+
 
 module.exports = router;

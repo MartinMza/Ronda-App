@@ -2,6 +2,7 @@ import React from "react";
 import { Image, Text, View, StyleSheet } from "react-native";
 import Gradient from "../../components/gradient/Gradient";
 import Button from "../../components/button/Button";
+import Foro from "../foro/Foro"
 
 export default function Home(props) {
     const { navigation } = props;
@@ -11,7 +12,7 @@ export default function Home(props) {
   return (
     <View style={styles.container}>
       <Gradient>
-        <Text style={styles.buttonText}>Home</Text>
+        <Foro/>
         <Button onPress={goToProfile}>
           <Text style={styles.buttonText}>Profile</Text>
         </Button>

@@ -12,12 +12,18 @@ import * as Yup from "yup";
 import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
 import axios from "axios";
+<<<<<<< HEAD
 import {localhost} from "../../localHostIP.json"
 import { useFonts, Lato_900Black } from '@expo-google-fonts/lato';
+=======
+import { localhost } from "../../../localHostIP.json";
+import { useDispatch } from 'react-redux'
+import { login } from "../../features/userSlice"
+>>>>>>> 6ff6829bfe447b27a2faf9d6f8c02a28a241136f
 
 const Login = (props) => {
   const { navigation } = props;
-
+  const dispatch=useDispatch()
   const goToRegister = () => {
     navigation.navigate("Register");
   };
@@ -27,8 +33,12 @@ const Login = (props) => {
     validationSchema: Yup.object(validationSchema()),
     validateOnChange: false,
     onSubmit: async (data) => {
-      const user = await axios.post(`http://localhost:3001/api/auth/login`, data)
-      if(user) navigation.navigate("Home")
+      const user = await axios.post(
+        `http://${localhost}/api/auth/login`,
+       data
+      )
+      .then(data=>dispatch(login(data.data))) 
+      if (user) navigation.navigate("Home");
     },
   });
 
@@ -104,7 +114,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontSize: 15,
-
+   // fontFamily: "Lato_900Black",
   },
   textForgot: {
     textAlign: "left",

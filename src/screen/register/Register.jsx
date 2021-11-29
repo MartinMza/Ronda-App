@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React from "react";
 import {
   Image,
   View,
@@ -12,8 +12,13 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
+<<<<<<< HEAD
 import {localhost} from "../../localHostIP.json"
 import { useFonts, Lato_900Black } from '@expo-google-fonts/lato';
+=======
+import {localhost} from "../../../localHostIP.json"
+import { useFonts, Lato_900Black } from 'expo-font';
+>>>>>>> 6ff6829bfe447b27a2faf9d6f8c02a28a241136f
 
 
 const Register = (props) => {
@@ -23,14 +28,13 @@ const Register = (props) => {
     navigation.navigate("Login");
   };
 
-
   const formik = useFormik({
     initialValues:initialValuesSchema(),
     validationSchema: Yup.object(validationSchema()),
     validateOnChange: false,
     onSubmit: async (data) => {
       const user = await axios.post(
-        `http://localhost:3001/api/auth/register/`,
+        `http://${localhost}/api/auth/register/`,
         data
       )
       .then(()=>goToLogin())
@@ -125,6 +129,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontSize: 15,
+    //fontFamily: "Lato_Black"
   },
   error: {
     textAlign: "center",
