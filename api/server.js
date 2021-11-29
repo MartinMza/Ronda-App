@@ -7,6 +7,8 @@ const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const multer = require('multer');
+const upload = multer();
 const cors = require('cors');
 const {User} = require('./models');
 const router = require('./routes/index');
@@ -19,6 +21,7 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(upload.array());
 app.use(cookieParser());
 app.use(session({
     secret: 'ronda',
