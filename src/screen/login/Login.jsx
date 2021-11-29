@@ -12,12 +12,8 @@ import * as Yup from "yup";
 import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
 import axios from "axios";
-<<<<<<< HEAD
 import {localhost} from "../../localHostIP.json"
 import { useFonts, Lato_900Black } from '@expo-google-fonts/lato';
-=======
-import {localhost} from "../../../localHostIP.json"
->>>>>>> 9ed6db617a8886dfa5fc57917a5499918d50b1e8
 
 const Login = (props) => {
   const { navigation } = props;
@@ -31,11 +27,7 @@ const Login = (props) => {
     validationSchema: Yup.object(validationSchema()),
     validateOnChange: false,
     onSubmit: async (data) => {
-<<<<<<< HEAD
-      const user = await axios.post(`http://${localhost}/api/auth/login/`, {email: "andy@gmail.com", password: '123456'})
-=======
       const user = await axios.post(`http://localhost:3001/api/auth/login`, data)
->>>>>>> 9ed6db617a8886dfa5fc57917a5499918d50b1e8
       if(user) navigation.navigate("Home")
     },
   });

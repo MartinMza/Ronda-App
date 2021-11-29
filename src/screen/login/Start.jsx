@@ -39,11 +39,7 @@ export default function Start(props) {
             REGISTER
           </Text>
         </Button>
-<<<<<<< HEAD
-        <Button>
-=======
         {/* <Button onPress={goToGoogle}>
->>>>>>> 9ed6db617a8886dfa5fc57917a5499918d50b1e8
           <Text style={styles.buttonText}>SIGN IN WITH GOOGLE</Text>
         </Button> */}
        </Gradient> 
