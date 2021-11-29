@@ -3,8 +3,9 @@ import { Image, Text, View, StyleSheet } from "react-native";
 import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
 import Button from "../../components/button/Button";
-import axios from 'axios'
+
 import { useFonts, Lato_900Black } from '@expo-google-fonts/lato';
+
 
 export default function Start(props) {
   const { navigation } = props;
@@ -24,6 +25,7 @@ export default function Start(props) {
   //   .then((user)=> navigation.navigate("Home"))
   //   .catch((error) => console.error(error))
   // };
+
 
   return (
     <View style={styles.container}>
@@ -64,6 +66,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontSize: 15,
-
+    //fontFamily: "Lato_900Black"
   },
 });

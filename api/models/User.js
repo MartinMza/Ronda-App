@@ -58,6 +58,10 @@ User.init(
     },
     googleId: {
       type: S.STRING
+    },
+    confirmed: {
+      type: S.BOOLEAN,
+      defaultValue: false,
     }
   },
   {
