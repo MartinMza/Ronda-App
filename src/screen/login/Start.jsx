@@ -3,9 +3,11 @@ import { Image, Text, View, StyleSheet } from "react-native";
 import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
 import Button from "../../components/button/Button";
-
+import axios from "axios"
 import { useFonts, Lato_900Black } from '@expo-google-fonts/lato';
-
+import { localhost } from "../../../localHostIP.json";
+import { Linking } from 'react-native';
+import { login } from "../../features/userSlice"
 
 export default function Start(props) {
   const { navigation } = props;
@@ -20,12 +22,9 @@ export default function Start(props) {
   const goToLogin = () => {
     navigation.navigate("Login");
   };
-  // const goToGoogle = () => {
-  //   axios.get(`http://localhost:3001/api/auth/google`)
-  //   .then((user)=> navigation.navigate("Home"))
-  //   .catch((error) => console.error(error))
-  // };
-
+  const goToGoogle = () => {
+    Linking.openURL("http://localhost:3001/api/auth/google")
+  };
 
   return (
     <View style={styles.container}>
@@ -41,9 +40,9 @@ export default function Start(props) {
             REGISTER
           </Text>
         </Button>
-        {/* <Button onPress={goToGoogle}>
+        <Button onPress={goToGoogle}>
           <Text style={styles.buttonText}>SIGN IN WITH GOOGLE</Text>
-        </Button> */}
+        </Button>
        </Gradient> 
     </View>
   );

@@ -19,7 +19,7 @@ export default function Foro(props) {
       <Gradient>
           <View style={styles.input}>
       <Text style={styles.mainName}>
-              {user.name} -
+      
               <MaterialCommunityIcons name="image-plus" size={24} color="black"  position="right"/>  
              </Text> 
             
