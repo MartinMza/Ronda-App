@@ -13,7 +13,7 @@ export default function Foro(props) {
         navigation.navigate("Profile")
     }
     const user = useSelector(selectUser)
-    console.log(user)
+ 
   return (
     <View style={styles.container}>
       <Gradient>
