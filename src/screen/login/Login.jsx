@@ -12,8 +12,12 @@ import * as Yup from "yup";
 import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
 import axios from "axios";
+<<<<<<< HEAD
 import {localhost} from "../../localHostIP.json"
 import { useFonts, Lato_900Black } from '@expo-google-fonts/lato';
+=======
+import {localhost} from "../../../localHostIP.json"
+>>>>>>> 9ed6db617a8886dfa5fc57917a5499918d50b1e8
 
 const Login = (props) => {
   const { navigation } = props;
@@ -22,16 +26,16 @@ const Login = (props) => {
     navigation.navigate("Register");
   };
 
-  let [fontsLoaded] = useFonts({
-    Lato_900Black,
-  });
-
   const formik = useFormik({
     initialValues: { email: "", password: "" },
     validationSchema: Yup.object(validationSchema()),
     validateOnChange: false,
     onSubmit: async (data) => {
+<<<<<<< HEAD
       const user = await axios.post(`http://${localhost}/api/auth/login/`, {email: "andy@gmail.com", password: '123456'})
+=======
+      const user = await axios.post(`http://localhost:3001/api/auth/login`, data)
+>>>>>>> 9ed6db617a8886dfa5fc57917a5499918d50b1e8
       if(user) navigation.navigate("Home")
     },
   });
@@ -87,17 +91,17 @@ const styles = StyleSheet.create({
     marginVertical: 100,
   },
   input: {
-    width: 343,
+    width: 300,
     height: 52,
     backgroundColor: "white",
     borderRadius: 6,
-    marginVertical: 5,
-    marginBottom: 5,
+    marginVertical: 2,
+    marginBottom: 15,
     justifyContent: "center",
-    padding: 20,
+    padding: 10,
   },
   button: {
-    width: 343,
+    width: 243,
     height: 52,
     borderRadius: 6,
     backgroundColor: "#8144CF",
@@ -107,8 +111,8 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "white",
-    fontSize: 20,
-    fontFamily: "Lato_900Black"
+    fontSize: 15,
+
   },
   textForgot: {
     textAlign: "left",

@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, Text, SafeAreaView, StyleSheet } from "react-native";
+import { Image, Text, View, StyleSheet } from "react-native";
 import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
 import Button from "../../components/button/Button";
@@ -20,13 +20,13 @@ export default function Start(props) {
     navigation.navigate("Login");
   };
   // const goToGoogle = () => {
-  //   axios.get(`http://192.168.40.5:3001/api/auth/google`)
+  //   axios.get(`http://localhost:3001/api/auth/google`)
   //   .then((user)=> navigation.navigate("Home"))
   //   .catch((error) => console.error(error))
   // };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <Gradient>
         <Image source={logo} style={styles.logo} />
         <Button onPress={goToLogin} >
@@ -39,11 +39,15 @@ export default function Start(props) {
             REGISTER
           </Text>
         </Button>
+<<<<<<< HEAD
         <Button>
+=======
+        {/* <Button onPress={goToGoogle}>
+>>>>>>> 9ed6db617a8886dfa5fc57917a5499918d50b1e8
           <Text style={styles.buttonText}>SIGN IN WITH GOOGLE</Text>
-        </Button>
-      </Gradient>
-    </SafeAreaView>
+        </Button> */}
+       </Gradient> 
+    </View>
   );
 }
 
@@ -64,6 +68,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontSize: 15,
-    fontFamily: "Lato_900Black"
+
   },
 });

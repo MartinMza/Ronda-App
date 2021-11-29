@@ -1,22 +1,26 @@
 import React, { useEffect } from "react";
 import { Image, FlatList, Text, View, StyleSheet } from "react-native";
 import axios from "axios";
-import { localhost } from "../../localHostIP.json";
+import { localhost } from "../../../localHostIP.json";
 import profile from "../../../assets/icons/profile.png";
 
 export default function Profile(props) {
   const { navigation } = props;
   const DATA = [
     {
+      id:"123456789",
       title: "Calendario",
     },
     {
+      id:"12345678",
       title: "Reserva",
     },
     {
+      id:"1234567",
       title: "Salas y Espacios",
     },
     {
+      id:"1234567891",
       title: "Membresías Individuales",
     },
   ];
@@ -50,7 +54,7 @@ export default function Profile(props) {
           <Text style={styles.text}>Ronda</Text>
         </View>
       </View>
-      <FlatList data={DATA} renderItem={renderItem}/>
+      <FlatList data={DATA} renderItem={renderItem} keyExtractor={item => item.id}/>
         
     </View>
   );
