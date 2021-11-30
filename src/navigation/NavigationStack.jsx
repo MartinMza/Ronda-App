@@ -13,12 +13,12 @@ export default function NavigationStack() {
   return (
     
       <Stack.Navigator>
-        <Stack.Screen name="Start" component={Start} />
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Profile" component={Profile} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Register" component={Register} />
-        <Stack.Screen name="Form" component={Form} />
+        <Stack.Screen name="Start" component={Start} options={{title:"", headerTransparent:true}}/>
+        <Stack.Screen name="Home" component={Home} options={{title:""}}/>
+        <Stack.Screen name="Profile" component={Profile} options={{title:""}}/>
+        <Stack.Screen name="Login" component={Login} options={{title:"", headerTransparent:true}}/>
+        <Stack.Screen name="Register" component={Register} options={{title:"", headerTransparent:true}}/>
+        <Stack.Screen name="Form" component={Form} options={{title:"", headerTransparent:true}}/>
       </Stack.Navigator>
 
   );

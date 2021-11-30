@@ -4,15 +4,11 @@ import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
 import Button from "../../components/button/Button";
 
-import { useFonts, Lato_900Black } from '@expo-google-fonts/lato';
 
 
 export default function Start(props) {
   const { navigation } = props;
 
-  let [fontsLoaded] = useFonts({
-    Lato_900Black,
-  });
 
   const goToRegister = () => {
     navigation.navigate("Register");

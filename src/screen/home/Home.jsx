@@ -1,18 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Image, Text, View, StyleSheet } from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome";
+import logo from "../../../assets/LogoRondaColor.jpg"
 import Gradient from "../../components/gradient/Gradient";
 import Button from "../../components/button/Button";
-import Foro from "../foro/Foro"
+import IconsRight from "../../components/icons/IconsRight"
+import Foro from "../foro/Foro";
 
 export default function Home(props) {
-    const { navigation } = props;
-    const goToProfile = () => {
-        navigation.navigate("Profile")
-    }
+  const { navigation } = props;
+  const goToProfile = () => {
+    navigation.navigate("Profile");
+  };
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (<IconsRight />),
+      headerLeft: () => (
+        <View style={{flexDirection: "row",}}>
+          <Icon
+            name="bars"
+            size={20}
+            onPress={() => console.log("profile")}
+            style={styles.bars}
+          />
+          <Image source={logo} style={styles.logo}/>
+        </View>
+      ),
+    });
+  });
   return (
     <View style={styles.container}>
       <Gradient>
-        <Foro/>
+        {/* <Foro/> */}
         <Button onPress={goToProfile}>
           <Text style={styles.buttonText}>Profile</Text>
         </Button>
@@ -33,4 +52,18 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 20,
   },
+  logo:{
+    width: 180,
+    height:27,
+    resizeMode: "contain",
+    marginVertical:15,
+
+    
+  },
+  bars:{
+    color: "black",
+    marginLeft: 18,
+    marginVertical:20
+  }
 });
+

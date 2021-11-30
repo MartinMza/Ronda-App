@@ -5,6 +5,7 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
 import { Provider } from "react-redux";
 import NavigationStack from "./src/navigation/NavigationStack";
+import NavigationDrawer from "./src/navigation/NavigationDrawer";
 import Gradient from "./src/components/gradient/Gradient";
 import store from "./src/store/store";
 

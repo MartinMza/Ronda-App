@@ -12,8 +12,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
-import {localhost} from "../../../localHostIP.json"
-import { useFonts, Lato_900Black } from 'expo-font';
+import {localhost} from "../../localHostIP.json"
 
 
 const Register = (props) => {

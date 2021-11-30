@@ -1,38 +1,44 @@
 import React from "react";
-import {useSelector} from "react-redux"
-import { Image, Text, View, StyleSheet,TouchableOpacity } from "react-native";
+import { useSelector } from "react-redux";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import Gradient from "../../components/gradient/Gradient";
 import Button from "../../components/button/Button";
 import { TextInput } from "react-native-gesture-handler";
 import { selectUser } from "../../features/userSlice";
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function Foro(props) {
-    const { navigation } = props;
-    const goToProfile = () => {
-        navigation.navigate("Profile")
-    }
-    const user = useSelector(selectUser)
- 
+  const { navigation } = props;
+  const goToProfile = () => {
+    navigation.navigate("Profile");
+  };
+  const user = useSelector(selectUser);
+
   return (
     <View style={styles.container}>
       <Gradient>
-          <View style={styles.input}>
-      <Text style={styles.mainName}>
-              {user.name} -
-              <MaterialCommunityIcons name="image-plus" size={24} color="black"  position="right"/>  
-             </Text> 
-            
-        <TextInput 
-        placeholder="¿Qué estas pensando?"   multiline={true} >
-           
-        </TextInput>
-       
+        <View style={styles.input}>
+          <Text style={styles.mainName}>
+            {user.name} -
+            <MaterialCommunityIcons
+              name="image-plus"
+              size={24}
+              color="black"
+              position="right"
+            />
+          </Text>
+
+          <TextInput
+            placeholder="¿Qué estas pensando?"
+            multiline={true}
+          ></TextInput>
         </View>
         <TouchableOpacity onPress={goToProfile} style={styles.button}>
           <Text style={styles.buttonText}>Publicar</Text>
         </TouchableOpacity>
-        <TouchableOpacity ><Text style={styles.underText}>MÁS RECIENTES</Text></TouchableOpacity>
+        <TouchableOpacity>
+          <Text style={styles.underText}>MÁS RECIENTES</Text>
+        </TouchableOpacity>
       </Gradient>
     </View>
   );
@@ -56,7 +62,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   buttonText: {
-     fontSize: 18,
+    fontSize: 18,
   },
   input: {
     width: 330,
@@ -67,19 +73,17 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     padding: 15,
   },
-  underText:{
-      color:"white",
-      fontSize: 15,
-      fontWeight:"bold",
-      textDecorationLine:"underline",
-      padding: 20
+  underText: {
+    color: "white",
+    fontSize: 15,
+    fontWeight: "bold",
+    textDecorationLine: "underline",
+    padding: 20,
   },
-  mainName:{
-    fontWeight:"bold",
-    fontSize:17,
-    fontStyle:"italic",
-    marginBottom:2,
-
-  }
+  mainName: {
+    fontWeight: "bold",
+    fontSize: 17,
+    fontStyle: "italic",
+    marginBottom: 2,
+  },
 });
-
