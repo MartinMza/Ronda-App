@@ -36,10 +36,7 @@ User.init(
       type: S.STRING,
       defaultValue: "Not Specified",
     },
-    company: {
-      type: S.STRING,
-      defaultValue: "Not Specified",
-    },
+   
     credits: {
       type: S.INTEGER,
       defaultValue: 0,

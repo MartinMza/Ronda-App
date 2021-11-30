@@ -1,5 +1,5 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Image,
   View,
@@ -18,24 +18,23 @@ import {localhost} from "../../localHostIP.json"
 const Register = (props) => {
   const { navigation } = props;
 
-  const goToLogin = () => {
-    navigation.navigate("Login");
+  const goToConfirmation = () => {
+    navigation.navigate("Confirmation");
   };
 
   const formik = useFormik({
-    initialValues:initialValuesSchema(),
+    initialValues: initialValuesSchema(),
     validationSchema: Yup.object(validationSchema()),
     validateOnChange: false,
     onSubmit: async (data) => {
-      const user = await axios.post(
-        `http://${localhost}/api/auth/register/`,
-        data
-      )
-      .then(()=>goToLogin())
+      const user = await axios
+        .post(`http://${localhost}/api/auth/register/`, data)
+        .then(() => {
+          goToConfirmation();
+        });
     },
   });
 
- 
   return (
     <View style={styles.container}>
       <Gradient>
@@ -53,7 +52,7 @@ const Register = (props) => {
           value={formik.values.email}
           onChangeText={(text) => formik.setFieldValue("email", text)}
         />
-      
+
         <TextInput
           placeholder="Your password"
           style={styles.input}
@@ -62,8 +61,8 @@ const Register = (props) => {
           value={formik.values.password}
           onChangeText={(text) => formik.setFieldValue("password", text)}
         />
-         <Text style={styles.error}>{formik.errors.password}</Text>
-         <Text style={styles.error}>{formik.errors.email}</Text>
+        <Text style={styles.error}>{formik.errors.password}</Text>
+        <Text style={styles.error}>{formik.errors.email}</Text>
         <TouchableOpacity onPress={formik.handleSubmit} style={styles.button}>
           <Text style={styles.buttonText}>REGISTER</Text>
         </TouchableOpacity>
@@ -72,13 +71,13 @@ const Register = (props) => {
   );
 };
 
-function initialValuesSchema(){
+function initialValuesSchema() {
   return {
     name: "",
     email: "",
     password: "",
   };
-};
+}
 
 function validationSchema() {
   return {

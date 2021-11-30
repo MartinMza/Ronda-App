@@ -6,6 +6,7 @@ import Gradient from "../../components/gradient/Gradient";
 import Button from "../../components/button/Button";
 import IconsRight from "../../components/icons/IconsRight"
 import Foro from "../foro/Foro";
+import Reserva from "../reserva/Reserva"
 
 export default function Home(props) {
   const { navigation } = props;
@@ -32,6 +33,7 @@ export default function Home(props) {
     <View style={styles.container}>
       <Gradient>
         {/* <Foro/> */}
+        <Reserva/>
         <Button onPress={goToProfile}>
           <Text style={styles.buttonText}>Profile</Text>
         </Button>

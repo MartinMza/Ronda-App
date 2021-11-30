@@ -1,39 +1,59 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { Image, Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import Gradient from "../../components/gradient/Gradient";
 import Button from "../../components/button/Button";
 import { TextInput } from "react-native-gesture-handler";
 import { selectUser } from "../../features/userSlice";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { localhost } from "../../localHostIP.json";
+import { useFormik } from "formik";
+import axios from "axios";
 
-export default function Foro(props) {
-  const { navigation } = props;
-  const goToProfile = () => {
-    navigation.navigate("Profile");
-  };
+const Foro = () => {
+  //const { navigation } = props;
+  // const goToHome = () => {
+  //   navigation.navigate("Home");
+  // };
   const user = useSelector(selectUser);
+  const [post, setPost] = useState([]);
+  const formik = useFormik({
+    initialValues: {
+      content: "",
+      campus: "general",
+    },
+    //validationSchema: Yup.object(validationSchema()),
+    validateOnChange: false,
+    onSubmit: async (data) => {
+      const post = await axios
+        .post(`http://${localhost}/api/posts/`, data)
+        .then(() => {
+          axios
+            .get(`http://${localhost}/api/posts/general`)
+            .then(() => console.log("hola"));
+        });
+    },
+  });
 
   return (
     <View style={styles.container}>
       <Gradient>
         <View style={styles.input}>
-          <Text style={styles.mainName}>
-            {user.name} -
-            <MaterialCommunityIcons
-              name="image-plus"
-              size={24}
-              color="black"
-              position="right"
-            />
-          </Text>
+          <View
+            style={{ justifyContent: "space-between", flexDirection: "row" }}
+          >
+            <Text style={styles.mainName}>{user?.name} --</Text>
+            <MaterialCommunityIcons name="image-plus" size={20} color="black" />
+          </View>
 
           <TextInput
+            value={formik.values.content}
             placeholder="¿Qué estas pensando?"
             multiline={true}
+            onChangeText={(text) => formik.setFieldValue("content", text)}
           ></TextInput>
         </View>
-        <TouchableOpacity onPress={goToProfile} style={styles.button}>
+        <TouchableOpacity onPress={formik.handleSubmit} style={styles.button}>
           <Text style={styles.buttonText}>Publicar</Text>
         </TouchableOpacity>
         <TouchableOpacity>
@@ -42,7 +62,7 @@ export default function Foro(props) {
       </Gradient>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -84,6 +104,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 17,
     fontStyle: "italic",
-    marginBottom: 2,
+    marginBottom: 10,
+    flexDirection: "row",
   },
 });
+export default Foro;
