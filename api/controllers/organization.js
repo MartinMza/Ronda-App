@@ -13,11 +13,29 @@ class OrganizationController {
       next(err);
     }
   }
+
+  static async getCredits(req, res, next) {
+    try {
+      const organization = await Organization.findOne({
+        where: {
+          name: req.params.name,
+        },
+      });
+     
+      
+
+
+
+    } catch (err) {
+      next(err);
+    }
+  }
+
   static async createEmpresa(req, res, next) {
     try {
       const { name, CUIT, social_reason, date_time_fc, date_fc, phone } =
         req.body;
-      await Organization.create({
+     const organization= await Organization.create({
         name,
         CUIT,
         social_reason,
@@ -28,7 +46,7 @@ class OrganizationController {
       });
       await User.update(
         {
-          organization_id: Organization.id,
+          organizationId: organization.id,
           role: "organizationAdmin",
           org_state: "approved",
         },
@@ -47,7 +65,7 @@ class OrganizationController {
     try {
       const { name, CUIT, social_reason, date_time_fc, date_fc, phone } =
         req.body;
-      Organization.create({
+      const organization = await Organization.create({
         name,
         CUIT,
         social_reason,
@@ -60,7 +78,7 @@ class OrganizationController {
         where: {
           id: req.user.id,
         },
-        organization_id: Organization.id,
+        organizationId: organization.id,
         role: "organizationAdmin",
         org_state: "approved",
       });
@@ -80,7 +98,7 @@ class OrganizationController {
         where: {
           id: req.user.id,
         },
-        organization_id: organization.id,
+        organizationId: organization.id,
       });
       res.status(201).send("Usuario agregado a la empresa");
     } catch (err) {
@@ -94,10 +112,10 @@ class OrganizationController {
       }
       const organization = await Organization.findOne({
         where: {
-          id: req.user.organization_id,
+          id: req.user.organizationId,
         },
       });
-      if (organization.id !== req.user.organization_id) {
+      if (organization.id !== req.user.organizationId) {
         return res.status(403).send("No tienes permisos para esta accion");
       }
       await User.update({
