@@ -40,11 +40,11 @@ class MembershipController {
       })
       console.log("membership", membership.dataValues)
       console.log("organization", organization)
-      /* membership.setOrganization(organization)NO EXISTE */ 
-
       
-      organization.setMembership(membership.setDataValue)
-      // return res.send(membership, organization)
+       const org= await membership.addOrganizations(organization);
+       res.send(org)
+      // organization.setMembership(membership)
+    
     }catch(err){
         next(err)
     }

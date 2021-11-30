@@ -13,11 +13,29 @@ class OrganizationController {
       next(err);
     }
   }
+
+  static async getCredits(req, res, next) {
+    try {
+      const organization = await Organization.findOne({
+        where: {
+          name: req.params.name,
+        },
+      });
+     
+      
+
+
+
+    } catch (err) {
+      next(err);
+    }
+  }
+
   static async createEmpresa(req, res, next) {
     try {
       const { name, CUIT, social_reason, date_time_fc, date_fc, phone } =
         req.body;
-      await Organization.create({
+     const organization= await Organization.create({
         name,
         CUIT,
         social_reason,
@@ -28,7 +46,11 @@ class OrganizationController {
       });
       await User.update(
         {
+<<<<<<< HEAD
           organizationId: Organization.id,
+=======
+          organizationId: organization.id,
+>>>>>>> 0fc43283d4242fb64474387869b6fe41a1d67379
           role: "organizationAdmin",
           org_state: "approved",
         },
@@ -47,7 +69,7 @@ class OrganizationController {
     try {
       const { name, CUIT, social_reason, date_time_fc, date_fc, phone } =
         req.body;
-      Organization.create({
+      const organization = await Organization.create({
         name,
         CUIT,
         social_reason,
@@ -60,7 +82,7 @@ class OrganizationController {
         where: {
           id: req.user.id,
         },
-        organizationId: Organization.id,
+        organizationId: organization.id,
         role: "organizationAdmin",
         org_state: "approved",
       });
