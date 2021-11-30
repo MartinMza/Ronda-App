@@ -30,13 +30,9 @@ User.init(
       type: S.STRING,
       allowNull: false,
       defaultValue: "user",
-      allowedValues: ["user", "admin", "superadmin"],
+      allowedValues: ["user", "admin", "superadmin", "organizationAdmin"],
     },
     phone: {
-      type: S.STRING,
-      defaultValue: "Not Specified",
-    },
-    company: {
       type: S.STRING,
       defaultValue: "Not Specified",
     },
@@ -58,7 +54,16 @@ User.init(
     },
     googleId: {
       type: S.STRING
-    }
+    },
+    confirmed: {
+      type: S.BOOLEAN,
+      defaultValue: false,
+    },
+    org_state :{
+      type: S.STRING,
+      defaultValue: "pending",
+      allowedValues: ["pending", "approved"],
+    },
   },
   {
     hooks: {
