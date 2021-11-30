@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Image, Text, View, StyleSheet } from "react-native";
 import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
@@ -7,11 +7,12 @@ import axios from "axios"
 import { useFonts, Lato_900Black } from '@expo-google-fonts/lato';
 import { localhost } from "../../../localHostIP.json";
 import { Linking } from 'react-native';
-import { login } from "../../features/userSlice"
+import { login, selectUser } from "../../features/userSlice"
+import {useSelector} from "react-redux"
 
 export default function Start(props) {
   const { navigation } = props;
-
+  const user = useSelector(selectUser)
   let [fontsLoaded] = useFonts({
     Lato_900Black,
   });
@@ -25,6 +26,7 @@ export default function Start(props) {
   const goToGoogle = () => {
     Linking.openURL("http://localhost:3001/api/auth/google")
   };
+  
 
   return (
     <View style={styles.container}>
