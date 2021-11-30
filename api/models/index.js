@@ -18,7 +18,7 @@ Post.hasMany(Like);
 Post.hasMany(Comment);
 //Organization/Membership relations
 Organization.hasMany(User);
-Organization.belongsToMany(Membership, {
+/* Organization.belongsToMany(Membership, {
   through: "organization_membership",
   as: "memberships",
   foreignKey: "organization_id",
@@ -28,7 +28,15 @@ Membership.belongsToMany(Organization, {
   through: "organization_membership",
   as: "organizations",
   foreignKey: "membership_id",
-});
+});*/
+
+// Organization.hasMany(Membership)
+// Membership.hasMany(Organization) 
+// Organization.hasMany(Membership) 
+// Membership.hasMany(Organization) 
+
+
+// Membership.belongsToMany(Organization)
 
 module.exports = {
   User,

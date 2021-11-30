@@ -28,7 +28,7 @@ class OrganizationController {
       });
       await User.update(
         {
-          organization_id: Organization.id,
+          organizationId: Organization.id,
           role: "organizationAdmin",
           org_state: "approved",
         },
@@ -60,7 +60,7 @@ class OrganizationController {
         where: {
           id: req.user.id,
         },
-        organization_id: Organization.id,
+        organizationId: Organization.id,
         role: "organizationAdmin",
         org_state: "approved",
       });
@@ -80,7 +80,7 @@ class OrganizationController {
         where: {
           id: req.user.id,
         },
-        organization_id: organization.id,
+        organizationId: organization.id,
       });
       res.status(201).send("Usuario agregado a la empresa");
     } catch (err) {
@@ -94,10 +94,10 @@ class OrganizationController {
       }
       const organization = await Organization.findOne({
         where: {
-          id: req.user.organization_id,
+          id: req.user.organizationId,
         },
       });
-      if (organization.id !== req.user.organization_id) {
+      if (organization.id !== req.user.organizationId) {
         return res.status(403).send("No tienes permisos para esta accion");
       }
       await User.update({

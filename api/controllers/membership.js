@@ -38,10 +38,13 @@ class MembershipController {
             name: req.params.oname,
         }
       })
-      console.log("membership", membership)
+      console.log("membership", membership.dataValues)
       console.log("organization", organization)
       /* membership.setOrganization(organization)NO EXISTE */ 
-    organization.setMembership(membership)
+
+      
+      organization.setMembership(membership.setDataValue)
+      // return res.send(membership, organization)
     }catch(err){
         next(err)
     }
