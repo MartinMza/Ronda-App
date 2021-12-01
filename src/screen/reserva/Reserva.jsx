@@ -10,6 +10,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Feather } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import HourList from "../../components/HourList/HourList"
 
 export default function Reserva(props) {
   const [date, setDate] = useState(new Date(1598051730000));
@@ -129,7 +130,9 @@ export default function Reserva(props) {
             width: "50%",
           }}
         />
+            <HourList></HourList>
       </View>
+  
       <View style={styles.buttonForReservation}>
         <View style={styles.profile}>
           <Text>
