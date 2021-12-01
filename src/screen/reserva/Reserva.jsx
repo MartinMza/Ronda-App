@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { Text, View, StyleSheet, TouchableOpacity, Button } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import Gradient from "../../components/gradient/Gradient";
-//import Button from "../../components/button/Button";
+import Button from "../../components/button/Button";
 import { FontAwesome } from "@expo/vector-icons";
 import { selectUser } from "../../features/userSlice";
 import DropDownPicker from "react-native-dropdown-picker";
@@ -10,39 +10,53 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Feather } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import HourList from "../../components/HourList/HourList"
+import HourList from "../../components/HourList/HourList";
 
 export default function Reserva(props) {
+  //---------QUANTITY OF PEOPLE ----------------//
+  const [person, setPerson] = useState(1);
+
+  //------------------DATE TIMEPICKER----------------------//
   const [date, setDate] = useState(new Date(1598051730000));
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
 
+  //-----------VALUE FOR ROOM-------------//
+  const [option, setOption] = useState(false);
+  const [optionOne, setOptionOne] = useState(false);
   const { navigation } = props;
 
-  const user = useSelector(selectUser);
-  //
+  //------------CAMPUS --------------------//
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [sedes, setSedes] = useState([
     { label: "Belgrano", value: "belgrano" },
     { label: "Recoleta", value: "recoleta" },
   ]);
-  const [person, setPerson] = useState(1);
+
+  //-----------TYPE OF ROOM----------------//
+  const [typeOpen, setTypeOpen] = useState(false);
+  const [typeValue, setTypeValue] = useState(null);
   const [type, setType] = useState([
-    { label: "Flex", value: "flex" },
-    { label: "Premium", value: "premium" },
-    { label: "VIP", value: "vip" },
+    { label: "Chiquita", value: "chiquita" },
+    { label: "Mediana", value: "mediana" },
+    { label: "Grande", value: "grande" },
   ]);
-  const [option, setOption] = useState(false);
-  const [optionOne, setOptionOne] = useState(false);
+
+  //----------------TYPE OF ROOM HANDLE CHANGE-----------------------------//
   const handleChange = () => {
-    if(optionOne===false){option ? setOption(false) : setOption(true);}
-    else setOptionOne(true)
+    if (optionOne === false) {
+      option ? setOption(false) : setOption(true);
+    } else setOptionOne(true);
   };
   const handleChangeOne = () => {
-    if(option===false){optionOne ? setOptionOne(false) : setOptionOne(true);}
-    else setOption(true)
+    if (option === false) {
+      optionOne ? setOptionOne(false) : setOptionOne(true);
+    } else setOption(true);
   };
+
+  //----------------DATEPICKER FUNCTION--------------//
+
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === "ios");
@@ -59,7 +73,23 @@ export default function Reserva(props) {
     showMode("date");
     //setShow(!show);
   };
-  console.log("soy show", show);
+
+  //--------------TIME OPTION ---------------------//
+  const [dropOpen, setDropOpen] = useState(false);
+  const [time, setTime] = useState(null);
+  const [turnos, setTurnos] = useState([
+    { label: "9:00-10:00", value: "9:00-10:00" },
+    { label: "10:00-11:00", value: "10:00-11:00" },
+    { label: "11:00-12:00", value: "11:00-12:00" },
+    { label: "12:00-13:00", value: "12:00-13:00" },
+    { label: "13:00-14:00", value: "13:00-14:00" },
+    { label: "14:00-15:00", value: "14:00-15:00" },
+    { label: "15:00-16:00", value: "15:00-16:00" },
+    { label: "16:00-17:00", value: "16:00-17:00" },
+    { label: "17:00-18:00", value: "17:00-18:00" },
+    { label: "18:00-19:00", value: "18:00-19:00" },
+    { label: "19:00-20:00", value: "19:00-20:00" },
+  ]);
 
   return (
     <View style={styles.container}>
@@ -93,6 +123,21 @@ export default function Reserva(props) {
           }}
         />
       </View>
+      <View style={styles.buttonForReservation}>
+        {/* DROPDOWN TO SELECT A CAMPUS */}
+        <DropDownPicker
+          open={typeOpen}
+          value={typeValue}
+          items={type}
+          setOpen={setTypeOpen}
+          setValue={setTypeValue}
+          setItems={setType}
+          placeholder="Elige una sala"
+          containerStyle={{
+            width: "100%",
+          }}
+        />
+      </View>
       {/* PICK A DATE */}
       <View style={styles.buttonForReservation}>
         <View>
@@ -119,20 +164,19 @@ export default function Reserva(props) {
         </View>
 
         <DropDownPicker
-          open={open}
-          value={value}
-          items={sedes}
-          setOpen={setOpen}
-          setValue={setValue}
-          setItems={setSedes}
+          open={dropOpen}
+          value={time}
+          items={turnos}
+          setOpen={setDropOpen}
+          setValue={setTime}
+          setItems={setTurnos}
           placeholder="Hora"
           containerStyle={{
             width: "50%",
           }}
         />
-            <HourList></HourList>
       </View>
-  
+
       <View style={styles.buttonForReservation}>
         <View style={styles.profile}>
           <Text>
@@ -141,7 +185,7 @@ export default function Reserva(props) {
             {person}
           </Text>
         </View>
-        <View style={styles.counter}>
+        {/* <View style={styles.counter}>
           <TouchableOpacity
             onPress={() => {
               setPerson(person + 1);
@@ -159,11 +203,11 @@ export default function Reserva(props) {
           >
             <Feather name="minus-square" size={24} color="black" />
           </TouchableOpacity>
-        </View>
+        </View> */}
       </View>
-      {/* <Button>
+      <Button style={{ justifyContent: "center", alignItems: "center" }}>
         <Text style={styles.buttonText}>Reservar</Text>
-      </Button> */}
+      </Button>
     </View>
   );
 }
