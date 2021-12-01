@@ -11,6 +11,7 @@ import * as Yup from "yup";
 import { Feather } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import HourList from "../../components/HourList/HourList";
+import { set } from "react-native-reanimated";
 
 export default function Reserva(props) {
   //---------QUANTITY OF PEOPLE ----------------//
@@ -99,16 +100,18 @@ export default function Reserva(props) {
           onPress={handleChange}
           style={option ? styles.buttonOptionSelect : styles.buttonOption}
         >
-          <Text>Sala de reunión</Text>
+          <Text style={option ? { color: "#fff" } : null}>Sala de reunión</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={handleChangeOne}
           style={optionOne ? styles.buttonOptionSelect : styles.buttonOption}
         >
-          <Text>Puesto individual</Text>
+          <Text style={optionOne ? { color: "#fff" } : null}>
+            Puesto individual
+          </Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.buttonForReservation}>
+      <View style={styles.buttonForCampus}>
         {/* DROPDOWN TO SELECT A CAMPUS */}
         <DropDownPicker
           open={open}
@@ -123,20 +126,22 @@ export default function Reserva(props) {
           }}
         />
       </View>
-      <View style={styles.buttonForReservation}>
+      <View style={styles.buttonForRoom}>
         {/* DROPDOWN TO SELECT A CAMPUS */}
-        <DropDownPicker
-          open={typeOpen}
-          value={typeValue}
-          items={type}
-          setOpen={setTypeOpen}
-          setValue={setTypeValue}
-          setItems={setType}
-          placeholder="Elige una sala"
-          containerStyle={{
-            width: "100%",
-          }}
-        />
+        {option ? (
+          <DropDownPicker
+            open={typeOpen}
+            value={typeValue}
+            items={type}
+            setOpen={setTypeOpen}
+            setValue={setTypeValue}
+            setItems={setType}
+            placeholder="Elige una sala"
+            containerStyle={{
+              width: "100%",
+            }}
+          />
+        ) : null}
       </View>
       {/* PICK A DATE */}
       <View style={styles.buttonForReservation}>
@@ -174,11 +179,25 @@ export default function Reserva(props) {
           containerStyle={{
             width: "50%",
           }}
+          onPress={() => {
+            if (typeValue === "chiquita") {
+              setPerson(2);
+            }
+            if (typeValue === "mediana") {
+              setPerson(5);
+            }
+            if (typeValue === "grande") {
+              setPerson(10);
+            }
+            if(optionOne){
+              setPerson(1)
+            }
+          }}
         />
       </View>
 
       <View style={styles.buttonForReservation}>
-        <View style={styles.profile}>
+        <View style={styles.buttonOption}>
           <Text>
             <FontAwesome name="user" size={24} color="black" />
             {"   "}
@@ -205,9 +224,11 @@ export default function Reserva(props) {
           </TouchableOpacity>
         </View> */}
       </View>
-      <Button style={{ justifyContent: "center", alignItems: "center" }}>
-        <Text style={styles.buttonText}>Reservar</Text>
-      </Button>
+      <View style={{ justifyContent: "center", alignItems: "center", marginVertical:50 }}>
+        <Button>
+          <Text style={styles.buttonText}>Reservar</Text>
+        </Button>
+      </View>
     </View>
   );
 }
@@ -217,6 +238,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     flex: 1,
+    marginVertical:10
   },
   buttonOption: {
     height: 40,
@@ -231,7 +253,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "purple",
+    backgroundColor: "#8144CF",
     paddingHorizontal: 25,
   },
   underText: {
@@ -240,7 +262,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textDecorationLine: "underline",
     padding: 10,
-    marginTop: 20,
+    marginTop: 8,
   },
   buttonForReservation: {
     marginHorizontal: 18,
@@ -248,7 +270,23 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     zIndex: 1,
+    marginVertical:5,
   },
+  buttonForRoom: {
+    marginHorizontal: 18,
+    padding: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    zIndex: 2,
+  },
+  buttonForCampus: {
+    marginHorizontal: 18,
+    padding: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    zIndex: 3,
+  },
+
   profile: {
     width: "25%",
     height: 40,
