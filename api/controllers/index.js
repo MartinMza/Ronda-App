@@ -8,6 +8,7 @@ const MessageController = require("./message");
 const UserController = require("./user");
 const OrganizationController = require("./organization");
 const MembershipController = require("./membership");
+const ReservationController = require("./reservation");
 
 module.exports = {
   AuthController,
@@ -20,4 +21,5 @@ module.exports = {
   RoomController,
   MessageController,
   UserController,
+  ReservationController
 };

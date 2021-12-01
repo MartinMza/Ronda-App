@@ -14,23 +14,6 @@ class OrganizationController {
     }
   }
 
-  static async getCredits(req, res, next) {
-    try {
-      const organization = await Organization.findOne({
-        where: {
-          name: req.params.name,
-        },
-      });
-     
-      
-
-
-
-    } catch (err) {
-      next(err);
-    }
-  }
-
   static async createEmpresa(req, res, next) {
     try {
       const { name, CUIT, social_reason, date_time_fc, date_fc, phone } =

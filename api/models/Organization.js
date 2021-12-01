@@ -32,7 +32,9 @@ Organization.init({
     avaliable_credits: {
         type: S.INTEGER,
         defaultValue: 0,
-    }
+    },
+    
+
 },{sequelize, modelName: "organization"});
     
 module.exports = Organization;
