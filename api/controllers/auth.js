@@ -1,7 +1,7 @@
 const { User } = require("../models");
 const sendEmail = require("../config/nodemailer");
 const jwt = require("jsonwebtoken");
-const {localhost}=require("../../localHostIP.json")
+const {localhost}=require("../../src/localHostIP.json")
 
 class Auth {
   static async login(req, res) {
