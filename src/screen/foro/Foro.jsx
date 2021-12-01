@@ -6,7 +6,7 @@ import Button from "../../components/button/Button";
 import { TextInput } from "react-native-gesture-handler";
 import { selectUser } from "../../features/userSlice";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { localhost } from "../../../localHostIP.json";
+import { localhost } from "../../localHostIP.json";
 import { useFormik } from "formik";
 import axios from "axios";
 

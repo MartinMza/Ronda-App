@@ -5,7 +5,7 @@ import Gradient from "../../components/gradient/Gradient";
 import Button from "../../components/button/Button";
 import axios from "axios"
 import { useFonts, Lato_900Black } from '@expo-google-fonts/lato';
-import { localhost } from "../../../localHostIP.json";
+import { localhost } from "../../localHostIP.json";
 import { Linking } from 'react-native';
 import { login, selectUser } from "../../features/userSlice"
 import {useSelector} from "react-redux"
@@ -16,7 +16,7 @@ export default function Start(props) {
   let [fontsLoaded] = useFonts({
     Lato_900Black,
   });
-
+console.log(props.route)
   const goToRegister = () => {
     navigation.navigate("Register");
   };
@@ -26,6 +26,11 @@ export default function Start(props) {
   const goToGoogle = () => {
     Linking.openURL("http://localhost:3001/api/auth/google")
   };
+
+  // useEffect(()=>{
+  //   axios.get(`http://${localhost}/api/auth/google/callback`)
+  //   .then((data)=>console.log(data))
+  // },[])
   
 
   return (

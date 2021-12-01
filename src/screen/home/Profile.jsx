@@ -1,68 +1,104 @@
 import React, { useEffect } from "react";
-import { Image, FlatList, Text, View, StyleSheet } from "react-native";
-import axios from "axios";
-import { localhost } from "../../../localHostIP.json";
+import { Image, Text, TouchableOpacity, View, StyleSheet } from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome5";
 import profile from "../../../assets/icons/profile.png";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../features/userSlice";
 
 export default function Profile(props) {
   const { navigation } = props;
-  const DATA = [
-    {
-      id:"123456789",
-      title: "Calendario",
-    },
-    {
-      id:"12345678",
-      title: "Reserva",
-    },
-    {
-      id:"1234567",
-      title: "Salas y Espacios",
-    },
-    {
-      id:"1234567891",
-      title: "Membresías Individuales",
-    },
-  ];
-
-  const Item = ({ title }) => (
-    <View style={styles.item}>
-      <Text style={styles.title}>{title}</Text>
-    </View>
-  );
-  const renderItem = ({ item }) => (
-    <Item title={item.title} />
-  );
+  const user = useSelector(selectUser);
 
   return (
     <View style={styles.container}>
       <View
         style={{
+          width:269,
           flexDirection: "row",
+          borderBottomColor: "#C4C4C4",
+          borderBottomWidth: 1,
         }}
       >
-        <View>
-          <Image source={profile} style={styles.profile} />
-        </View>
-        <View
-          style={{
-            marginTop: 70,
-          }}
-        >
-          <Text style={styles.text}>Katherine Pacheco</Text>
+        <Image source={profile} style={styles.profile} />
+        <View style={{ marginTop: 5 }}>
+          <Text style={styles.text}>{user ? user.name : "Name"}</Text>
           <Text style={styles.text}>Puesto</Text>
           <Text style={styles.text}>Ronda</Text>
         </View>
       </View>
-      <FlatList data={DATA} renderItem={renderItem} keyExtractor={item => item.id}/>
+      <View>
+        <TouchableOpacity style={styles.touchable}>
+          <Icon
+            name="calendar"
+            size={25}
+            onPress={() => console.log("profile")}
+            style={styles.icons}
+          />
+          <Text>Calendario</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.touchable}>
+          <Icon
+            name="calendar-check"
+            size={25}
+            onPress={() => console.log("profile")}
+            style={styles.icons}
+          />
+          <Text>Reserva</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.touchable}>
+          <Icon
+            name="home"
+            size={25}
+            onPress={() => console.log("profile")}
+            style={styles.icons}
+          />
+          <Text>Salas y Espacios</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.touchable}>
+          <Icon
+            name="suitcase"
+            size={25}
+            onPress={() => console.log("profile")}
+            style={styles.icons}
+          />
+          <Text>Membresías Individuales</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.touchable}>
+          <Icon
+            name="users"
+            size={25}
+            onPress={() => console.log("profile")}
+            style={styles.icons}
+          />
+          <Text>Organización</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.touchable}>
+          <Icon
+            name="user-cog"
+            size={25}
+            onPress={() => console.log("profile")}
+            style={styles.icons}
+          />
+          <Text>ADMIN</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.touchable}>
+          <Icon
+            name="power-off"
+            size={25}
+            onPress={() => console.log("profile")}
+            style={styles.icons}
+          />
+          <Text>Cerrar Sección</Text>
+        </TouchableOpacity>
         
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
+    width: 269,
     height: "100%",
     left: 0,
     top: 0,
@@ -71,19 +107,21 @@ const styles = StyleSheet.create({
   profile: {
     width: 53,
     height: 53,
-    marginHorizontal: 68,
-    marginVertical: 100,
     flexDirection: "row",
+    marginVertical: 15,
+    marginLeft: 16,
+    marginRight: 11,
   },
   text: {
     fontSize: 13,
-    margin: 4,
+    margin: 2,
+  },
+  icons: {
+    marginRight: 26,
+  },
+  touchable: {
     flexDirection: "row",
+    marginVertical: 29,
+    marginHorizontal: 23,
   },
-  item:{
-      margin: 15,
-  },
-  title:{
-      fontSize: 18,
-  }
 });
