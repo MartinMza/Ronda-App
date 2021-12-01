@@ -7,30 +7,32 @@ const Message = require("./Message");
 const Skill = require("./Skill");
 const Organization = require("./Organization");
 const Membership = require("./Membership");
+const Reservation = require("./Reservation");
+const Campus = require("./Campus");
+const Turno = require("./Turno");
+
 
 //User relations
 User.hasMany(Post);
 User.hasMany(Like);
 User.hasMany(Comment);
 User.hasMany(Skill);
+User.hasMany(Reservation);
+User.hasMany(Message)
 //Post relations
 Post.hasMany(Like);
 Post.hasMany(Comment);
 //Organization/Membership relations
 Organization.hasMany(User);
+Membership.hasMany(Organization);
+//Campus relations
+Campus.hasMany(User);
+Campus.hasMany(Room);
+Campus.hasMany(Post);
+//Room relations
+Room.hasMany(Turno);
+Room.hasMany(Reservation);
 
-Organization.belongsToMany(Membership, {
-  through: "organization_membership",
-
-});
-
-Membership.belongsToMany(Organization, {
-  through: "organization_membership",
-});
-
-// Membership.belongsToMany(Organization, {through: "organization_membership"});
-
-// Membership.hasMany(Organization, {as:"membresia"})
 
 module.exports = {
   User,
@@ -42,4 +44,16 @@ module.exports = {
   Skill,
   Organization,
   Membership,
+  Reservation,
+  Campus,
+  Turno,
 };
+
+// Organization.belongsToMany(Membership, {
+//   through: "organization_membership",
+
+// });
+
+// Membership.belongsToMany(Organization, {
+//   through: "organization_membership",
+// });
