@@ -5724,7 +5724,7 @@
     "kleur" "^3.0.3"
     "sisteransi" "^1.0.5"
 
-"prop-types@^15.6.0", "prop-types@^15.7.2":
+"prop-types@^15.5.10", "prop-types@^15.6.0", "prop-types@^15.7.2":
   "integrity" "sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ=="
   "resolved" "https://registry.npmjs.org/prop-types/-/prop-types-15.7.2.tgz"
   "version" "15.7.2"
@@ -6043,7 +6043,12 @@
   "resolved" "https://registry.npmjs.org/react-refresh/-/react-refresh-0.4.3.tgz"
   "version" "0.4.3"
 
-"react-router-native@^6.0.2":
+"react-router-native-stack@^0.0.16":
+  "integrity" "sha512-23i/mr0UlS8Lrm+uZOYp9I7+QvF5tO2q+KV7cdtJDQkwypEiVKk4Tl/ePu9kA8tOVbpt5AxBdcBfTgKheMzdGw=="
+  "resolved" "https://registry.npmjs.org/react-router-native-stack/-/react-router-native-stack-0.0.16.tgz"
+  "version" "0.0.16"
+
+"react-router-native@^6.0.2", "react-router-native@>=4.1.0":
   "integrity" "sha512-+n3080PRYVoRIhihOXef0RaO61oUyuYwQCf5lPzhQwbNcfGPtl4ML44rGtiGNKaecDZ+mVicZQXvHQu9f1i4Ig=="
   "resolved" "https://registry.npmjs.org/react-router-native/-/react-router-native-6.0.2.tgz"
   "version" "6.0.2"
@@ -6059,7 +6064,7 @@
   dependencies:
     "history" "^5.1.0"
 
-"react@*", "react@^16.14.0 || ^17.0.0", "react@^16.8.0 || ^17.0.0", "react@^16.8.3 || ^17", "react@>=16.0", "react@>=16.8", "react@>=16.8.0", "react@>=17.0.1", "react@17.0.1":
+"react@*", "react@^16.14.0 || ^17.0.0", "react@^16.8.0 || ^17.0.0", "react@^16.8.3 || ^17", "react@>=15", "react@>=16.0", "react@>=16.8", "react@>=16.8.0", "react@>=17.0.1", "react@17.0.1":
   "integrity" "sha512-lG9c9UuMHdcAexXtigOZLX8exLWkW0Ku29qPRU8uhF2R9BN96dLCt0psvzPLlHc5OWkgymP3qwTRgbnw5BKx3w=="
   "resolved" "https://registry.npmjs.org/react/-/react-17.0.1.tgz"
   "version" "17.0.1"

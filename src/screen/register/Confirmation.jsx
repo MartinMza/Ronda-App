@@ -4,12 +4,22 @@ import Gradient from "../../components/gradient/Gradient";
 import Button from "../../components/button/Button";
 import logo from "../../../assets/logo.png";
 import axios from "axios";
-import { Route, Link } from "react-router-native"
+import { useNavigation } from '@react-navigation/native';
+import {localhost} from "../../../localHostIP.json"
 
-export default function Confirmation() {
+export default function Confirmation(props) {
     const [token, setToken] = useState("")
+  //const { navigation } = props;
 
+useEffect(()=>{
+    axios.get(`http://${localhost}/api/auth/token`)
+    .then((data)=>setToken(data))
+},[])
+console.log(token)
 
+const navigation = useNavigation();
+
+console.log(navigation)
 
 
     

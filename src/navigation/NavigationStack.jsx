@@ -11,7 +11,6 @@ const Stack = createStackNavigator();
 
 export default function NavigationStack() {
   return (
-    
     <Stack.Navigator>
       <Stack.Screen name="Register" component={Register} />
       <Stack.Screen name="Start" component={Start} />
