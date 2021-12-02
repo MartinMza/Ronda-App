@@ -21,10 +21,11 @@ export default function Home(props) {
       headerRight: () => (<IconsRight />),
       headerLeft: () => (
         <View style={{flexDirection: "row",}}>
+          
           <Icon
             name="bars"
             size={20}
-            onPress={() => console.log("profile")}
+            onPress={goToProfile}
             style={styles.bars}
           />
           <Image source={logo} style={styles.logo}/>
@@ -37,9 +38,7 @@ export default function Home(props) {
       <Gradient>
         {/* <Foro/> */}
         <Reserva/>
-        <Button onPress={goToProfile}>
-          <Text style={styles.buttonText}>Profile</Text>
-        </Button>
+    
       </Gradient>
     </View>
   );

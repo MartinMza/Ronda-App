@@ -14,7 +14,6 @@ export default function Profile(props) {
   const dispatch = useDispatch();
 
   const userLogout = () => {
-    console.log("holi");
     axios.post(`http://${localhost}/api/auth/logout`).then(() => {
       dispatch(logout());
       navigation.navigate("Start");
@@ -109,6 +108,7 @@ const styles = StyleSheet.create({
     left: 0,
     top: 0,
     alignItems: "flex-start",
+
   },
   profile: {
     width: 53,
