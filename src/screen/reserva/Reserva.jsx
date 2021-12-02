@@ -1,21 +1,16 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
-import Gradient from "../../components/gradient/Gradient";
-import Button from "../../components/button/Button";
-import { FontAwesome } from "@expo/vector-icons";
-import { selectUser } from "../../features/userSlice";
 import DropDownPicker from "react-native-dropdown-picker";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { Feather } from "@expo/vector-icons";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import HourList from "../../components/HourList/HourList";
-import { set } from "react-native-reanimated";
+import { FontAwesome } from "@expo/vector-icons";
+import * as Yup from "yup";
+import { useFormik } from "formik";
+import Button from "../../components/button/Button";
+import Drop from "../../components/reservation/Drop";
+import { Campus, Room, Hour, Day, Person } from "../../utils/DataReservation";
 
 export default function Reserva(props) {
-  //---------QUANTITY OF PEOPLE ----------------//
-  const [person, setPerson] = useState(1);
+  const { navigation } = props;
 
   //------------------DATE TIMEPICKER----------------------//
   const [date, setDate] = useState(new Date(1598051730000));
@@ -24,129 +19,98 @@ export default function Reserva(props) {
 
   //-----------VALUE FOR ROOM-------------//
   const [option, setOption] = useState(false);
-  const [optionOne, setOptionOne] = useState(false);
-  const { navigation } = props;
 
   //------------CAMPUS --------------------//
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
-  const [sedes, setSedes] = useState([
-    { label: "Belgrano", value: "belgrano" },
-    { label: "Recoleta", value: "recoleta" },
-  ]);
+  const [sedes, setSedes] = useState(Campus);
 
   //-----------TYPE OF ROOM----------------//
   const [typeOpen, setTypeOpen] = useState(false);
   const [typeValue, setTypeValue] = useState(null);
-  const [type, setType] = useState([
-    { label: "Chiquita", value: "chiquita" },
-    { label: "Mediana", value: "mediana" },
-    { label: "Grande", value: "grande" },
-  ]);
-
-  //----------------TYPE OF ROOM HANDLE CHANGE-----------------------------//
-  const handleChange = () => {
-    if (optionOne === false) {
-      option ? setOption(false) : setOption(true);
-    } else setOptionOne(true);
-  };
-  const handleChangeOne = () => {
-    if (option === false) {
-      optionOne ? setOptionOne(false) : setOptionOne(true);
-    } else setOption(true);
-  };
+  const [type, setType] = useState(Room);
 
   //----------------DATEPICKER FUNCTION--------------//
 
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(Platform.OS === "ios");
-    setDate(currentDate);
-    let tempDate = new Date(selectedDate);
-  };
+  // const onChange = (event, selectedDate) => {
+  //   const currentDate = selectedDate || date;
+  //   setShow(Platform.OS === "ios");
+  //   setDate(currentDate);
+  //   let tempDate = new Date(selectedDate);
+  // };
 
-  const showMode = (currentMode) => {
-    setShow(!show);
-    setMode(currentMode);
-  };
+  // const showMode = (currentMode) => {
+  //   setShow(!show);
+  //   setMode(currentMode);
+  // };
 
-  const showDatepicker = () => {
-    showMode("date");
-    //setShow(!show);
-  };
+  // const showDatepicker = () => {
+  //   showMode("date");
+  //   //setShow(!show);
+  // };
 
   //--------------TIME OPTION ---------------------//
   const [dropOpen, setDropOpen] = useState(false);
   const [time, setTime] = useState(null);
-  const [turnos, setTurnos] = useState([
-    { label: "9:00-10:00", value: "9:00-10:00" },
-    { label: "10:00-11:00", value: "10:00-11:00" },
-    { label: "11:00-12:00", value: "11:00-12:00" },
-    { label: "12:00-13:00", value: "12:00-13:00" },
-    { label: "13:00-14:00", value: "13:00-14:00" },
-    { label: "14:00-15:00", value: "14:00-15:00" },
-    { label: "15:00-16:00", value: "15:00-16:00" },
-    { label: "16:00-17:00", value: "16:00-17:00" },
-    { label: "17:00-18:00", value: "17:00-18:00" },
-    { label: "18:00-19:00", value: "18:00-19:00" },
-    { label: "19:00-20:00", value: "19:00-20:00" },
-  ]);
+  const [turnos, setTurnos] = useState(Hour);
+
+//--------------DAY OPTION ---------------------//
+  const [dayOpen, setDayOpen] = useState(false);
+  const [day, setDay] = useState(null);
+  const [days, setDays] = useState(Day);
 
   return (
     <View style={styles.container}>
       <Gradient>
       <Text style={styles.underText}>HACÉ TU RESERVA</Text>
-      <View style={styles.buttonForReservation}>
+      <View
+        style={[
+          styles.buttonForReservation,
+          { alignItems: "center", justifyContent: "center" },
+        ]}
+      >
         <TouchableOpacity
-          onPress={handleChange}
-          style={option ? styles.buttonOptionSelect : styles.buttonOption}
+          onPress={() => setOption(!option)}
+          style={
+            option
+              ? [
+                  styles.buttonOption,
+                  { backgroundColor: "#8144CF", width: "100%" },
+                ]
+              : [styles.buttonOption, { width: "100%" }]
+          }
         >
           <Text style={option ? { color: "#fff" } : null}>Sala de reunión</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={handleChangeOne}
-          style={optionOne ? styles.buttonOptionSelect : styles.buttonOption}
-        >
-          <Text style={optionOne ? { color: "#fff" } : null}>
-            Puesto individual
-          </Text>
-        </TouchableOpacity>
       </View>
-      <View style={styles.buttonForCampus}>
-        {/* DROPDOWN TO SELECT A CAMPUS */}
-        <DropDownPicker
-          open={open}
-          value={value}
-          items={sedes}
-          setOpen={setOpen}
-          setValue={setValue}
-          setItems={setSedes}
-          placeholder="Elige una sede"
-          containerStyle={{
-            width: "100%",
-          }}
+      {/* DROPDOWN TO SELECT A CAMPUS */}
+      <Drop
+        open={open}
+        value={value}
+        items={sedes}
+        setOpen={setOpen}
+        setValue={setValue}
+        setItems={setSedes}
+        placeholder="Elige una sede"
+        zIndex={3}
+      />
+
+      {/* DROPDOWN TO SELECT A CAMPUS */}
+      {option ? (
+        <Drop
+          open={typeOpen}
+          value={typeValue}
+          items={type}
+          setOpen={setTypeOpen}
+          setValue={setTypeValue}
+          setItems={setType}
+          placeholder="Seleccione una sala"
+          zIndex={2}
         />
-      </View>
-      <View style={styles.buttonForRoom}>
-        {/* DROPDOWN TO SELECT A CAMPUS */}
-        {option ? (
-          <DropDownPicker
-            open={typeOpen}
-            value={typeValue}
-            items={type}
-            setOpen={setTypeOpen}
-            setValue={setTypeValue}
-            setItems={setType}
-            placeholder="Elige una sala"
-            containerStyle={{
-              width: "100%",
-            }}
-          />
-        ) : null}
-      </View>
+      ) : null}
       {/* PICK A DATE */}
-      <View style={styles.buttonForReservation}>
-        <View>
+      <View style={[styles.buttonForReservation, { zIndex: 1 }]}>
+        {/* <View>
           <View>
             <TouchableOpacity
               onPress={showDatepicker}
@@ -154,7 +118,6 @@ export default function Reserva(props) {
               title="Picker"
             />
           </View>
-
           {show && (
             <View>
               <DateTimePicker
@@ -167,7 +130,19 @@ export default function Reserva(props) {
               />
             </View>
           )}
-        </View>
+        </View> */}
+        <DropDownPicker
+          open={dayOpen}
+          value={day}
+          items={days}
+          setOpen={setDayOpen}
+          setValue={setDay}
+          setItems={setDays}
+          placeholder="Dia"
+          containerStyle={{
+            width: "48%",
+          }}
+        />
 
         <DropDownPicker
           open={dropOpen}
@@ -180,52 +155,25 @@ export default function Reserva(props) {
           containerStyle={{
             width: "50%",
           }}
-          onPress={() => {
-            if (typeValue === "chiquita") {
-              setPerson(2);
-            }
-            if (typeValue === "mediana") {
-              setPerson(5);
-            }
-            if (typeValue === "grande") {
-              setPerson(10);
-            }
-            if(optionOne){
-              setPerson(1)
-            }
-          }}
         />
       </View>
 
-      <View style={styles.buttonForReservation}>
+      {typeValue ? <View style={styles.buttonForReservation}>
         <View style={styles.buttonOption}>
           <Text>
             <FontAwesome name="user" size={24} color="black" />
             {"   "}
-            {person}
+            {Person(typeValue)}
           </Text>
         </View>
-        {/* <View style={styles.counter}>
-          <TouchableOpacity
-            onPress={() => {
-              setPerson(person + 1);
-            }}
-          >
-            <Feather name="plus-square" size={24} color="black" />
-          </TouchableOpacity>
-
-          <Text style={{ marginHorizontal: 15 }}>{person}</Text>
-
-          <TouchableOpacity
-            onPress={() => {
-              person > 1 ? setPerson(person - 1) : setPerson(1);
-            }}
-          >
-            <Feather name="minus-square" size={24} color="black" />
-          </TouchableOpacity>
-        </View> */}
-      </View>
-      <View style={{ justifyContent: "center", alignItems: "center", marginVertical:50 }}>
+      </View> : null}
+      <View
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+          marginVertical: 50,
+        }}
+      >
         <Button>
           <Text style={styles.buttonText}>Reservar</Text>
         </Button>
@@ -240,7 +188,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     flex: 1,
-    marginVertical:10
+    marginVertical: 10,
   },
   buttonOption: {
     height: 40,
@@ -248,14 +196,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#fff",
-    paddingHorizontal: 25,
-  },
-  buttonOptionSelect: {
-    height: 40,
-    borderRadius: 6,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#8144CF",
     paddingHorizontal: 25,
   },
   underText: {
@@ -271,22 +211,7 @@ const styles = StyleSheet.create({
     padding: 10,
     flexDirection: "row",
     justifyContent: "space-between",
-    zIndex: 1,
-    marginVertical:5,
-  },
-  buttonForRoom: {
-    marginHorizontal: 18,
-    padding: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    zIndex: 2,
-  },
-  buttonForCampus: {
-    marginHorizontal: 18,
-    padding: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    zIndex: 3,
+    marginVertical: 5,
   },
 
   profile: {

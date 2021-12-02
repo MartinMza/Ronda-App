@@ -3,7 +3,6 @@ const sendEmail = require("../config/nodemailer");
 const jwt = require("jsonwebtoken");
 const {localhost}=require("../../localHostIP.json")
 
-
 class Auth {
   static async login(req, res) {
     try {
