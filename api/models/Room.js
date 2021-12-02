@@ -4,20 +4,25 @@ const sequelize = require("../config/db");
 class Room extends S.Model {}
 
 Room.init({
-    type: {
-        type: S.STRING,
-        allowedValues: ["small", "medium", "large"],
-        allowNull: false,
-    },
-    campus: {
+    name:{
         type: S.STRING,
         allowNull: false,
-        allowedValues: ["recoleta", "belgrano"],
     },
-    creditValue: {
+    description: {
+        type: S.TEXT,
+        allowNull: false,
+    },
+    capacity: {
         type: S.INTEGER,
         allowNull: false,
     },
+    credit_value: {
+        type: S.INTEGER,
+        allowNull: false,
+    },
+    photo:{
+        type: S.TEXT,
+    }
     // here should be a foreign key to the reservation dates
     
 
