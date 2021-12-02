@@ -52,7 +52,7 @@ export default function NavigationStack() {
         <Stack.Screen
         name="Reserva"
         component={Reserva}
-        options={{ title: "", headerTransparent: true }}
+        options={{ title: "", headerTransparent: false }}
       />
     </Stack.Navigator>
   );

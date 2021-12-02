@@ -8,6 +8,7 @@ import { useFormik } from "formik";
 import Button from "../../components/button/Button";
 import Drop from "../../components/reservation/Drop";
 import { Campus, Room, Hour, Day, Person } from "../../utils/DataReservation";
+import Gradient from "../../components/gradient/Gradient";
 
 export default function Reserva(props) {
   const { navigation } = props;
@@ -30,31 +31,12 @@ export default function Reserva(props) {
   const [typeValue, setTypeValue] = useState(null);
   const [type, setType] = useState(Room);
 
-  //----------------DATEPICKER FUNCTION--------------//
-
-  // const onChange = (event, selectedDate) => {
-  //   const currentDate = selectedDate || date;
-  //   setShow(Platform.OS === "ios");
-  //   setDate(currentDate);
-  //   let tempDate = new Date(selectedDate);
-  // };
-
-  // const showMode = (currentMode) => {
-  //   setShow(!show);
-  //   setMode(currentMode);
-  // };
-
-  // const showDatepicker = () => {
-  //   showMode("date");
-  //   //setShow(!show);
-  // };
-
   //--------------TIME OPTION ---------------------//
   const [dropOpen, setDropOpen] = useState(false);
   const [time, setTime] = useState(null);
   const [turnos, setTurnos] = useState(Hour);
 
-//--------------DAY OPTION ---------------------//
+  //--------------DAY OPTION ---------------------//
   const [dayOpen, setDayOpen] = useState(false);
   const [day, setDay] = useState(null);
   const [days, setDays] = useState(Day);
@@ -62,122 +44,106 @@ export default function Reserva(props) {
   return (
     <View style={styles.container}>
       <Gradient>
-      <Text style={styles.underText}>HACÉ TU RESERVA</Text>
-      <View
-        style={[
-          styles.buttonForReservation,
-          { alignItems: "center", justifyContent: "center" },
-        ]}
-      >
-        <TouchableOpacity
-          onPress={() => setOption(!option)}
-          style={
-            option
-              ? [
-                  styles.buttonOption,
-                  { backgroundColor: "#8144CF", width: "100%" },
-                ]
-              : [styles.buttonOption, { width: "100%" }]
-          }
+        <Text style={styles.underText}>HACÉ TU RESERVA</Text>
+        <View
+          style={[
+            styles.buttonForReservation,
+            { alignItems: "center", justifyContent: "center" },
+          ]}
         >
-          <Text style={option ? { color: "#fff" } : null}>Sala de reunión</Text>
-        </TouchableOpacity>
-      </View>
-      {/* DROPDOWN TO SELECT A CAMPUS */}
-      <Drop
-        open={open}
-        value={value}
-        items={sedes}
-        setOpen={setOpen}
-        setValue={setValue}
-        setItems={setSedes}
-        placeholder="Elige una sede"
-        zIndex={3}
-      />
-
-      {/* DROPDOWN TO SELECT A CAMPUS */}
-      {option ? (
-        <Drop
-          open={typeOpen}
-          value={typeValue}
-          items={type}
-          setOpen={setTypeOpen}
-          setValue={setTypeValue}
-          setItems={setType}
-          placeholder="Seleccione una sala"
-          zIndex={2}
-        />
-      ) : null}
-      {/* PICK A DATE */}
-      <View style={[styles.buttonForReservation, { zIndex: 1 }]}>
-        {/* <View>
-          <View>
-            <TouchableOpacity
-              onPress={showDatepicker}
-              style={styles.buttonOption}
-              title="Picker"
-            />
-          </View>
-          {show && (
-            <View>
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={date}
-                mode={mode}
-                onChange={onChange}
-                display="default"
-                minimumDate={new Date(new Date())}
-              />
-            </View>
-          )}
-        </View> */}
-        <DropDownPicker
-          open={dayOpen}
-          value={day}
-          items={days}
-          setOpen={setDayOpen}
-          setValue={setDay}
-          setItems={setDays}
-          placeholder="Dia"
-          containerStyle={{
-            width: "48%",
-          }}
-        />
-
-        <DropDownPicker
-          open={dropOpen}
-          value={time}
-          items={turnos}
-          setOpen={setDropOpen}
-          setValue={setTime}
-          setItems={setTurnos}
-          placeholder="Hora"
-          containerStyle={{
-            width: "50%",
-          }}
-        />
-      </View>
-
-      {typeValue ? <View style={styles.buttonForReservation}>
-        <View style={styles.buttonOption}>
-          <Text>
-            <FontAwesome name="user" size={24} color="black" />
-            {"   "}
-            {Person(typeValue)}
-          </Text>
+          <TouchableOpacity
+            onPress={() => setOption(!option)}
+            style={
+              option
+                ? [
+                    styles.buttonOption,
+                    { backgroundColor: "#8144CF", width: "100%" },
+                  ]
+                : [styles.buttonOption, { width: "100%" }]
+            }
+          >
+            <Text style={option ? { color: "#fff" } : null}>
+              Sala de reunión
+            </Text>
+          </TouchableOpacity>
         </View>
-      </View> : null}
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          marginVertical: 50,
-        }}
-      >
-        <Button>
-          <Text style={styles.buttonText}>Reservar</Text>
-        </Button>
-      </View>
+        {/* DROPDOWN TO SELECT A CAMPUS */}
+        <Drop
+          open={open}
+          value={value}
+          items={sedes}
+          setOpen={setOpen}
+          setValue={setValue}
+          setItems={setSedes}
+          placeholder="Elige una sede"
+          zIndex={3}
+        />
+
+        {/* DROPDOWN TO SELECT A CAMPUS */}
+        {option ? (
+          <Drop
+            open={typeOpen}
+            value={typeValue}
+            items={type}
+            setOpen={setTypeOpen}
+            setValue={setTypeValue}
+            setItems={setType}
+            placeholder="Seleccione una sala"
+            zIndex={2}
+          />
+        ) : null}
+        {/* PICK A DATE */}
+        <View style={[styles.buttonForReservation, { zIndex: 1 }]}>
+          <DropDownPicker
+            open={dayOpen}
+            value={day}
+            items={days}
+            setOpen={setDayOpen}
+            setValue={setDay}
+            setItems={setDays}
+            placeholder="Dia"
+            containerStyle={{
+              width: "48%",
+              marginRight: 8,
+            }}
+          />
+
+          <DropDownPicker
+            open={dropOpen}
+            value={time}
+            items={turnos}
+            setOpen={setDropOpen}
+            setValue={setTime}
+            setItems={setTurnos}
+            placeholder="Hora"
+            containerStyle={{
+              width: "50%",
+            }}
+          />
+        </View>
+
+        {typeValue ? (
+          <View style={styles.buttonForReservation}>
+            <View style={styles.buttonOption}>
+              <Text>
+                <FontAwesome name="user" size={24} color="black" />
+                {"   "}
+                {Person(typeValue)}
+              </Text>
+            </View>
+          </View>
+        ) : null}
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            marginVertical: 50,
+          }}
+        >
+          <Button>
+            <Text style={styles.buttonText}>Reservar</Text>
+          </Button>
+        </View>
       </Gradient>
     </View>
   );
@@ -188,7 +154,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     flex: 1,
-    marginVertical: 10,
   },
   buttonOption: {
     height: 40,
@@ -210,7 +175,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 18,
     padding: 10,
     flexDirection: "row",
-    justifyContent: "space-between",
+    //justifyContent: "space-between",
     marginVertical: 5,
   },
 

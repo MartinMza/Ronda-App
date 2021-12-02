@@ -7,6 +7,8 @@ import { selectUser, logout } from "../../features/userSlice";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { localhost } from "../../localHostIP.json";
+import IconsRight from "../../components/icons/IconsRight";
+import logo from "../../../assets/LogoRondaColor.jpg";
 
 export default function Profile(props) {
   const { navigation } = props;
@@ -16,9 +18,21 @@ export default function Profile(props) {
   const userLogout = () => {
     axios.post(`http://${localhost}/api/auth/logout`).then(() => {
       dispatch(logout());
-      navigation.navigate("Start");
+      navigation.navigate("Foro");
     });
   };
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <IconsRight />,
+      headerLeft: () => (
+        <View style={{ flexDirection: "row" }}>
+          <Icon name="bars" size={20} style={styles.bars} onPress={()=>navigation.navigate("Home")} />
+          <Image source={logo} style={styles.logo} />
+        </View>
+      ),
+    });
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -121,5 +135,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginVertical: 29,
     marginHorizontal: 23,
+  },
+  logo: {
+    width: 180,
+    height: 27,
+    resizeMode: "contain",
+    marginVertical: 15,
+  },
+  bars: {
+    color: "black",
+    marginLeft: 18,
+    marginVertical: 20,
   },
 });
