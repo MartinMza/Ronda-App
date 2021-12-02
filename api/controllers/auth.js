@@ -47,8 +47,8 @@ class Auth {
       const email = req.body.email;
       const subject = "Verificacion del mail";
       const html = `<h1>Clickee este link para verificar su correo electronico:</h1><br>
-      // <link href="https://192.168.1.3:19000">Verificar</link>
-      `
+      <a href="http://localhost:3001/api/auth/verify/${token}">Verificar</a>
+      `;
 
       await sendEmail(email, subject, html);
 

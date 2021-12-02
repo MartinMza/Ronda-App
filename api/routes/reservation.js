@@ -9,6 +9,8 @@ router.get ('/own', ReservationController.getByCurrentUser)
 router.get('/user/:UserId', ReservationController.getByUserId)
 //get reservations by room id
 router.get('/room/:roomId', ReservationController.getByRoom)
+//get turnos filtrados
+router.get('/campus/:campusName/room/:id', ReservationController.getTurnosFiltrados)
 
 //--------------------------------------
 
