@@ -1,7 +1,131 @@
-const {Reservation} = require('../models');
+const {Reservation, Turno, Room, User, Organization} = require('../models');
 
 class ReservationController {
+    //---------------------------------------------GET ROUTES--------------------------------------------
+    static async getAll(req, res) {
+        try {
+            const reservations = await Reservation.findAll();
+            res.status(200).json(reservations);
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
+    static async getByRoom (req, res) {
+        try {
+            const reservations = await Reservation.findAll({
+                where: {
+                    roomId: req.params.roomId
+                }
+            });
+            res.status(200).json(reservations);
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
+    static async getByCurrentUser (req, res) {
+        try {
+            const reservations = await Reservation.findAll({
+                where: {
+                    userId: req.user.id
+                }
+            });
+            res.status(200).json(reservations);
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
+    static async getByUserId (req, res) {
+        try {
+            const reservations = await Reservation.findAll({
+                where: {
+                    userId: req.params.userId
+                }
+            });
+            res.status(200).json(reservations);
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
 
-}
+    //---------------------------------------------POST ROUTES--------------------------------------------
+
+    static async reserve (req, res) {
+        try{
+            const turn = await Turno.findOne({
+                where: {
+                    id: req.body.turnId
+                },
+            })
+            const room = await Room.findOne({
+                where: {
+                    id: turn.roomId
+                }
+            })
+            const organization = await Organization.findOne({
+                where: {
+                    id: req.user.organizationId
+                }
+            })
+            if(organization.avaliable_credits >= room.credit_value){
+                const reservation = await Reservation.create({
+                    userId: req.user.id,
+                    turnId: req.body.turnId,
+                    roomId: room.id
+                });
+                await organization.update({
+                    avaliable_credits: organization.avaliable_credits - room.credit_value
+                })
+                await turn.update({
+                    avaliable: false
+                })
+                res.status(201).json(reservation);
+            }else{
+                res.status(400).json({message: 'No tienes suficientes créditos'});
+            }
+            
+        }
+        catch (error) {
+            res.status(500).json(error);
+        }
+    }
+
+        //---------------------------------------------DELETE ROUTES----------------------------------------
+
+        static async cancel (req, res) {
+            try {
+                const reservation = await Reservation.findOne({
+                    where: {
+                        id: req.params.reservationId
+                    }
+                });
+                const turn = await Turno.findOne({
+                    where: {
+                        id: reservation.turnId
+                    }
+                })
+                const room = await Room.findOne({
+                    where: {
+                        id: reservation.roomId
+                    }
+                })
+                const organization = await Organization.findOne({
+                    where: {
+                        id: req.user.organizationId
+                    }
+                })
+                await organization.update({
+                    avaliable_credits: organization.avaliable_credits + room.credit_value
+                })
+                await turn.update({
+                    avaliable: true
+                })
+                await reservation.destroy();
+                res.status(200).json(reservation);
+            } catch (error) {
+                res.status(500).json(error);
+            }
+        }
+    }
+
 
 module.exports = ReservationController;

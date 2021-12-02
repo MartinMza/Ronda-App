@@ -1,11 +1,4 @@
-const {
-  User,
-  Organization,
-  Membership,
-  Campus,
-  Room,
-  Turno,
-} = require("./models");
+const { User, Membership, Campus, Room, Turno } = require("./models");
 const db = require("./config/db");
 
 const fakeUsers = [
@@ -36,22 +29,22 @@ const fakeUsers = [
 ];
 const fakeMemberships = [
   {
-    name: "Flex",
+    name: "FlexB",
     credits: 100,
     location: "Belgrano",
   },
   {
-    name: "Premium",
+    name: "PremiumB",
     credits: 500,
     location: "Belgrano",
   },
   {
-    name: "Flex",
+    name: "FlexR",
     credits: 100,
     location: "Recoleta",
   },
   {
-    name: "Premium",
+    name: "PremiumR",
     credits: 500,
     location: "Recoleta",
   },
@@ -72,56 +65,71 @@ const fakeCampus = [
 
 const fakeRoom = [
   {
+    id: 1,
     name: "Sala Chiquita Belgrano",
-    campus: "Belgrano",
+
     capacity: 4,
     description: "sala de reuniones para pequeños grupos",
     photo: " no hay foto",
+    credit_value: 10,
+    campusId: 1,
   },
   {
+    id: 2,
     name: "Sala Mediana Belgrano",
-    campus: "Belgrano",
+
     capacity: 8,
     description: "sala de reuniones para grupos medianos",
     photo: " no hay foto",
+    credit_value: 50,
+    campusId: 1,
   },
   {
+    id: 3,
     name: "Sala Grande Belgrano",
-    campus: "Belgrano",
+
     capacity: 12,
     description: "sala de reuniones para grandes grupos",
     photo: " no hay foto",
+    credit_value: 75,
+    campusId: 1,
   },
   {
+    id: 4,
     name: "Sala Chiquita Recoleta",
-    campus: "Recoleta",
+
     capacity: 4,
     description: "sala de reuniones para pequeños grupos",
     photo: " no hay foto",
+    credit_value: 10,
+    campusId: 2,reservations
   },
   {
+    id: 5,
     name: "Sala Mediana Recoleta",
-    campus: "Recoleta",
+
     capacity: 8,
     description: "sala de reuniones para grupos medianos",
     photo: " no hay foto",
+    credit_value: 50,
+    campusId: 2,
   },
   {
+    id: 6,
     name: "Sala Grande Recoleta",
-    campus: "Recoleta",
+
     capacity: 12,
     description: "sala de reuniones para grandes grupos",
     photo: " no hay foto",
+    credit_value: 75,
+    campusId: 2,
   },
 ];
 
 const fakeTurno = [
+  //------------------------------------------------------SALA 1
   {
     time: "9:00-10:00",
-    day: "Lunes",
-  },
-  {
-    time: "10:00-11:00",
     day: "Lunes",
   },
   {
@@ -182,16 +190,28 @@ const fakeTurno = [
   },
 ];
 
+//make a fakeTurnoARR for every room
+
 const seed = async () => {
-  await db.sync()
-  console.log("Seeding...");
-  await User.bulkCreate(fakeUsers);
-  await Campus.bulkCreate(fakeCampus);
-  await Room.bulkCreate(fakeRoom);
-  await Turno.bulkCreate(fakeTurno);
-  await Membership.bulkCreate(fakeMemberships);
-  return process.exit();
+  try {
+    const lastArr = [];
+    fakeRoom.forEach((room) => {
+      fakeTurno.map((turn) => {
+        return lastArr.push({ ...turn, roomId: room.id });
+      });
+    });
+
+    console.log("Seeding...");
+    await User.bulkCreate(fakeUsers);
+    await Campus.bulkCreate(fakeCampus);
+    await Room.bulkCreate(fakeRoom);
+    await Turno.bulkCreate(lastArr);
+    await Membership.bulkCreate(fakeMemberships);
+    return process.exit();
+  } catch (error) {
+    console.log(error);
+    return process.exit();
+  }
 };
 
 seed();
-

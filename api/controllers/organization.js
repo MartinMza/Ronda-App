@@ -29,11 +29,7 @@ class OrganizationController {
       });
       await User.update(
         {
-<<<<<<< HEAD
-          organizationId: Organization.id,
-=======
           organizationId: organization.id,
->>>>>>> 0fc43283d4242fb64474387869b6fe41a1d67379
           role: "organizationAdmin",
           org_state: "approved",
         },

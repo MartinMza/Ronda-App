@@ -12,16 +12,11 @@ Room.init({
         type: S.TEXT,
         allowNull: false,
     },
-    type: {
+    capacity: {
         type: S.INTEGER,
         allowNull: false,
     },
-    campus: {
-        type: S.STRING,
-        allowNull: false,
-        allowedValues: ["recoleta", "belgrano"],
-    },
-    creditValue: {
+    credit_value: {
         type: S.INTEGER,
         allowNull: false,
     },
