@@ -8,11 +8,6 @@ Post.init({
         type: S.TEXT,
         allowNull: false,
     },
-    campus: {
-        type: S.STRING,
-        defaultValue: "general",
-        allowedValues: ["general", "recoleta", "belgrano"],
-    },
 },{
     hooks: {},
     sequelize,

@@ -14,12 +14,10 @@ passport.deserializeUser(function (id, done) {
   User.findByPk(id).then((user) => done(null, user));
 });
 
-
 passport.use(
   new GoogleStrategy(
     {
-      clientID:
-        process.env.GOOGLE_CLIENT,
+      clientID: process.env.GOOGLE_CLIENT,
       clientSecret: process.env.GOOGLE_SECRET,
       callbackURL: "http://localhost:3001/api/auth/google/callback",
       passReqToCallback: true,
@@ -28,26 +26,23 @@ passport.use(
       User.findOne({
         where: {
           googleId: profile.id,
-        }
-      })
-      .then(user => {
+        },
+      }).then((user) => {
         if (user) {
           return done(null, user);
-        }
-        else{
+        } else {
           User.create({
             name: profile.displayName,
             googleId: profile.id,
             email: profile.emails[0].value,
           })
-          .then(user => done(null, user))
-          .catch(err => done(err));
+            .then((user) => done(null, user))
+            .catch((err) => done(err));
         }
-      })
+      });
     }
   )
 );
-
 
 passport.use(
   new localStrategy(
