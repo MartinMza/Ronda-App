@@ -36,11 +36,6 @@ User.init(
       type: S.STRING,
       defaultValue: "Not Specified",
     },
-   
-    credits: {
-      type: S.INTEGER,
-      defaultValue: 0,
-    },
     picture: {
       type: S.STRING,
       //template profile pic 50x50

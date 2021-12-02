@@ -11,7 +11,7 @@ import { login, selectUser } from "../../features/userSlice"
 import {useSelector} from "react-redux"
 
 export default function Start(props) {
-  console.log(props.params)
+  
   const { navigation } = props;
   const user = useSelector(selectUser)
   let [fontsLoaded] = useFonts({
