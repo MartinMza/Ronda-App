@@ -3,17 +3,29 @@ import { Image, Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import profile from "../../../assets/icons/profile.png";
 import { useSelector } from "react-redux";
-import { selectUser } from "../../features/userSlice";
+import { selectUser, logout } from "../../features/userSlice";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import { localhost } from "../../localHostIP.json";
 
 export default function Profile(props) {
   const { navigation } = props;
   const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+
+  const userLogout = () => {
+    console.log("holi");
+    axios.post(`http://${localhost}/api/auth/logout`).then(() => {
+      dispatch(logout());
+      navigation.navigate("Start");
+    });
+  };
 
   return (
     <View style={styles.container}>
       <View
         style={{
-          width:269,
+          width: 269,
           flexDirection: "row",
           borderBottomColor: "#C4C4C4",
           borderBottomWidth: 1,
@@ -81,16 +93,10 @@ export default function Profile(props) {
           />
           <Text>ADMIN</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.touchable}>
-          <Icon
-            name="power-off"
-            size={25}
-            onPress={() => console.log("profile")}
-            style={styles.icons}
-          />
+        <TouchableOpacity style={styles.touchable} onPress={userLogout}>
+          <Icon name="power-off" size={25} style={styles.icons} />
           <Text>Cerrar Sección</Text>
         </TouchableOpacity>
-        
       </View>
     </View>
   );

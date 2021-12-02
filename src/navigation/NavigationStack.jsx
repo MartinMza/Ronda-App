@@ -14,12 +14,13 @@ export default function NavigationStack() {
   return (
     <Stack.Navigator>
       
-      <Stack.Screen name="Home" component={Home} options={{ title: "" }} />
+    
       <Stack.Screen
         name="Start"
         component={Start}
         options={{ title: "", headerTransparent: true }}
       />
+        <Stack.Screen name="Home" component={Home} options={{ title: "" }} />
 
       <Stack.Screen
         name="Profile"

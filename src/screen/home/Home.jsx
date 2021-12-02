@@ -11,6 +11,8 @@ import Reserva from "../reserva/Reserva"
 export default function Home(props) {
   const { navigation} = props;
   console.log(props)
+
+ 
   const goToProfile = () => {
     navigation.navigate("Profile");
   };

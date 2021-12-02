@@ -1,12 +1,8 @@
 const { User } = require("../models");
 const sendEmail = require("../config/nodemailer");
 const jwt = require("jsonwebtoken");
-<<<<<<< HEAD
 const {localhost}=require("../../localHostIP.json")
-const ht = "exp:"
-=======
-const {localhost}=require("../../src/localHostIP.json")
->>>>>>> d3b853167770023df4f24edf069ec9eeefc0a8d6
+
 
 class Auth {
   static async login(req, res) {
@@ -49,8 +45,7 @@ class Auth {
       const email = req.body.email;
       const subject = "Verificacion del mail";
       const html = `<h1>Clickee este link para verificar su correo electronico:</h1><br>
-      <link href="${ht}//192.168.1.3:19000">Verificar</link>
-      <p>${ht}//192.168.1.3:19000</p>
+      <link href="https://192.168.1.3:19000">Verificar</link>
       `
 
       await sendEmail(email, subject, html);
@@ -88,7 +83,7 @@ class Auth {
   static async logout(req, res) {
     try {
       req.logout();
-      res.send("logged out");
+      res.send(req.user);
     } catch (error) {
       console.log(error);
     }
