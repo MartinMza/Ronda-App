@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User, Organization } = require("../models");
 const sendEmail = require("../config/nodemailer");
 const jwt = require("jsonwebtoken");
 const {localhost}=require("../../localHostIP.json")
@@ -32,7 +32,6 @@ class Auth {
           });
         }
       }
-      
 
       const found = await User.findOne({
         where: { email: req.body.email },
@@ -40,18 +39,23 @@ class Auth {
       found && res.status(409).send("Email already exists");
 
       //---------------------Email verification-------------------
-      const token = jwt.sign({email: req.body.email}, process.env.JWT_SECRET, {expiresIn: '1h'});
+      const token = jwt.sign(
+        { email: req.body.email },
+        process.env.JWT_SECRET,
+        { expiresIn: "1h" }
+      );
       const email = req.body.email;
       const subject = "Verificacion del mail";
       const html = `<h1>Clickee este link para verificar su correo electronico:</h1><br>
-      <link href="https://192.168.1.3:19000">Verificar</link>
-      `
+      <a href="http://localhost:3001/api/auth/verify/${token}">Verificar</a>
+      `;
 
       await sendEmail(email, subject, html);
 
       //----------------------------------------------------------
 
       const user = await User.create(req.body);
+
       return res.status(201).send(user);
     } catch (error) {
       console.log(error);
@@ -59,7 +63,7 @@ class Auth {
   }
   static async verify(req, res) {
     try {
-      const {email} = jwt.verify(req.params.token, process.env.JWT_SECRET);
+      const { email } = jwt.verify(req.params.token, process.env.JWT_SECRET);
       const user = await User.findOne({
         where: { email },
       });

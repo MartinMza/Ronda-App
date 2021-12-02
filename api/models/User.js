@@ -30,14 +30,14 @@ User.init(
       type: S.STRING,
       allowNull: false,
       defaultValue: "user",
-      allowedValues: ["user", "admin", "superadmin"],
+      allowedValues: ["user", "admin", "superadmin", "organizationAdmin"],
     },
     phone: {
       type: S.STRING,
       defaultValue: "Not Specified",
     },
     picture: {
-      type: S.STRING,
+      type: S.TEXT,
       //template profile pic 50x50
       defaultValue: "https://i.dlpng.com/static/png/6720667_preview.png",
     },
@@ -54,7 +54,12 @@ User.init(
     confirmed: {
       type: S.BOOLEAN,
       defaultValue: false,
-    }
+    },
+    org_state :{
+      type: S.STRING,
+      defaultValue: "pending",
+      allowedValues: ["pending", "approved"],
+    },
   },
   {
     hooks: {
@@ -77,6 +82,21 @@ User.init(
           .then((hash) => {
             user.password = hash;
           });
+      },
+      beforeBulkCreate: (users) => {
+        return Promise.all(
+          users.map((user) => {
+            return bcrypt
+              .genSalt(12)
+              .then((newSalt) => {
+                user.salt = newSalt;
+                return user.hash(user.password, user.salt);
+              })
+              .then((hash) => {
+                user.password = hash;
+              });
+          })
+        );
       },
       beforeUpdate: (user) => {
         //rehash the password if it has changed
