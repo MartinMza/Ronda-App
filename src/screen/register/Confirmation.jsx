@@ -11,10 +11,10 @@ export default function Confirmation(props) {
     const [token, setToken] = useState("")
   //const { navigation } = props;
 
-useEffect(()=>{
-    axios.get(`http://${localhost}/api/auth/token`)
-    .then((data)=>setToken(data))
-},[])
+// useEffect(()=>{
+//     axios.get(`http://${localhost}/api/auth/token`)
+//     .then((data)=>setToken(data))
+// },[])
 console.log(token)
 
 const navigation = useNavigation();

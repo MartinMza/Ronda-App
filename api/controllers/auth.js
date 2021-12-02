@@ -1,12 +1,8 @@
 const { User } = require("../models");
 const sendEmail = require("../config/nodemailer");
 const jwt = require("jsonwebtoken");
-<<<<<<< HEAD
 const {localhost}=require("../../localHostIP.json")
 const ht = "exp:"
-=======
-const {localhost}=require("../../src/localHostIP.json")
->>>>>>> d3b853167770023df4f24edf069ec9eeefc0a8d6
 
 class Auth {
   static async login(req, res) {

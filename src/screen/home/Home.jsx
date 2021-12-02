@@ -29,7 +29,7 @@ export default function Home(props) {
         </View>
       ),
     });
-  });
+  },[]);
   return (
     <View style={styles.container}>
       <Gradient>
