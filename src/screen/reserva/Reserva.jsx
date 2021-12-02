@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DropDownPicker from "react-native-dropdown-picker";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -7,16 +7,27 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import Button from "../../components/button/Button";
 import Drop from "../../components/reservation/Drop";
-import { Campus, Room, Hour, Day, Person } from "../../utils/DataReservation";
+import {
+  Campus,
+  Room,
+  Hour,
+  Day,
+  Person,
+  idType,
+} from "../../utils/DataReservation.jsx";
 import Gradient from "../../components/gradient/Gradient";
+import { localhost } from "../../localHostIP.json";
+import axios from "axios";
+import {
+  myReservation,
+  selectReservation,
+} from "../../features/reservationSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { createIconSetFromFontello } from "react-native-vector-icons";
 
 export default function Reserva(props) {
   const { navigation } = props;
-
-  //------------------DATE TIMEPICKER----------------------//
-  const [date, setDate] = useState(new Date(1598051730000));
-  const [mode, setMode] = useState("date");
-  const [show, setShow] = useState(false);
+  const dispatch = useDispatch();
 
   //-----------VALUE FOR ROOM-------------//
   const [option, setOption] = useState(false);
@@ -40,7 +51,27 @@ export default function Reserva(props) {
   const [dayOpen, setDayOpen] = useState(false);
   const [day, setDay] = useState(null);
   const [days, setDays] = useState(Day);
+  //--------------------------------------------//
 
+  // --------------------ROUTE GET---------------------------//
+
+  useEffect(() => {
+    const id = typeValue ? idType(typeValue, value) : null;
+
+    axios
+      .get(`http://${localhost}/api/reservation/campus/${value}/room/${id}`)
+      .then((res) => dispatch(myReservation(res.data)));
+  }, [value, typeValue]);
+
+  const reservation = useSelector(selectReservation);
+
+  let dayAvailable = reservation?.map((items) => {
+   return items.day
+  });
+
+  dayAvailable=dayAvailable.filter((item, index)=>dayAvailable.indexOf(item)===index)
+
+  console.log(dayAvailable.forEach((item)=>{label: [item], value: [item] })
   return (
     <View style={styles.container}>
       <Gradient>

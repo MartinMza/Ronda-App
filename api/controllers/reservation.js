@@ -1,4 +1,4 @@
-const {Reservation, Turno, Room, User, Organization} = require('../models');
+const {Reservation, Turno, Room, User, Organization, Campus} = require('../models');
 
 class ReservationController {
     //---------------------------------------------GET ROUTES--------------------------------------------
@@ -46,8 +46,35 @@ class ReservationController {
             res.status(500).json(error);
         }
     }
+    static async getTurnosFiltrados(req, res){
+        try{
+            const campus = await Campus.findOne({
+                where: {
+                    name: req.params.campusName
+                }
+            })
+            const rooms = await Room.findOne({
+                where: {
+                    campusId: campus.dataValues.id,
+                    id: req.params.id
+                }
+            })
+            const turnos = await Turno.findAll({
+                where: {
+                    roomId: rooms.dataValues.id,
+                    avaliable: true
+                }
+            })
+            res.status(200).json(turnos);
+        }catch(err){
+            res.status(500).json(err);
+        }
+    }
+    
 
-    //---------------------------------------------POST ROUTES--------------------------------------------//
+
+    
+    //---------------------------------------------POST ROUTES--------------------------------------------
 
     static async reserve (req, res) {
         try{
