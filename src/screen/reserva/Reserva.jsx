@@ -94,6 +94,7 @@ export default function Reserva(props) {
 
   return (
     <View style={styles.container}>
+      <Gradient>
       <Text style={styles.underText}>HACÉ TU RESERVA</Text>
       <View style={styles.buttonForReservation}>
         <TouchableOpacity
@@ -229,6 +230,7 @@ export default function Reserva(props) {
           <Text style={styles.buttonText}>Reservar</Text>
         </Button>
       </View>
+      </Gradient>
     </View>
   );
 }

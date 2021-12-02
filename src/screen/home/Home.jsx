@@ -36,9 +36,7 @@ export default function Home(props) {
   return (
     <View style={styles.container}>
       <Gradient>
-        {/* <Foro/> */}
-        <Reserva/>
-    
+         <Foro/> 
       </Gradient>
     </View>
   );

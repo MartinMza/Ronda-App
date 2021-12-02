@@ -7,6 +7,7 @@ import Login from "../screen/login/Login";
 import Register from "../screen/register/Register";
 import Form from "../screen/register/Form";
 import Confirmation from "../screen/register/Confirmation";
+import Reserva from "../screen/reserva/Reserva"
 
 const Stack = createStackNavigator();
 
@@ -46,6 +47,11 @@ export default function NavigationStack() {
       <Stack.Screen
         name="Form"
         component={Form}
+        options={{ title: "", headerTransparent: true }}
+      />
+        <Stack.Screen
+        name="Reserva"
+        component={Reserva}
         options={{ title: "", headerTransparent: true }}
       />
     </Stack.Navigator>

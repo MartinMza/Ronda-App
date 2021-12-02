@@ -47,22 +47,15 @@ export default function Profile(props) {
           />
           <Text>Calendario</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.touchable}>
-          <Icon
-            name="calendar-check"
-            size={25}
-            onPress={() => console.log("profile")}
-            style={styles.icons}
-          />
+        <TouchableOpacity
+          style={styles.touchable}
+          onPress={() => navigation.navigate("Reserva")}
+        >
+          <Icon name="calendar-check" size={25} style={styles.icons} />
           <Text>Reserva</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.touchable}>
-          <Icon
-            name="home"
-            size={25}
-            onPress={() => console.log("profile")}
-            style={styles.icons}
-          />
+          <Icon name="home" size={25} style={styles.icons} />
           <Text>Salas y Espacios</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.touchable}>
@@ -108,7 +101,6 @@ const styles = StyleSheet.create({
     left: 0,
     top: 0,
     alignItems: "flex-start",
-
   },
   profile: {
     width: 53,
