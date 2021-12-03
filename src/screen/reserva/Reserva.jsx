@@ -7,14 +7,7 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import Button from "../../components/button/Button";
 import Drop from "../../components/reservation/Drop";
-import {
-  Campus,
-  Room,
-  Hour,
-  Day,
-  Person,
-  idType,
-} from "../../utils/DataReservation.jsx";
+import { Campus, Room, Person, idType } from "../../utils/DataReservation.jsx";
 import Gradient from "../../components/gradient/Gradient";
 import { localhost } from "../../localHostIP.json";
 import axios from "axios";
@@ -23,12 +16,13 @@ import {
   selectReservation,
 } from "../../features/reservationSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { createIconSetFromFontello } from "react-native-vector-icons";
+import { selectUser } from "../../features/userSlice";
 
 export default function Reserva(props) {
   const { navigation } = props;
   const dispatch = useDispatch();
-
+  let weekDays = [];
+  let weekHours = [];
   //-----------VALUE FOR ROOM-------------//
   const [option, setOption] = useState(false);
 
@@ -45,14 +39,14 @@ export default function Reserva(props) {
   //--------------TIME OPTION ---------------------//
   const [dropOpen, setDropOpen] = useState(false);
   const [time, setTime] = useState(null);
-  const [turnos, setTurnos] = useState(Hour);
+  const [turnos, setTurnos] = useState(weekHours);
 
   //--------------DAY OPTION ---------------------//
   const [dayOpen, setDayOpen] = useState(false);
   const [day, setDay] = useState(null);
-  const [days, setDays] = useState(Day);
+  const [days, setDays] = useState(weekDays);
   //--------------------------------------------//
-
+  const user = useSelector(selectUser);
   // --------------------ROUTE GET---------------------------//
 
   useEffect(() => {
@@ -63,8 +57,63 @@ export default function Reserva(props) {
       .then((res) => dispatch(myReservation(res.data)));
   }, [value, typeValue]);
 
-  const reservation = useSelector(selectReservation);
+  let reservation = useSelector(selectReservation);
+  let dayAvailable = [];
+  let timeAvailable = [];
 
+  reservation?.length
+    ? useEffect(() => {
+        dayAvailable = reservation?.map((items) => {
+          return items.day;
+        });
+        timeAvailable = reservation?.map((items) => {
+          return items.time;
+        });
+
+        dayAvailable = dayAvailable?.filter(
+          (item, index) => dayAvailable?.indexOf(item) === index
+        );
+        dayAvailable?.map((item) =>
+          weekDays.push({
+            label: item,
+            value: item,
+          })
+        );
+        timeAvailable = timeAvailable?.filter(
+          (item, index) => timeAvailable?.indexOf(item) === index
+        );
+        timeAvailable?.map((item) =>
+          weekHours.push({
+            label: item,
+            value: item,
+          })
+        );
+        setDays(weekDays);
+        setTurnos(weekHours);
+      }, [value, typeValue])
+    : null;
+  const [myBooking, setMyBooking] = useState("");
+
+  reservation?.length
+    ? useEffect(() => {
+        const idRoom = typeValue ? idType(typeValue, value) : null;
+
+        axios
+          .get(
+            `http://${localhost}/api/reservation/room/${idRoom}/day/${day}/time/${time}`
+          )
+          .then((res) => setMyBooking(res.data.id));
+      }, [day, time])
+    : null;
+
+  const handleBooking = () => {
+    console.log("id", myBooking);
+    axios
+      .post(`http://${localhost}/api/reservation/reserve/${myBooking}`)
+      .then(() => alert(`${user.name}, tu reserva fue hecha`))
+      .then(() => navigation.navigate("Home"))
+      .catch(() => alert("No es posible hacer tu reserva"));
+  };
 
   return (
     <View style={styles.container}>
@@ -165,7 +214,7 @@ export default function Reserva(props) {
             marginVertical: 50,
           }}
         >
-          <Button>
+          <Button onPress={() => handleBooking()}>
             <Text style={styles.buttonText}>Reservar</Text>
           </Button>
         </View>

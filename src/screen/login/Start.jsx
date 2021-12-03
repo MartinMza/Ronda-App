@@ -38,7 +38,8 @@ console.log(props.route)
     <View style={styles.container}>
       <Gradient>
         <Image source={logo} style={styles.logo} />
-        <Button onPress={goToLogin} >
+        
+        <Button onPress={goToLogin}  >
           <Text style={styles.buttonText}>
             SIGN IN
           </Text>
@@ -48,9 +49,10 @@ console.log(props.route)
             REGISTER
           </Text>
         </Button>
-        <Button onPress={goToGoogle}>
+       
+        {/* <Button onPress={goToGoogle}>
           <Text style={styles.buttonText}>SIGN IN WITH GOOGLE</Text>
-        </Button>
+        </Button> */}
        </Gradient> 
     </View>
   );
@@ -62,13 +64,12 @@ const styles = StyleSheet.create({
     height: "100%",
     left: 0,
     top: 0,
-    alignItems: "center",
   },
   logo: {
     width: 300,
     height: 70,
     marginHorizontal: 68,
-    marginVertical: 100,
+    marginVertical: 140,
   },
   buttonText: {
     color: "white",

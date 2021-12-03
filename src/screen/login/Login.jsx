@@ -19,9 +19,7 @@ import { login } from "../../features/userSlice"
 const Login = (props) => {
   const { navigation } = props;
   const dispatch=useDispatch()
-  const goToRegister = () => {
-    navigation.navigate("Register");
-  };
+  
 
   const formik = useFormik({
     initialValues: { email: "", password: "" },

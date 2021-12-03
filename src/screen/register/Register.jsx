@@ -19,7 +19,7 @@ const Register = (props) => {
   const { navigation } = props;
 
   const goToConfirmation = () => {
-    navigation.navigate("Confirmation");
+    navigation.navigate("Start");
   };
 
   const formik = useFormik({

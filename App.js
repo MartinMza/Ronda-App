@@ -2,13 +2,14 @@ import "react-native-gesture-handler";
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, LogBox } from "react-native";
 import { Provider } from "react-redux";
 import NavigationStack from "./src/navigation/NavigationStack";
 import Gradient from "./src/components/gradient/Gradient";
 import store from "./src/store/store";
 
 export default function App() {
+  LogBox.ignoreAllLogs()
   return (
     <Provider store={store}>
     <NavigationContainer>

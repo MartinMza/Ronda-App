@@ -18,7 +18,7 @@ export default function Profile(props) {
   const userLogout = () => {
     axios.post(`http://${localhost}/api/auth/logout`).then(() => {
       dispatch(logout());
-      navigation.navigate("Foro");
+      navigation.navigate("Start");
     });
   };
 

@@ -54,6 +54,7 @@ export default function NavigationStack() {
         component={Reserva}
         options={{ title: "", headerTransparent: false }}
       />
+      
     </Stack.Navigator>
   );
 }
