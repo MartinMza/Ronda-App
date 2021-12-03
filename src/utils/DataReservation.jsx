@@ -1,6 +1,6 @@
-import React from "react"
-import {useSelector} from "react-redux"
-import {selectReservation} from "../features/reservationSlice"
+import React from "react";
+import { useSelector } from "react-redux";
+import { selectReservation } from "../features/reservationSlice";
 
 export const Campus = [
   { label: "Belgrano", value: "Belgrano" },
@@ -27,17 +27,37 @@ export const Hour = [
   { label: "19:00-20:00", value: "19:00-20:00" },
 ];
 
-export const Day = ()=>{
-  const reservation = useSelector(selectReservation);
-
-  let dayAvailable = reservation?.map((items) => {
-   return items.day
+export const Time = () => {
+  let reservation = useSelector(selectReservation);
+  let timeAvailable = reservation?.map((items) => {
+    return items.time;
   });
 
-  dayAvailable=dayAvailable.filter((item, index)=>dayAvailable.indexOf(item)===index)
-dayAvailable.map((item)=>{[{label: item, value: item }]})
+  timeAvailable = timeAvailable.filter(
+    (item, index) => timeAvailable.indexOf(item) === index
+  );
+  timeAvailable.map((item) => ({
+    label: item,
+    value: item,
+  }));
+  return timeAvailable
+};
 
-}
+export const Day= () => {
+  let reservation = useSelector(selectReservation);
+  let dayAvailable = reservation?.map((items) => {
+    items.day;
+  });
+
+  dayAvailable = dayAvailable.filter(
+    (item, index) => dayAvailable.indexOf(item) === index
+  );
+  dayAvailable.map((item) => ({
+    label: item,
+    value: item,
+  }));
+  return dayAvailable
+};
 
 export const Person = (prop) => {
   if (prop == "Pequeña") return 4;

@@ -11,7 +11,6 @@ import {
   Campus,
   Room,
   Hour,
-  Day,
   Person,
   idType,
 } from "../../utils/DataReservation.jsx";
@@ -50,7 +49,7 @@ export default function Reserva(props) {
   //--------------DAY OPTION ---------------------//
   const [dayOpen, setDayOpen] = useState(false);
   const [day, setDay] = useState(null);
-  const [days, setDays] = useState(Day);
+  const [days, setDays] = useState(Hour);
   //--------------------------------------------//
 
   // --------------------ROUTE GET---------------------------//
@@ -64,14 +63,8 @@ export default function Reserva(props) {
   }, [value, typeValue]);
 
   const reservation = useSelector(selectReservation);
+  
 
-  let dayAvailable = reservation?.map((items) => {
-   return items.day
-  });
-
-  dayAvailable=dayAvailable.filter((item, index)=>dayAvailable.indexOf(item)===index)
-
-  console.log(dayAvailable.forEach((item)=>{label: [item], value: [item] })
   return (
     <View style={styles.container}>
       <Gradient>
