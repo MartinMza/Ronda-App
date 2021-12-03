@@ -23,10 +23,13 @@ import {
 } from "../../features/reservationSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { createIconSetFromFontello } from "react-native-vector-icons";
+import { HostNotFoundError } from "sequelize/dist";
 
 export default function Reserva(props) {
   const { navigation } = props;
   const dispatch = useDispatch();
+  let weekDays = [];
+  let weekTimes =[]
 
   //-----------VALUE FOR ROOM-------------//
   const [option, setOption] = useState(false);
@@ -62,7 +65,22 @@ export default function Reserva(props) {
       .then((res) => dispatch(myReservation(res.data)));
   }, [value, typeValue]);
 
-  const reservation = useSelector(selectReservation);
+  // let reservation = useSelector(selectReservation);
+  // console.log("reservation",reservation)
+  // let dayAvailable = reservation?.map((items) => {
+  //   return items.day;
+  // });
+
+  // dayAvailable = dayAvailable?.filter(
+  //   (item, index) => dayAvailable?.indexOf(item) === index
+  // );
+  // dayAvailable?.map((item) =>
+  //   weekDays.push({
+  //     label: item,
+  //     value: item,
+  //   })
+  // );
+
   
 
   return (
@@ -225,5 +243,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     margin: 18,
-  },
+  }
 });

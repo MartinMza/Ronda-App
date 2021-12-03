@@ -46,7 +46,7 @@ export const Time = () => {
 export const Day= () => {
   let reservation = useSelector(selectReservation);
   let dayAvailable = reservation?.map((items) => {
-    items.day;
+    return items.day;
   });
 
   dayAvailable = dayAvailable.filter(
@@ -56,7 +56,7 @@ export const Day= () => {
     label: item,
     value: item,
   }));
-  return dayAvailable
+console.log(dayAvailable)
 };
 
 export const Person = (prop) => {
