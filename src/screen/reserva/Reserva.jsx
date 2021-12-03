@@ -64,10 +64,7 @@ export default function Reserva(props) {
   reservation?.length
     ? useEffect(() => {
         dayAvailable = reservation?.map((items) => {
-          return items.day;
-        });
-        timeAvailable = reservation?.map((items) => {
-          return items.time;
+          return items?.day;
         });
 
         dayAvailable = dayAvailable?.filter(
@@ -79,20 +76,25 @@ export default function Reserva(props) {
             value: item,
           })
         );
-        timeAvailable = timeAvailable?.filter(
-          (item, index) => timeAvailable?.indexOf(item) === index
-        );
-        timeAvailable?.map((item) =>
-          weekHours.push({
-            label: item,
-            value: item,
-          })
-        );
+
         setDays(weekDays);
         setTurnos(weekHours);
       }, [value, typeValue])
     : null;
+
   const [myBooking, setMyBooking] = useState("");
+  reservation?.length
+    ? useEffect(() => {
+        timeAvailable = reservation?.filter((element) => element.day === day);
+        timeAvailable?.map((item) =>
+          weekHours.push({
+            label: item.time,
+            value: item.time,
+          })
+        );
+        setTurnos(weekHours);
+      }, [day])
+    : null;
 
   reservation?.length
     ? useEffect(() => {
@@ -107,7 +109,6 @@ export default function Reserva(props) {
     : null;
 
   const handleBooking = () => {
-    console.log("id", myBooking);
     axios
       .post(`http://${localhost}/api/reservation/reserve/${myBooking}`)
       .then(() => alert(`${user.name}, tu reserva fue hecha`))
