@@ -23,7 +23,7 @@ router.get('/me', AuthController.me);
 
 //verify token
 
-router.put('/verify/:token', AuthController.verify);
+router.put('/verify/:otp', AuthController.verify);
 
 //auth google
 
