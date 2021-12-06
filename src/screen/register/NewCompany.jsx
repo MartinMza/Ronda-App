@@ -1,18 +1,10 @@
 import axios from "axios";
 import React, { useState } from "react";
-import {
-  Image,
-  View,
-  TouchableOpacity,
-  Text,
-  TextInput,
-  StyleSheet,
-} from "react-native";
+import { Image, View, Text, StyleSheet } from "react-native";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
-import { useFonts } from "expo-font";
 import { localhost } from "../../localHostIP.json";
 import Button from "../../components/button/Button";
 import Input from "../../components/input/Input";
@@ -29,8 +21,8 @@ const NewCompany = (props) => {
     validationSchema: Yup.object(validationSchema()),
     validateOnChange: false,
     onSubmit: async (data) => {
-      const user = await axios
-        .put(`http://${localhost}:3001/api/user/`, data)
+      const company = await axios
+        .post(`http://${localhost}:3001/api/organization/empresa`, data)
         .then((user) => (user ? goToLogin() : alert("Algo anda mal")));
     },
   });
@@ -69,10 +61,8 @@ const NewCompany = (props) => {
           value={formik.values.phone}
           onChangeText={(text) => formik.setFieldValue("phone", text)}
         />
-        <Button onPress={formik.handleSubmit} >
-          <Text style={{ fontSize: 15, color: "#fff" }}>
-            CREAR EMPRESA
-          </Text>
+        <Button onPress={formik.handleSubmit}>
+          <Text style={{ fontSize: 15, color: "#fff" }}>CREAR EMPRESA</Text>
         </Button>
       </Gradient>
     </View>
