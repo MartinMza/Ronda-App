@@ -6,6 +6,7 @@ const otp = require("otp-generator");
 
 class Auth {
   static async login(req, res) {
+
     try {
       res.send(req.user);
     } catch (error) {
@@ -14,6 +15,7 @@ class Auth {
   }
 
   static async register(req, res) {
+   
     try {
       if (req.body.role === "admin") {
         //you cant create an admin account
@@ -89,6 +91,7 @@ class Auth {
     }
   }
   static async logout(req, res) {
+  
     try {
       req.logout();
       res.send(req.user);
@@ -97,6 +100,7 @@ class Auth {
     }
   }
   static async me(req, res) {
+  
     req.user ? res.send(req.user) : res.sendStatus(401);
   }
 }

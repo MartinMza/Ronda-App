@@ -59,7 +59,7 @@ const Company = (props) => {
           onChangeText={(text) => {
             setValue(text);
           }}
-        />
+        /> 
         {value ? (
           <TextInput
             placeholder="Busca tu empresa"

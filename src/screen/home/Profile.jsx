@@ -16,8 +16,8 @@ export default function Profile(props) {
   const dispatch = useDispatch();
 
   const userLogout = () => {
-    axios.post(`http://${localhost}/api/auth/logout`).then(() => {
-      dispatch(logout());
+    axios.post(`http://${localhost}/api/auth/logout`).then((data) => {
+      dispatch(logout(data.data));
       navigation.navigate("Start");
     });
   };
@@ -27,7 +27,12 @@ export default function Profile(props) {
       headerRight: () => <IconsRight />,
       headerLeft: () => (
         <View style={{ flexDirection: "row" }}>
-          <Icon name="bars" size={20} style={styles.bars} onPress={()=>navigation.navigate("Home")} />
+          <Icon
+            name="bars"
+            size={20}
+            style={styles.bars}
+            onPress={() => navigation.navigate("Home")}
+          />
           <Image source={logo} style={styles.logo} />
         </View>
       ),

@@ -23,7 +23,7 @@ const NewCompany = (props) => {
     onSubmit: async (data) => {
       const company = await axios
         .post(`http://${localhost}:3001/api/organization/empresa`, data)
-        .then((user) => (user ? goToLogin() : alert("Algo anda mal")));
+        .then((user) => console.log(user));
     },
   });
 

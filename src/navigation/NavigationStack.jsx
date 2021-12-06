@@ -22,11 +22,11 @@ export default function NavigationStack() {
         component={Company}
         options={{ title: "", headerTransparent: true }}
       /> */}
-        <Stack.Screen
+        {/* <Stack.Screen
         name="NewCompany"
         component={NewCompany}
         options={{ title: "", headerTransparent: true }}
-      />
+      /> */}
       <Stack.Screen
         name="Start"
         component={Start}
