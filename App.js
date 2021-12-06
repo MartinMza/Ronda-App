@@ -2,11 +2,14 @@ import "react-native-gesture-handler";
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
+
 import { StyleSheet, View, LogBox } from "react-native";
+
 import { Provider } from "react-redux";
 import NavigationStack from "./src/navigation/NavigationStack";
 import Gradient from "./src/components/gradient/Gradient";
 import store from "./src/store/store";
+
 import * as Linking from "expo-linking";
 
 export default function App() {
@@ -28,6 +31,10 @@ export default function App() {
         <NavigationStack />
         <StatusBar style="auto" />
       </NavigationContainer>
+
+
+
+
     </Provider>
   );
 }

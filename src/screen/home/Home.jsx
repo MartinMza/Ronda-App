@@ -4,6 +4,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import logo from "../../../assets/LogoRondaColor.jpg"
 import Gradient from "../../components/gradient/Gradient";
 import Button from "../../components/button/Button";
+
 import IconsRight from "../../components/icons/IconsRight"
 import Foro from "../foro/Foro";
 import Reserva from "../reserva/Reserva"
@@ -11,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectUser,login } from "../../features/userSlice";
 import axios from "axios"
 import {localhost} from "../../../localHostIP.json"
+
 
 export default function Home(props) {
   const { navigation} = props;
@@ -47,7 +49,9 @@ export default function Home(props) {
   return (
     <View style={styles.container}>
       <Gradient>
+
          <Foro/> 
+
       </Gradient>
     </View>
   );

@@ -158,13 +158,11 @@ class ReservationController {
           id: reservation.roomId,
         },
       });
-        console.log(room);
       const organization = await Organization.findOne({
         where: {
           id: req.user.organizationId,
         },
       });
-        console.log(organization);
       await organization.update({
         avaliable_credits: organization.avaliable_credits + room.credit_value,
       });

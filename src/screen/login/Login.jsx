@@ -12,14 +12,20 @@ import * as Yup from "yup";
 import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
 import axios from "axios";
+
 import { localhost } from "../../localHostIP.json";
+
 import { useDispatch } from 'react-redux'
 import { login } from "../../features/userSlice"
 
 const Login = (props) => {
   const { navigation } = props;
   const dispatch=useDispatch()
-  
+
+  const goToRegister = () => {
+    navigation.navigate("Register");
+  };
+
 
   const formik = useFormik({
     initialValues: { email: "", password: "" },

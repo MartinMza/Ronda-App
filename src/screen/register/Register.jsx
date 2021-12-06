@@ -12,9 +12,11 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
+
 import { localhost } from "../../localHostIP.json";
 import { useDispatch } from "react-redux";
 import { register } from "../../features/userSlice";
+
 
 const Register = (props) => {
   const { navigation } = props;
@@ -28,13 +30,14 @@ const Register = (props) => {
     validationSchema: Yup.object(validationSchema()),
     validateOnChange: false,
     onSubmit: async (data) => {
+
       const user = await axios
         .post(`http://${localhost}/api/auth/register/`, data)
         .then(() => {
           dispatch(register(data));
           goToConfirmation();
-        })
-        .catch(() => alert("Tu email ya se encuentra registrado"));
+        });
+
     },
   });
 
