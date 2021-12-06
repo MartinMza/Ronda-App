@@ -66,6 +66,45 @@ class Auth {
       console.log(error);
     }
   }
+
+  static async resendEmail(req, res) {
+    try {
+      const user = await User.findOne({
+        where: { email: req.params.email },
+      });
+      if (user) {
+        const otpGenerator = otp.generate(4, {
+          upperCaseAlphabets: false,
+          specialChars: false,
+          digits: true,
+          lowerCaseAlphabets: false,
+        });
+        const email = req.body.email;
+        const subject = "Correo de verificación";
+
+        const html = `
+        <h1>Clickee este link para verificar su correo electronico:</h1><br>
+        <h1>COPIA ESTE CODIGO</h1>
+        <br>
+        <h2>${otpGenerator}<h2>`;
+
+        await sendEmail(email, subject, html);
+
+        await User.update(
+          { otp: otpGenerator },
+          {
+            where: { email: req.params.email },
+          }
+        );
+        return res.send("Email sent");
+      }
+      res.send("Email not found");
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
+
   static async verify(req, res) {
     try {
       const user = await User.findOne({

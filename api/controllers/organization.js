@@ -70,6 +70,7 @@ class OrganizationController {
       next(err);
     }
   }
+  
   static async addUserToOrganization(req, res, next) {
     try {
       const organization = await Organization.findOne({
@@ -88,6 +89,8 @@ class OrganizationController {
       next(err);
     }
   }
+
+
   static async confirmUser(req, res, next) {
     try {
       if (req.user.role !== "organizationAdmin") {
@@ -115,3 +118,6 @@ class OrganizationController {
 }
 
 module.exports = OrganizationController;
+
+
+

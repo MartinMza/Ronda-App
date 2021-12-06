@@ -7,9 +7,6 @@ router.put("/:id",CommentController.updateComment);
 router.get("/:id",CommentController.getCommentsByPostId);
 
 
-
-
-
 module.exports = router;
 
 
@@ -25,5 +22,3 @@ module.exports = router;
 
 
 
-
-//gei who reads the comment

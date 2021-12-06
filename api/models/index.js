@@ -25,6 +25,13 @@ Post.hasMany(Comment);
 //Organization/Membership relations
 Organization.hasMany(User);
 Membership.hasMany(Organization);
+// Organization.belongsToMany(Membership, {
+//   through: "organization_membership",
+// });
+// Membership.belongsToMany(Organization, {
+//   through: "organization_membership",
+// });
+
 //Campus relations
 Campus.hasMany(User);
 Campus.hasMany(Room);
@@ -48,12 +55,3 @@ module.exports = {
   Campus,
   Turno,
 };
-
-// Organization.belongsToMany(Membership, {
-//   through: "organization_membership",
-
-// });
-
-// Membership.belongsToMany(Organization, {
-//   through: "organization_membership",
-// });

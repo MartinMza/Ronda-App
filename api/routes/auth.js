@@ -17,6 +17,10 @@ router.post('/logout', AuthController.logout);
 
 router.post('/register', AuthController.register);
 
+// resend email verification mail
+
+router.get('/resend', AuthController.resendEmail);
+
 // auth current
 
 router.get('/me', AuthController.me);
