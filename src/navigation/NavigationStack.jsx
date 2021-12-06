@@ -7,21 +7,19 @@ import Login from "../screen/login/Login";
 import Register from "../screen/register/Register";
 import Form from "../screen/register/Form";
 import Confirmation from "../screen/register/Confirmation";
-import Reserva from "../screen/reserva/Reserva"
+import Reserva from "../screen/reserva/Reserva";
 
 const Stack = createStackNavigator();
 
 export default function NavigationStack() {
   return (
     <Stack.Navigator>
-      
-    
+      <Stack.Screen name="Home" component={Home} options={{ title: "" }} />
       <Stack.Screen
         name="Start"
         component={Start}
         options={{ title: "", headerTransparent: true }}
       />
-        <Stack.Screen name="Home" component={Home} options={{ title: "" }} />
 
       <Stack.Screen
         name="Profile"
@@ -49,12 +47,11 @@ export default function NavigationStack() {
         component={Form}
         options={{ title: "", headerTransparent: true }}
       />
-        <Stack.Screen
+      <Stack.Screen
         name="Reserva"
         component={Reserva}
         options={{ title: "", headerTransparent: false }}
       />
-      
     </Stack.Navigator>
   );
 }
