@@ -69,9 +69,9 @@ const NewCompany = (props) => {
           value={formik.values.phone}
           onChangeText={(text) => formik.setFieldValue("phone", text)}
         />
-        <Button onPress={formik.handleSubmit}>
-          <Text style={{ fontSize: 18, color: "#fff" }}>
-            Actualizar Información
+        <Button onPress={formik.handleSubmit} >
+          <Text style={{ fontSize: 15, color: "#fff" }}>
+            CREAR EMPRESA
           </Text>
         </Button>
       </Gradient>
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     width: 300,
     height: 70,
     marginHorizontal: 70,
-    marginVertical: 90,
+    marginVertical: 70,
   },
   buttonText: {
     color: "white",
