@@ -1,7 +1,8 @@
 const { User, Organization } = require("../models");
 const sendEmail = require("../config/nodemailer");
 const jwt = require("jsonwebtoken");
-const {localhost}=require("../../localHostIP.json")
+const { localhost } = require("../../localHostIP.json");
+const otp = require("otp-generator");
 
 class Auth {
   static async login(req, res) {
@@ -39,16 +40,25 @@ class Auth {
       found && res.status(409).send("Email already exists");
 
       //---------------------Email verification-------------------
+      const otpGenerator = otp.generate(4, {
+        upperCaseAlphabets: false,
+        specialChars: false,
+        digits: true,
+        lowerCaseAlphabets: false,
+      });
       const token = jwt.sign(
         { email: req.body.email },
         process.env.JWT_SECRET,
         { expiresIn: "1h" }
       );
       const email = req.body.email;
-      const subject = "Verificacion del mail";
-      const html = `<h1>Clickee este link para verificar su correo electronico:</h1><br>
-      <a href="http://localhost:3001/api/auth/verify/${token}">Verificar</a>
-      `;
+      const subject = "Correo de verificación";
+
+      const html = `
+        <h1>Clickee este link para verificar su correo electronico:</h1><br>
+        <h1>COPIA ESTE CODIGO</h1>
+        <br>
+        <h2>${otpGenerator}<h2>`;
 
       await sendEmail(email, subject, html);
 

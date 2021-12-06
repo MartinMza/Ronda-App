@@ -4,25 +4,30 @@ import Gradient from "../../components/gradient/Gradient";
 import Button from "../../components/button/Button";
 import logo from "../../../assets/logo.png";
 import axios from "axios";
-import { useNavigation } from '@react-navigation/native';
-import {localhost} from "../../../localHostIP.json"
+import { useNavigation } from "@react-navigation/native";
+import { localhost } from "../../../localHostIP.json";
+import * as WebBrowser from "expo-web-browser";
+import { TextInput } from "react-native-gesture-handler";
 
 export default function Confirmation(props) {
-    const [token, setToken] = useState("")
+  const [token, setToken] = useState("");
   //const { navigation } = props;
 
-// useEffect(()=>{
-//     axios.get(`http://${localhost}/api/auth/token`)
-//     .then((data)=>setToken(data))
-// },[])
-console.log(token)
+  // useEffect(()=>{
+  //     axios.get(`http://${localhost}/api/auth/token`)
+  //     .then((data)=>setToken(data))
+  // },[])
+  //console.log(token);
 
-const navigation = useNavigation();
+  const navigation = useNavigation();
 
-console.log(navigation)
+  console.log(navigation);
 
+  const handleGmail = async () => {
+   let token = await WebBrowser.openBrowserAsync("https://google.com/gmail");
+   setToken(token)
+  };
 
-    
   return (
     <View style={styles.container}>
       <Gradient>
@@ -31,16 +36,17 @@ console.log(navigation)
         <Text style={styles.subtitle}>
           Te hemos enviado un correo de confirmación.
         </Text>
-        <Button onPress={() => Linking.openURL("https://google.com/gmail")}>
+        <Button onPress={handleGmail}>
           <Text style={styles.buttonText}>Ir a mi email</Text>
         </Button>
-
+        <Button onPress={()=>navigation.navigate("Code")}>
+          <Text style={styles.buttonText}>Ingresar mi codigo</Text>
+        </Button>
+  
       </Gradient>
     </View>
   );
 }
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -76,6 +82,5 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontSize: 22,
-   
   },
 });

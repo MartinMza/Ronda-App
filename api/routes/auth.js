@@ -3,6 +3,7 @@ const passport = require('passport');
 const {AuthController} = require('../controllers');
 const {User} = require('../models');
 const jwt = require('jsonwebtoken');
+const {localhost} = require('../../localHostIP.json')
 
 // auth login
 
@@ -34,8 +35,8 @@ router.get(
   
   router.get(
     "/google/callback",
-    passport.authenticate("google", {
-      successRedirect: "exp://192.168.1.3:19000",
+    passport.authenticate("google",  {
+      successRedirect: `ronda://user`,
       failureRedirect: "http://localhost:19006/login",
     })
   );

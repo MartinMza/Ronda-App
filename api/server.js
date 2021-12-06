@@ -36,7 +36,7 @@ app.get("/", (req, res) => {
     res.send("its working");
 });
 
-db.sync({ force: false })
+db.sync({ force: true })
 .then(() => 
     app.listen(process.env.PORT, () => {
         console.log(`server on ${process.env.PORT}`);

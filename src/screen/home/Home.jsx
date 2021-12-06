@@ -7,10 +7,22 @@ import Button from "../../components/button/Button";
 import IconsRight from "../../components/icons/IconsRight"
 import Foro from "../foro/Foro";
 import Reserva from "../reserva/Reserva"
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser,login } from "../../features/userSlice";
+import axios from "axios"
+import {localhost} from "../../../localHostIP.json"
 
 export default function Home(props) {
   const { navigation} = props;
-
+  const user = useSelector(selectUser)
+  const dispatch = useDispatch()
+  useEffect(()=>{
+      axios.post(`http://${localhost}/api/auth/login`,{
+          email:user.email,
+          password: user.password
+      })
+      .then((data)=>dispatch(login(data.data)))
+  },[])
  
   const goToProfile = () => {
     navigation.navigate("Profile");

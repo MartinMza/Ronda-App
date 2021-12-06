@@ -45,13 +45,13 @@ const Form = (props) => {
       <Gradient>
         <Image source={logo} style={styles.logo} />
         <TextInput
-          placeholder="Phone"
+          placeholder="Telefono"
           style={styles.input}
           value={formik.values.phone}
           onChangeText={(text) => formik.setFieldValue("phone", text)}
         />
         <TextInput
-          placeholder="Profession"
+          placeholder="Profesion"
           style={styles.input}
           value={formik.values.profession}
           onChangeText={(text) => formik.setFieldValue("profession", text)}
