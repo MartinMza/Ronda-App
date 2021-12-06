@@ -60,6 +60,9 @@ User.init(
       defaultValue: "pending",
       allowedValues: ["pending", "approved"],
     },
+    otp: {
+      type: S.INTEGER,
+    }
   },
   {
     hooks: {

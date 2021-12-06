@@ -13,7 +13,7 @@ import * as Yup from "yup";
 import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
 import { useFonts } from "expo-font";
-import {localhost} from "../../../localHostIP.json"
+import {localhost} from "../../localHostIP.json"
 
 const Form = (props) => {
  
@@ -45,13 +45,13 @@ const Form = (props) => {
       <Gradient>
         <Image source={logo} style={styles.logo} />
         <TextInput
-          placeholder="Phone"
+          placeholder="Telefono"
           style={styles.input}
           value={formik.values.phone}
           onChangeText={(text) => formik.setFieldValue("phone", text)}
         />
         <TextInput
-          placeholder="Profession"
+          placeholder="Profesion"
           style={styles.input}
           value={formik.values.profession}
           onChangeText={(text) => formik.setFieldValue("profession", text)}

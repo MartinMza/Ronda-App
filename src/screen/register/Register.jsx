@@ -12,59 +12,63 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
-import {localhost} from "../../../localHostIP.json"
-import { useFonts, Lato_900Black } from 'expo-font';
+
+import { localhost } from "../../localHostIP.json";
+import { useDispatch } from "react-redux";
+import {login} from "../../features/userSlice"
 
 
 const Register = (props) => {
   const { navigation } = props;
-
-  const goToLogin = () => {
-    navigation.navigate("Login");
+  const dispatch = useDispatch();
+  const goToConfirmation = () => {
+    navigation.navigate("Confirmation");
   };
 
   const formik = useFormik({
-    initialValues:initialValuesSchema(),
+    initialValues: initialValuesSchema(),
     validationSchema: Yup.object(validationSchema()),
     validateOnChange: false,
     onSubmit: async (data) => {
-      const user = await axios.post(
-        `http://${localhost}/api/auth/register/`,
-        data
-      )
-      .then(()=>goToLogin())
+
+      const user = await axios
+        .post(`http://${localhost}/api/auth/register/`, data)
+        .then(() => {
+          dispatch(login(data));
+          goToConfirmation();
+        });
+
     },
   });
 
- 
   return (
     <View style={styles.container}>
       <Gradient>
         <Image source={logo} style={styles.logo} />
         <TextInput
-          placeholder="Full Name"
+          placeholder="Nombre completo"
           style={styles.input}
           value={formik.values.name}
           onChangeText={(text) => formik.setFieldValue("name", text)}
         />
         <TextInput
-          placeholder="Your email"
+          placeholder="Correo electronico"
           style={styles.input}
           autoCapitalize="none"
           value={formik.values.email}
           onChangeText={(text) => formik.setFieldValue("email", text)}
         />
-      
+
         <TextInput
-          placeholder="Your password"
+          placeholder="Contraseña"
           style={styles.input}
           autoCapitalize="none"
           secureTextEntry={true}
           value={formik.values.password}
           onChangeText={(text) => formik.setFieldValue("password", text)}
         />
-         <Text style={styles.error}>{formik.errors.password}</Text>
-         <Text style={styles.error}>{formik.errors.email}</Text>
+        <Text style={styles.error}>{formik.errors.password}</Text>
+        <Text style={styles.error}>{formik.errors.email}</Text>
         <TouchableOpacity onPress={formik.handleSubmit} style={styles.button}>
           <Text style={styles.buttonText}>REGISTER</Text>
         </TouchableOpacity>
@@ -73,13 +77,13 @@ const Register = (props) => {
   );
 };
 
-function initialValuesSchema(){
+function initialValuesSchema() {
   return {
     name: "",
     email: "",
     password: "",
   };
-};
+}
 
 function validationSchema() {
   return {
