@@ -10,7 +10,7 @@ router.get('/posts/:id', PostController.getByUser);
 //-----------------POST ROUTES-----------------//
 
 router.post('/', PostController.create);
-
+ 
 //-----------------PUT ROUTES-----------------//
 
 router.put('/:id', PostController.update);

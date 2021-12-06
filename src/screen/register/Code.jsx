@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   View,
@@ -8,13 +8,11 @@ import {
   TextInput,
   StyleSheet,
 } from "react-native";
-import { useFormik } from "formik";
-import * as Yup from "yup";
 import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
 import { localhost } from "../../localHostIP.json";
-import { useSelector } from "react-redux";
-import { selectUser } from "../../features/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser, login } from "../../features/userSlice";
 
 const Code = (props) => {
   const { navigation } = props;
@@ -22,6 +20,7 @@ const Code = (props) => {
   const goToConfirmation = () => {
     navigation.navigate("Confirmation");
   };
+  const dispatch = useDispatch();
   const user = useSelector(selectUser);
 
   const handleConfirmation = () => {
@@ -30,7 +29,14 @@ const Code = (props) => {
       .then(() => navigation.navigate("Home"))
       .catch(() => alert("Código incorrecto"));
   };
-
+  useEffect(() => {
+    axios
+      .post(`http://${localhost}/api/auth/login`, {
+        email: user.email,
+        password: user.password,
+      })
+      .then((data) => dispatch(login(data.data)));
+  }, [token.length > 3]);
   return (
     <View style={styles.container}>
       <Gradient>

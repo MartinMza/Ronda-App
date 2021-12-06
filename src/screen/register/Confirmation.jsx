@@ -7,7 +7,7 @@ import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import { localhost } from "../../../localHostIP.json";
 import * as WebBrowser from "expo-web-browser";
-import { TextInput } from "react-native-gesture-handler";
+import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 
 export default function Confirmation(props) {
   const [token, setToken] = useState("");
@@ -24,7 +24,8 @@ export default function Confirmation(props) {
   console.log(navigation);
 
   const handleGmail = async () => {
-   let token = await WebBrowser.openBrowserAsync("https://google.com/gmail");
+   let token = await WebBrowser.openBrowserAsync("https://google.com/gmail")
+   .then(navigation.navigate("Code"));
    setToken(token)
   };
 
@@ -34,14 +35,14 @@ export default function Confirmation(props) {
         <Image source={logo} style={styles.logo} />
         <Text style={styles.title}>Revisa tu correo</Text>
         <Text style={styles.subtitle}>
-          Te hemos enviado un correo de confirmación.
+          Ingresa el código que te enviamos
         </Text>
-        <Button onPress={handleGmail}>
-          <Text style={styles.buttonText}>Ir a mi email</Text>
-        </Button>
         <Button onPress={()=>navigation.navigate("Code")}>
           <Text style={styles.buttonText}>Ingresar mi codigo</Text>
         </Button>
+        <TouchableOpacity onPress={handleGmail}>
+          <Text style={{color:"#fff", fontSize:12,  textDecorationLine:"underline",margin:10}}>Ir a mi email</Text>
+        </TouchableOpacity>
   
       </Gradient>
     </View>

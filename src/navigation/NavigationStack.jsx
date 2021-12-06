@@ -9,13 +9,24 @@ import Form from "../screen/register/Form";
 import Confirmation from "../screen/register/Confirmation";
 import Reserva from "../screen/reserva/Reserva"
 import Code from "../screen/register/Code"
+import Company from "../screen/register/Company";
+import NewCompany from "../screen/register/NewCompany";
 
 const Stack = createStackNavigator();
 
 export default function NavigationStack() {
   return (
     <Stack.Navigator>
-      
+       {/* <Stack.Screen
+        name="Company"
+        component={Company}
+        options={{ title: "", headerTransparent: true }}
+      /> */}
+        <Stack.Screen
+        name="NewCompany"
+        component={NewCompany}
+        options={{ title: "", headerTransparent: true }}
+      />
       <Stack.Screen
         name="Start"
         component={Start}

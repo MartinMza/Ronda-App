@@ -14,7 +14,7 @@ import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
 import { localhost } from "../../localHostIP.json";
 import { useDispatch } from "react-redux";
-import {login} from "../../features/userSlice"
+import { register } from "../../features/userSlice";
 
 const Register = (props) => {
   const { navigation } = props;
@@ -31,9 +31,10 @@ const Register = (props) => {
       const user = await axios
         .post(`http://${localhost}/api/auth/register/`, data)
         .then(() => {
-          dispatch(login(data));
+          dispatch(register(data));
           goToConfirmation();
-        });
+        })
+        .catch(() => alert("Tu email ya se encuentra registrado"));
     },
   });
 
@@ -54,7 +55,6 @@ const Register = (props) => {
           value={formik.values.email}
           onChangeText={(text) => formik.setFieldValue("email", text)}
         />
-
         <TextInput
           placeholder="Contraseña"
           style={styles.input}
@@ -63,7 +63,18 @@ const Register = (props) => {
           value={formik.values.password}
           onChangeText={(text) => formik.setFieldValue("password", text)}
         />
+        <TextInput
+          placeholder="Confirma tu contraseña"
+          style={styles.input}
+          autoCapitalize="none"
+          secureTextEntry={true}
+          value={formik.values.passwordConfirmation}
+          onChangeText={(text) =>
+            formik.setFieldValue("passwordConfirmation", text)
+          }
+        />
         <Text style={styles.error}>{formik.errors.password}</Text>
+        <Text style={styles.error}>{formik.errors.passwordConfirmation}</Text>
         <Text style={styles.error}>{formik.errors.email}</Text>
         <TouchableOpacity onPress={formik.handleSubmit} style={styles.button}>
           <Text style={styles.buttonText}>REGISTER</Text>
@@ -83,9 +94,13 @@ function initialValuesSchema() {
 
 function validationSchema() {
   return {
-    name: Yup.string().max(50).required("Name is required"),
-    email: Yup.string().email().required("Email is required"),
-    password: Yup.string().min(6).max(12).required("Password is required"),
+    name: Yup.string().max(50).required("Nombre es requerido"),
+    email: Yup.string().email().required("Email es requerido"),
+    password: Yup.string().min(6).max(12).required("Contraseña es requerida"),
+    passwordConfirmation: Yup.string().oneOf(
+      [Yup.ref("password"), null],
+      "Las contraseñas deben coincidir"
+    ),
   };
 }
 const styles = StyleSheet.create({
@@ -100,7 +115,8 @@ const styles = StyleSheet.create({
     width: 300,
     height: 70,
     marginHorizontal: 70,
-    marginVertical: 90,
+    marginTop: 160,
+    marginBottom: 60,
   },
   input: {
     width: 300,
