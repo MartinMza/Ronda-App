@@ -1,5 +1,6 @@
 {
   "expo": {
+    "scheme": "ronda",
     "name": "App",
     "slug": "App",
     "version": "1.0.0",
@@ -17,7 +18,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "ronda"
     },
     "android": {
       "adaptiveIcon": {

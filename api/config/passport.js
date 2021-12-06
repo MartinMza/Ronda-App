@@ -28,6 +28,7 @@ passport.use(
           googleId: profile.id,
         },
       }).then((user) => {
+        console.log(user)
         if (user) {
           return done(null, user);
         } else {
