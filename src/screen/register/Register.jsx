@@ -12,14 +12,15 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
-import {localhost} from "../../localHostIP.json"
-
+import { localhost } from "../../localHostIP.json";
+import { useDispatch } from "react-redux";
+import {login} from "../../features/userSlice"
 
 const Register = (props) => {
   const { navigation } = props;
-
+  const dispatch = useDispatch();
   const goToConfirmation = () => {
-    navigation.navigate("Start");
+    navigation.navigate("Confirmation");
   };
 
   const formik = useFormik({
@@ -30,6 +31,7 @@ const Register = (props) => {
       const user = await axios
         .post(`http://${localhost}/api/auth/register/`, data)
         .then(() => {
+          dispatch(login(data));
           goToConfirmation();
         });
     },
@@ -40,13 +42,13 @@ const Register = (props) => {
       <Gradient>
         <Image source={logo} style={styles.logo} />
         <TextInput
-          placeholder="Full Name"
+          placeholder="Nombre completo"
           style={styles.input}
           value={formik.values.name}
           onChangeText={(text) => formik.setFieldValue("name", text)}
         />
         <TextInput
-          placeholder="Your email"
+          placeholder="Correo electronico"
           style={styles.input}
           autoCapitalize="none"
           value={formik.values.email}
@@ -54,7 +56,7 @@ const Register = (props) => {
         />
 
         <TextInput
-          placeholder="Your password"
+          placeholder="Contraseña"
           style={styles.input}
           autoCapitalize="none"
           secureTextEntry={true}

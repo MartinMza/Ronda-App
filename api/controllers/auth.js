@@ -1,7 +1,8 @@
 const { User, Organization } = require("../models");
 const sendEmail = require("../config/nodemailer");
 const jwt = require("jsonwebtoken");
-const {localhost}=require("../../localHostIP.json")
+const { localhost } = require("../../localHostIP.json");
+const otp = require("otp-generator");
 
 class Auth {
   static async login(req, res) {
@@ -39,21 +40,25 @@ class Auth {
       found && res.status(409).send("Email already exists");
 
       //---------------------Email verification-------------------
-      const token = jwt.sign(
-        { email: req.body.email },
-        process.env.JWT_SECRET,
-        { expiresIn: "1h" }
-      );
+      const otpGenerator = otp.generate(4, {
+        upperCaseAlphabets: false,
+        specialChars: false,
+        digits: true,
+        lowerCaseAlphabets: false,
+      });
       const email = req.body.email;
-      const subject = "Verificacion del mail";
-      const html = `<h1>Clickee este link para verificar su correo electronico:</h1><br>
-      <a href="http://localhost:3001/api/auth/verify/${token}">Verificar</a>
-      `;
+      const subject = "Correo de verificación";
+
+      const html = `
+        <h1>Clickee este link para verificar su correo electronico:</h1><br>
+        <h1>COPIA ESTE CODIGO</h1>
+        <br>
+        <h2>${otpGenerator}<h2>`;
 
       await sendEmail(email, subject, html);
 
       //----------------------------------------------------------
-
+      req.body.otp = otpGenerator;
       const user = await User.create(req.body);
 
       return res.status(201).send(user);
@@ -63,17 +68,17 @@ class Auth {
   }
   static async verify(req, res) {
     try {
-      const { email } = jwt.verify(req.params.token, process.env.JWT_SECRET);
       const user = await User.findOne({
-        where: { email },
+        where: { otp: req.params.otp },
       });
       if (user) {
         await User.update(
-          {
+          { 
+            otp: null,
             confirmed: true,
           },
           {
-            where: { email },
+            where: { otp: req.params.otp },
           }
         );
         return res.send("Email verified");
