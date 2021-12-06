@@ -1,10 +1,13 @@
+
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Image, Text, View, StyleSheet, TouchableOpacity } from "react-native";
+
 import Gradient from "../../components/gradient/Gradient";
 import Button from "../../components/button/Button";
 import { TextInput } from "react-native-gesture-handler";
 import { selectUser } from "../../features/userSlice";
+
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { localhost } from "../../localHostIP.json";
 import { useFormik } from "formik";
@@ -64,6 +67,7 @@ const Foro = () => {
   );
 };
 
+
 const styles = StyleSheet.create({
   container: {
     width: "100%",
@@ -82,7 +86,9 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   buttonText: {
+
     fontSize: 18,
+
   },
   input: {
     width: 330,
@@ -93,6 +99,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     padding: 15,
   },
+
   underText: {
     color: "white",
     fontSize: 15,
@@ -109,3 +116,4 @@ const styles = StyleSheet.create({
   },
 });
 export default Foro;
+

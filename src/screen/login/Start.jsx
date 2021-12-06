@@ -3,6 +3,7 @@ import { Image, Text, View, StyleSheet } from "react-native";
 import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
 import Button from "../../components/button/Button";
+
 import axios from "axios";
 import { useFonts, Lato_900Black } from "@expo-google-fonts/lato";
 import { localhost } from "../../localHostIP.json";
@@ -11,6 +12,7 @@ import * as WebBrowser from "expo-web-browser";
 import { login, selectUser } from "../../features/userSlice";
 import { useSelector } from "react-redux";
 import { useNavigationState } from "@react-navigation/native";
+
 
 export default function Start(props) {
   const { navigation } = props;
@@ -39,6 +41,7 @@ export default function Start(props) {
   //   axios.get(`http://${localhost}/api/auth/me`)
   //   .then((data)=>console.log("soy0,",data))
   // },[])
+
 
   return (
     <View style={styles.container}>
