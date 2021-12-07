@@ -9,10 +9,12 @@ const user= require('./user')
 const message= require('./message');
 const admin = require('./admin');
 const organization = require('./organization');
-const reservation = require('./reservation')
+const reservation = require('./reservation');
+const calendar = require ('./calendar');
 
 
 router.use('/auth', auth);
+router.use('/calendar', checkAuth, calendar)
 router.use('/admin', checkAuth, checkAdmin, admin);
 router.use('/posts',checkAuth, post);
 router.use('/likes',checkAuth, like);
