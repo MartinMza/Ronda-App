@@ -51,7 +51,6 @@ export default function Reserva(props) {
 
   useEffect(() => {
     const id = typeValue ? idType(typeValue, value) : null;
-
     axios
       .get(`http://${localhost}/api/reservation/campus/${value}/room/${id}`)
       .then((res) => dispatch(myReservation(res.data)));
@@ -99,7 +98,6 @@ export default function Reserva(props) {
   reservation?.length
     ? useEffect(() => {
         const idRoom = typeValue ? idType(typeValue, value) : null;
-
         axios
           .get(
             `http://${localhost}/api/reservation/room/${idRoom}/day/${day}/time/${time}`

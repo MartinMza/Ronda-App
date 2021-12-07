@@ -7,8 +7,8 @@ import Login from "../screen/login/Login";
 import Register from "../screen/register/Register";
 import Form from "../screen/register/Form";
 import Confirmation from "../screen/register/Confirmation";
-import Reserva from "../screen/reserva/Reserva"
-import Code from "../screen/register/Code"
+import Reserva from "../screen/reserva/Reserva";
+
 import Company from "../screen/register/Company";
 import NewCompany from "../screen/register/NewCompany";
 
@@ -17,43 +17,41 @@ const Stack = createStackNavigator();
 export default function NavigationStack() {
   return (
     <Stack.Navigator>
-       {/* <Stack.Screen
-        name="Company"
-        component={Company}
+       <Stack.Screen
+        name="Login"
+        component={Login}
         options={{ title: "", headerTransparent: true }}
-      /> */}
-        {/* <Stack.Screen
-        name="NewCompany"
-        component={NewCompany}
-        options={{ title: "", headerTransparent: true }}
-      /> */}
+      />
+         
       <Stack.Screen
         name="Start"
         component={Start}
         options={{ title: "", headerTransparent: true }}
       />
-<Stack.Screen name="Home" component={Home} options={{ title: "" }} />
+      <Stack.Screen name="Home" component={Home} options={{ title: "" }} />
       <Stack.Screen
         name="Profile"
         component={Profile}
         options={{ title: "" }}
       />
-
-      <Stack.Screen
-        name="Login"
-        component={Login}
+         <Stack.Screen
+        name="Confirmation"
+        component={Confirmation}
         options={{ title: "", headerTransparent: true }}
       />
+  
+      <Stack.Screen
+        name="NewCompany"
+        component={NewCompany}
+        options={{ title: "", headerTransparent: true }}
+      />
+     
       <Stack.Screen
         name="Register"
         component={Register}
         options={{ title: "", headerTransparent: true }}
       />
-      <Stack.Screen
-        name="Confirmation"
-        component={Confirmation}
-        options={{ title: "", headerTransparent: true }}
-      />
+    
       <Stack.Screen
         name="Form"
         component={Form}
@@ -64,12 +62,11 @@ export default function NavigationStack() {
         component={Reserva}
         options={{ title: "", headerTransparent: false }}
       />
-        <Stack.Screen
-        name="Code"
-        component={Code}
-        options={{ title: "", headerTransparent: false }}
+ <Stack.Screen
+        name="Company"
+        component={Company}
+        options={{ title: "", headerTransparent: true }}
       />
-
     </Stack.Navigator>
   );
 }

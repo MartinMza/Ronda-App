@@ -22,8 +22,8 @@ const NewCompany = (props) => {
     validateOnChange: false,
     onSubmit: async (data) => {
       const company = await axios
-        .post(`http://${localhost}:3001/api/organization/empresa`, data)
-        .then((user) => console.log(user));
+        .post(`http://${localhost}/api/organization/empresa`, data)
+        .then(() => navigation.navigate("Home"));
     },
   });
 
@@ -61,6 +61,12 @@ const NewCompany = (props) => {
           value={formik.values.phone}
           onChangeText={(text) => formik.setFieldValue("phone", text)}
         />
+        <Text style={styles.error}>{formik.errors.name}</Text>
+        <Text style={styles.error}>{formik.errors.CUIT}</Text>
+        <Text style={styles.error}>{formik.errors.social_reason}</Text>
+        <Text style={styles.error}>{formik.errors.date_time_fc}</Text>
+        <Text style={styles.error}>{formik.errors.data_fc}</Text>
+        <Text style={styles.error}>{formik.errors.phone}</Text>
         <Button onPress={formik.handleSubmit}>
           <Text style={{ fontSize: 15, color: "#fff" }}>CREAR EMPRESA</Text>
         </Button>
@@ -98,6 +104,12 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontSize: 20,
+  },
+  error: {
+    textAlign: "center",
+    color: "red",
+    marginTop: 2,
+    fontSize: 13,
   },
 });
 

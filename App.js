@@ -16,18 +16,18 @@ export default function App() {
   LogBox.ignoreAllLogs();
   const prefix = Linking.createURL("/");
 
-  const linking = {
-    prefixes: ["ronda://"],
-    config: {
-      screens: {
-        Profile: "user",
-      },
-    },
-  };
+  // const linking = {
+  //   prefixes: ["ronda://"],
+  //   config: {
+  //     screens: {
+  //       Profile: "user",
+  //     },
+  //   },
+  // };
 
   return (
     <Provider store={store}>
-      <NavigationContainer linking={linking}>
+      <NavigationContainer >
         <NavigationStack />
         <StatusBar style="auto" />
       </NavigationContainer>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Image,
   View,
@@ -22,11 +22,6 @@ const Login = (props) => {
   const { navigation } = props;
   const dispatch=useDispatch()
 
-  const goToRegister = () => {
-    navigation.navigate("Register");
-  };
-
-
   const formik = useFormik({
     initialValues: { email: "", password: "" },
     validationSchema: Yup.object(validationSchema()),
@@ -37,9 +32,11 @@ const Login = (props) => {
        data
       )
       .then(data=>dispatch(login(data.data))) 
-      if (user) navigation.navigate("Home");
+      .then(()=>navigation.navigate("Home"))
+      ;
     },
   });
+
 
   return (
     <View style={styles.container}>

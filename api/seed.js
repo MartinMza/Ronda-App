@@ -65,7 +65,7 @@ const fakeCampus = [
 
 const fakeRoom = [
   {
-    id: 1,
+ 
     name: "Sala Chiquita Belgrano",
 
     capacity: 4,
@@ -75,7 +75,7 @@ const fakeRoom = [
     campusId: 1,
   },
   {
-    id: 2,
+  
     name: "Sala Mediana Belgrano",
 
     capacity: 8,
@@ -85,7 +85,7 @@ const fakeRoom = [
     campusId: 1,
   },
   {
-    id: 3,
+   
     name: "Sala Grande Belgrano",
 
     capacity: 12,
@@ -95,17 +95,17 @@ const fakeRoom = [
     campusId: 1,
   },
   {
-    id: 4,
+  
     name: "Sala Chiquita Recoleta",
 
     capacity: 4,
     description: "sala de reuniones para pequeños grupos",
     photo: " no hay foto",
     credit_value: 10,
-    campusId: 2,reservations
+    campusId: 2
   },
   {
-    id: 5,
+   
     name: "Sala Mediana Recoleta",
 
     capacity: 8,
@@ -115,7 +115,7 @@ const fakeRoom = [
     campusId: 2,
   },
   {
-    id: 6,
+    
     name: "Sala Grande Recoleta",
 
     capacity: 12,

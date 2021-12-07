@@ -32,7 +32,7 @@ const Foro = () => {
         .post(`http://${localhost}/api/posts/`, data)
         .then(() => {
           axios
-            .get(`http://${localhost}/api/posts/general`)
+            .get(`http://${localhost}/api/posts/users/${user.id}`)
             .then(() => console.log("hola"));
         });
     },

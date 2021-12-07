@@ -4,8 +4,8 @@ const {PostController} = require('../controllers');
 //-----------------GET ROUTES-----------------//
 
 router.get('/:campus', PostController.getAllByCampus);
-router.get('/users/:id', PostController.getByUser);
-router.get('/posts/:id', PostController.getByUser);
+router.get('/users/:userId', PostController.getByUser);
+router.get('/posts/:id', PostController.getOneById);
 
 //-----------------POST ROUTES-----------------//
 
