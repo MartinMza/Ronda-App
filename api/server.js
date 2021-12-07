@@ -12,7 +12,6 @@ const {User} = require('./models');
 const router = require('./routes/index');
 
 require("./config/passport");
-require("./config/calendar");
 
 const app = express();
 
@@ -43,3 +42,4 @@ db.sync({ force: false })
         console.log(`server on ${process.env.PORT}`);
     }
 ))
+
