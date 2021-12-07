@@ -14,7 +14,7 @@ const reservation = require('./reservation')
 
 router.use('/auth', auth);
 router.use('/admin', checkAuth, checkAdmin, admin);
-router.use('/posts',checkAuth, post);
+router.use('/posts', post);
 router.use('/likes',checkAuth, like);
 router.use('/comment',checkAuth, comment);
 router.use('/room',checkAuth, room);
