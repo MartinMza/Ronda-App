@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Image,
   View,
@@ -22,11 +22,6 @@ const Login = (props) => {
   const { navigation } = props;
   const dispatch=useDispatch()
 
-  const goToRegister = () => {
-    navigation.navigate("Register");
-  };
-
-
   const formik = useFormik({
     initialValues: { email: "", password: "" },
     validationSchema: Yup.object(validationSchema()),
@@ -37,16 +32,18 @@ const Login = (props) => {
        data
       )
       .then(data=>dispatch(login(data.data))) 
-      if (user) navigation.navigate("Home");
+      .then(()=>navigation.navigate("Company"))
+      ;
     },
   });
+
 
   return (
     <View style={styles.container}>
       <Gradient>
         <Image source={logo} style={styles.logo} />
         <TextInput
-          placeholder="email"
+          placeholder="Email"
           style={styles.input}
           autoCapitalize="none"
           value={formik.values.email}
@@ -54,7 +51,7 @@ const Login = (props) => {
         />
         <Text style={styles.error}>{formik.errors.email}</Text>
         <TextInput
-          placeholder="password"
+          placeholder="Contraseña"
           style={styles.input}
           autoCapitalize="none"
           secureTextEntry={true}
@@ -73,8 +70,8 @@ const Login = (props) => {
 
 function validationSchema() {
   return {
-    email: Yup.string().email().required("Email is required"),
-    password: Yup.string().min(6).max(12).required("Pass is required"),
+    email: Yup.string().email().required("Email es requerido"),
+    password: Yup.string().min(6).max(12).required("Contraseña es requerida"),
   };
 }
 const styles = StyleSheet.create({
@@ -89,7 +86,8 @@ const styles = StyleSheet.create({
     width: 300,
     height: 70,
     marginHorizontal: 68,
-    marginVertical: 100,
+    marginTop: 160,
+    marginBottom:120
   },
   input: {
     width: 300,

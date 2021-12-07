@@ -2,6 +2,7 @@ const { Room } = require("../models");
 
 class RoomController {
   static async getRoomById(req, res) {
+    
     try {
       const room = await Room.findByPk(req.params.roomId);
       return res.status(200).send(room);

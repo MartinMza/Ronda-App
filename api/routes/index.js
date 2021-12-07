@@ -16,7 +16,7 @@ const calendar = require ('./calendar');
 router.use('/auth', auth);
 router.use('/calendar', checkAuth, calendar)
 router.use('/admin', checkAuth, checkAdmin, admin);
-router.use('/posts',checkAuth, post);
+router.use('/posts', post);
 router.use('/likes',checkAuth, like);
 router.use('/comment',checkAuth, comment);
 router.use('/room',checkAuth, room);

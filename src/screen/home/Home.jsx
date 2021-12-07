@@ -18,13 +18,11 @@ export default function Home(props) {
   const { navigation} = props;
   const user = useSelector(selectUser)
   const dispatch = useDispatch()
-  useEffect(()=>{
-      axios.post(`http://${localhost}/api/auth/login`,{
-          email:user.email,
-          password: user.password
-      })
-      .then((data)=>dispatch(login(data.data)))
-  },[])
+  // user? useEffect(()=>{
+  //   console.log(user)
+  //     axios.get(`http://${localhost}/api/auth/me`)
+  //     .then((data)=>console.log(data.data))
+  // },[]):null
  
   const goToProfile = () => {
     navigation.navigate("Profile");

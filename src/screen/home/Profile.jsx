@@ -3,7 +3,7 @@ import { Image, Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import profile from "../../../assets/icons/profile.png";
 import { useSelector } from "react-redux";
-import { selectUser, logout } from "../../features/userSlice";
+import { selectUser, logOut } from "../../features/userSlice";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { localhost } from "../../localHostIP.json";
@@ -15,11 +15,11 @@ export default function Profile(props) {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
-  const userLogout = () => {
-    axios.post(`http://${localhost}/api/auth/logout`).then(() => {
-      dispatch(logout());
-      navigation.navigate("Start");
-    });
+  const userLogout = async () => {
+    const user = await axios
+      .post(`http://${localhost}/api/auth/logout`)
+      .then(() => dispatch(logOut()))
+      .then(()=>navigation.navigate("Start"))
   };
 
   useEffect(() => {
@@ -27,7 +27,12 @@ export default function Profile(props) {
       headerRight: () => <IconsRight />,
       headerLeft: () => (
         <View style={{ flexDirection: "row" }}>
-          <Icon name="bars" size={20} style={styles.bars} onPress={()=>navigation.navigate("Home")} />
+          <Icon
+            name="bars"
+            size={20}
+            style={styles.bars}
+            onPress={() => navigation.navigate("Home")}
+          />
           <Image source={logo} style={styles.logo} />
         </View>
       ),

@@ -6,15 +6,18 @@ export const userSlice = createSlice({
     user: null,
   },
   reducers: {
-    login: (state, action) => {
+    register: (state, action) => {
       state.user = action.payload;
     },
-    logout: (state, action) => {
+    logOut: (state, action) => {
       state.user = null;
+    },
+    login: (state, action) => {
+      state.user = action.payload;
     },
   },
 });
 
-export const { login, logout } = userSlice.actions;
+export const { login, logOut, register } = userSlice.actions;
 export const selectUser = (state) => state.user.user;
 export default userSlice.reducer;

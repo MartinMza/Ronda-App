@@ -1,12 +1,11 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Image, Text, View, StyleSheet, TouchableOpacity } from "react-native";
 
 import Gradient from "../../components/gradient/Gradient";
-import Button from "../../components/button/Button";
 import { TextInput } from "react-native-gesture-handler";
 import { selectUser } from "../../features/userSlice";
+import Post from "../foro/Post"
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { localhost } from "../../localHostIP.json";
@@ -19,7 +18,7 @@ const Foro = () => {
   //   navigation.navigate("Home");
   // };
   const user = useSelector(selectUser);
-  const [post, setPost] = useState([]);
+  const [post, setPost] = useState();
   const formik = useFormik({
     initialValues: {
       content: "",
@@ -32,11 +31,19 @@ const Foro = () => {
         .post(`http://${localhost}/api/posts/`, data)
         .then(() => {
           axios
-            .get(`http://${localhost}/api/posts/general`)
-            .then(() => console.log("hola"));
+            .get(`http://${localhost}/api/posts/users/${user.id}`)
+            .then((data) => console.log("hola"));
         });
     },
   });
+  useEffect(() => {
+    axios
+      .get(`http://${localhost}/api/posts/users/1`)
+      .then((res) => setPost(res.data))
+      .catch((err) => console.error(err));
+  }, []);
+
+  console.log(`post`, post);
 
   return (
     <View style={styles.container}>
@@ -62,11 +69,11 @@ const Foro = () => {
         <TouchableOpacity>
           <Text style={styles.underText}>MÁS RECIENTES</Text>
         </TouchableOpacity>
+        {post ? post.reverse().map((e,i) => {return <Post content={e.content} key={i} />}) : null}
       </Gradient>
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -86,9 +93,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   buttonText: {
-
     fontSize: 18,
-
   },
   input: {
     width: 330,
@@ -116,4 +121,3 @@ const styles = StyleSheet.create({
   },
 });
 export default Foro;
-

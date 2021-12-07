@@ -1,5 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { Image, Text, View, StyleSheet, Linking } from "react-native";
+import React, { useEffect, useState, useRef } from "react";
+import {
+  TouchableOpacity,
+  Image,
+  Text,
+  View,
+  StyleSheet,
+  Linking,
+  TextInput,
+} from "react-native";
 import Gradient from "../../components/gradient/Gradient";
 import Button from "../../components/button/Button";
 import logo from "../../../assets/logo.png";
@@ -7,42 +15,122 @@ import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import { localhost } from "../../../localHostIP.json";
 import * as WebBrowser from "expo-web-browser";
-import { TextInput } from "react-native-gesture-handler";
+import { selectUser, login } from "../../features/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Confirmation(props) {
-  const [token, setToken] = useState("");
-  //const { navigation } = props;
+  const [code, setCode] = useState("");
+  const [codeDos, setCodeDos] = useState("");
+  const [codeTres, setCodeTres] = useState("");
+  const [codeCuatro, setCodeCuatro] = useState("");
 
-  // useEffect(()=>{
-  //     axios.get(`http://${localhost}/api/auth/token`)
-  //     .then((data)=>setToken(data))
-  // },[])
-  //console.log(token);
+  const user = useSelector(selectUser)
+  const { navigation } = props;
+  const inputUno = useRef(null);
+  const inputDos = useRef(null);
+  const inputTres = useRef(null);
+  const inputCuatro = useRef(null);
+  let token = code+codeDos+codeTres+codeCuatro
+  const handleConfirmation = () => {
+    axios
+      .put(`http://${localhost}/api/auth/verify/${token}`, user.email)
+      .then(() => navigation.navigate("Company"))
+      .catch(() => alert("Código incorrecto"));
+  }
 
-  const navigation = useNavigation();
-
-  console.log(navigation);
-
-  const handleGmail = async () => {
-   let token = await WebBrowser.openBrowserAsync("https://google.com/gmail");
-   setToken(token)
-  };
-
+  useEffect(() => {
+    axios
+      .post(`http://${localhost}/api/auth/login`, {
+        email: user.email,
+        password: user.password,
+      })
+      .then((data) => dispatch(login(data.data)));
+  }, [token.length > 3]);
   return (
     <View style={styles.container}>
       <Gradient>
         <Image source={logo} style={styles.logo} />
         <Text style={styles.title}>Revisa tu correo</Text>
-        <Text style={styles.subtitle}>
-          Te hemos enviado un correo de confirmación.
-        </Text>
-        <Button onPress={handleGmail}>
-          <Text style={styles.buttonText}>Ir a mi email</Text>
+        <Text style={styles.subtitle}>Ingresa el código que te enviamos</Text>
+        <View style={{ flexDirection: "row" }}>
+          <TextInput
+            autoFocus={true}
+            ref={inputUno}
+            style={styles.input}
+            maxLength={1}
+            value={code}
+            keyboardType={"numeric"}
+            onChangeText={(text) => {
+              setCode(text);
+            }}
+            onSelectionChange={() => {
+              code ? inputDos.current.focus() : null;
+            }}
+            //returnKeyType="next"
+          />
+          <TextInput
+            ref={inputDos}
+            style={styles.input}
+            maxLength={1}
+            value={codeDos}
+            keyboardType={"numeric"}
+            onChangeText={(text) => {
+              setCodeDos(text);
+            }}
+            onSelectionChange={() => {
+              codeDos ? inputTres.current.focus() : null;
+            }}
+          />
+          <TextInput
+            ref={inputTres}
+            style={styles.input}
+            maxLength={1}
+            keyboardType={"numeric"}
+            value={codeTres}
+            onChangeText={(text) => {
+              setCodeTres(text);
+            }}
+            onSelectionChange={() => {
+              codeTres ? inputCuatro.current.focus() : null;
+            }}
+          />
+          <TextInput
+            ref={inputCuatro}
+            style={styles.input}
+            maxLength={1}
+            value={codeCuatro}
+            keyboardType={"numeric"}
+            onChangeText={(text) => {
+              setCodeCuatro(text);
+            }}
+          />
+        </View>
+        <Button onPress={handleConfirmation}>
+          <Text
+            style={{
+              color: "#fff",
+              fontSize: 18,
+            }}
+          >
+            CONFIRMAR
+          </Text>
         </Button>
-        <Button onPress={()=>navigation.navigate("Code")}>
-          <Text style={styles.buttonText}>Ingresar mi codigo</Text>
-        </Button>
-  
+        <TouchableOpacity
+          onPress={() =>
+            WebBrowser.openBrowserAsync("https://google.com/gmail")
+          }
+        >
+          <Text
+            style={{
+              color: "#fff",
+              fontSize: 12,
+              textDecorationLine: "underline",
+              margin: 10,
+            }}
+          >
+            Ir a mi email
+          </Text>
+        </TouchableOpacity>
       </Gradient>
     </View>
   );
@@ -53,34 +141,34 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 20,
   },
   logo: {
     width: 300,
     height: 70,
     marginHorizontal: 70,
-    marginVertical: 90,
+    marginVertical: 100,
   },
   title: {
     fontSize: 28,
     color: "#fff",
     fontWeight: "bold",
-    padding: 20,
   },
   subtitle: {
     fontSize: 18,
-    padding: 25,
-    marginBottom: 65,
+    padding: 15,
+    marginBottom: 70,
     color: "#fff",
     textAlign: "center",
   },
-  buttonText: {
-    color: "white",
+  input: {
+    width: 70,
+    height: 70,
+    backgroundColor: "white",
+    borderRadius: 6,
+    marginHorizontal: 2,
+    marginBottom: 75,
+    textAlign: "center",
+    padding: 10,
     fontSize: 22,
   },
 });
