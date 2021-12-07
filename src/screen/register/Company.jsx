@@ -32,9 +32,12 @@ const Company = (props) => {
       .get(`http://${localhost}/api/organization/`)
       .then((data) => setOrganization(data["data"]));
   }, []);
-  console.log("AAAAAAAAA",organization);
+  //console.log("AAAAAAAAA", organization);
+  let oneOrganization
   useEffect(() => {
-    let oneOrganization = organization.filter((items) => items === value);
+    oneOrganization = organization.filter((items) =>
+      items.name.toLowerCase().includes(value.toLowerCase())
+    );
     setMyOrganization(oneOrganization);
   }, [value]);
 
@@ -60,17 +63,15 @@ const Company = (props) => {
               setValue(text);
             }}
           />
-          {value ? (
-            <TextInput
-              placeholder="Busca tu empresa"
-              style={[
-                styles.input,
-                { borderBottomLeftRadius: 6, borderBottomRightRadius: 6 },
-              ]}
-              value={myOrganization}
-              editable={false}
-            />
-          ) : null}
+
+          {myOrganization
+            ? myOrganization?.map((item) => (
+                <TouchableOpacity onPress={() =>( setValue(item.name)&&
+                setMyOrganization([]))}>
+                  <Text style={styles.input}>{item.name}</Text>
+                </TouchableOpacity>
+              ))
+            : null}
 
           <TouchableOpacity onPress={() => navigation.navigate("NewCompany")}>
             <Text

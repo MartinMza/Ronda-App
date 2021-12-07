@@ -17,11 +17,7 @@ const Stack = createStackNavigator();
 export default function NavigationStack() {
   return (
     <Stack.Navigator>
-       <Stack.Screen
-        name="Login"
-        component={Login}
-        options={{ title: "", headerTransparent: true }}
-      />
+     
          
       <Stack.Screen
         name="Start"
@@ -29,6 +25,11 @@ export default function NavigationStack() {
         options={{ title: "", headerTransparent: true }}
       />
       <Stack.Screen name="Home" component={Home} options={{ title: "" }} />
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{ title: "", headerTransparent: true }}
+      />
       <Stack.Screen
         name="Profile"
         component={Profile}
