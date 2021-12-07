@@ -51,12 +51,12 @@ const calendar= google.calendar({version:"v3", auth: oAuth2Client})
 class GoogleCalendarAPI{
     static async setEvent(req, res){
         try{
-            const start = new Date(`${req.body.syear ,req.body.smonth, req.body.sday, req.body.shours, req.body.sminutes}`)
-            const end = new Date(`${req.body.eyear ,req.body.emonth, req.body.eday, req.body.ehours, req.body.eminutes}`)
+            const start = new Date(req.body.syear ,req.body.smonth, req.body.sday, req.body.shours, req.body.sminutes)
+            const end = new Date(req.body.eyear ,req.body.emonth, req.body.eday, req.body.ehours, req.body.eminutes)
             const event = {
                 summary: "Reserva de sala",
                 location: req.body.location,
-                description: `Reserva de sala en ${req.body.location}, desde ${req.body.start} hasta ${req.body.end}`,
+                description: `Reserva de sala`,
                 start: {
                     dateTime: start,
                     timeZone: "America/Buenos_Aires"
@@ -65,29 +65,49 @@ class GoogleCalendarAPI{
                     dateTime: end,
                     timeZone: "America/Buenos_Aires"
                 },
-                colorId: location === "Belgrano" ? 1 : 2,
+                colorId: 1
             }
-            // const {data} = await calendar.events.insert({calendarId: "primary", resource: event })
-            // res.status(200).json({data})
 
-            calendar.freebusy.query({
+            const events = await calendar.freebusy.query({
                 resource: {
                     timeMin: start,
                     timeMax: end,
                     timeZone: "America/Buenos_Aires",
                     items: [{ id: "primary" }],
                 }
-            }, (err,res)=> {
-                if(err) return console.error("Free Busy query error", err)
-            
-                const eventsArr = res.data.calendars.primary.busy
+            }, (err,response)=> {
+                if(err) return res.status(500).json({message: "Free Busy query error", err})
+
+                const eventsArr = response.data.calendars.primary.busy
+
                 if(eventsArr.length === 0) return calendar.events.insert({calendarId: "primary", resource: event }, err=>{
-                    if (err) return console.error("Calendar event creation error:", err)
-            
-                    return res.status(201).json("calendar event created")
+                    if (err) return res.status(500).json({message: "Calendar event creation error", err})
+                    return res.status(200).json({message: "Calendar event created"})
                 })
-                return res.status(403).json("Ocupado")
+                
+                return res.status(500).json({message: "Sorry I'm busy"})
             })
+            // const {data} = await calendar.events.insert({calendarId: "primary", resource: event })
+            // res.status(200).json({data})
+
+            // calendar.freebusy.query({
+            //     resource: {
+            //         timeMin: start,
+            //         timeMax: end,
+            //         timeZone: "America/Buenos_Aires",
+            //         items: [{ id: "primary" }],
+            //     }
+            // }, (err,res)=> {
+            //     if(err) return console.error("Free Busy query error", err)
+            
+            //     const eventsArr = res.data.calendars.primary.busy
+            //     if(eventsArr.length === 0) return calendar.events.insert({calendarId: "primary", resource: event }, err=>{
+            //         if (err) return console.error("Calendar event creation error:", err)
+            
+            //         return res.send("created")
+            //     })
+            //     return res.sendStatus(403)
+            // })
         }catch(err){
             res.status(500).json({err})
         }
