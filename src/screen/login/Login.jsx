@@ -32,7 +32,7 @@ const Login = (props) => {
        data
       )
       .then(data=>dispatch(login(data.data))) 
-      .then(()=>navigation.navigate("Home"))
+      .then(()=>navigation.navigate("Company"))
       ;
     },
   });
