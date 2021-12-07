@@ -39,17 +39,12 @@ class AdminMembershipController {
               name: req.params.oname,
             },
           });
-    
-          await Organization.update(
-            { avaliable_credits: membership.credits },
-            {
-              where: {
-                name: organization.name,
-              },
-            }
-          );
-          await membership.addOrganizations(organization);
-          res.status(201).send("membership updated successfully");
+
+          await organization.addMembership(membership);
+          await organization.update({
+            avaliable_credits: organization.avaliable_credits += membership.credits
+          })
+        res.send({membership, organization});
         } catch (err) {
           next(err);
         }
@@ -58,3 +53,15 @@ class AdminMembershipController {
 
 module.exports = AdminMembershipController
 
+
+
+// await Organization.update(
+//   { avaliable_credits: membership.credits },
+//   {
+//     where: {
+//       name: organization.name,
+//     },
+//   }
+// );
+// await membership.addOrganizations(organization);
+// res.status(201).send("membership updated successfully");
