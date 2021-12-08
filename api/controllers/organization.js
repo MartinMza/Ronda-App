@@ -72,6 +72,7 @@ class OrganizationController {
   }
   
   static async addUserToOrganization(req, res, next) {
+    console.log(req.user)
     try {
       const organization = await Organization.findOne({
         where: {
