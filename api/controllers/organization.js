@@ -18,7 +18,7 @@ class OrganizationController {
     try {
       const { name, CUIT, social_reason, date_time_fc, date_fc, phone } =
         req.body;
-     const organization= await Organization.create({
+      const organization = await Organization.create({
         name,
         CUIT,
         social_reason,
@@ -41,6 +41,7 @@ class OrganizationController {
       );
       res.status(201).send("Empresa creada, vos sos el admin");
     } catch (err) {
+      console.log(err)
       next(err);
     }
   }
@@ -70,27 +71,29 @@ class OrganizationController {
       next(err);
     }
   }
-  
+
   static async addUserToOrganization(req, res, next) {
-    console.log(req.user)
     try {
       const organization = await Organization.findOne({
         where: {
           name: req.params.name,
         },
       });
-      await User.update({
+
+      const user = await User.findOne({
         where: {
           id: req.user.id,
         },
-        organizationId: organization.id,
       });
-      res.status(201).send("Usuario agregado a la empresa");
+      await user.update({
+        organizationId: organization.dataValues.id,
+      });
+
+      res.sendStatus(201);
     } catch (err) {
       next(err);
     }
   }
-
 
   static async confirmUser(req, res, next) {
     try {
@@ -119,6 +122,3 @@ class OrganizationController {
 }
 
 module.exports = OrganizationController;
-
-
-
