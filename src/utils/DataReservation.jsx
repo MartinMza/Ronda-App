@@ -55,3 +55,8 @@ export const idType = (room, campus) => {
   if (room == "Grande" && campus == "Belgrano") return 3;
   if (room == "Grande" && campus == "Recoleta") return 6;
 };
+
+export const CampusID = (campus)=>{
+  if (campus == "Belgrano") return 1;
+  if (campus == "Belgrano") return 2;
+}
