@@ -18,6 +18,11 @@ export default function NavigationStack() {
   return (
     <Stack.Navigator>
      
+      <Stack.Screen
+        name="Profile"
+        component={Profile}
+        options={{ title: "" }}
+      />
          
       <Stack.Screen
         name="Start"
@@ -29,11 +34,6 @@ export default function NavigationStack() {
         name="Login"
         component={Login}
         options={{ title: "", headerTransparent: true }}
-      />
-      <Stack.Screen
-        name="Profile"
-        component={Profile}
-        options={{ title: "" }}
       />
          <Stack.Screen
         name="Confirmation"
