@@ -41,6 +41,7 @@ class OrganizationController {
       );
       res.status(201).send("Empresa creada, vos sos el admin");
     } catch (err) {
+      console.log(err)
       next(err);
     }
   }
