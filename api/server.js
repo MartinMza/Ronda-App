@@ -42,3 +42,4 @@ db.sync({ force: false })
         console.log(`server on ${process.env.PORT}`);
     }
 ))
+
