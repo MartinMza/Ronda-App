@@ -23,8 +23,8 @@ User.hasMany(Message)
 Post.hasMany(Like);
 Post.hasMany(Comment);
 //Organization/Membership relations
-// Organization.hasMany(User);
-// Membership.hasMany(Organization);
+Organization.hasMany(User);
+
 Organization.belongsToMany(Membership, {
   through: "organization_membership",
 });
