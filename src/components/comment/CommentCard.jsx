@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 
+
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 export default function CommentCard(props) {
-  const { content, name } = props;
+  const {content} = props
   return (
     <View style={styles.input}>
       <View style={styles.header}>
-        <Text style={styles.mainName}>{name}</Text>
+        {/* <Text style={styles.mainName}>{name}</Text> */}
         <TouchableOpacity>
           <Icon
             name="ellipsis-v"
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
   input: {
     width: 330,
     borderRadius: 6,
-    marginButton: 15,
+    marginBottom: 15,
     padding: 15,
   },
   mainName: {

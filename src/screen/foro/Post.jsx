@@ -32,7 +32,7 @@ export default function Post(props) {
 
   const formik = useFormik({
     initialValues: {
-      content: "",
+      comment: "",
     },
     validateOnChange: false,
     onSubmit: async (data) => {
@@ -91,8 +91,8 @@ export default function Post(props) {
           editable
           numberOfLines={2}
           style={{ width: 290, marginLeft: 5, marginVertical: 15 }}
-          value={formik.values.content}
-          onChangeText={(text) => formik.setFieldValue("content", text)}
+          value={formik.values.comment}
+          onChangeText={(text) => formik.setFieldValue("comment", text)}
         />
         <TouchableOpacity
           style={styles.buttonSend}

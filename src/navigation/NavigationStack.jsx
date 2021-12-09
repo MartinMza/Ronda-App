@@ -17,6 +17,7 @@ const Stack = createStackNavigator();
 export default function NavigationStack() {
   return (
     <Stack.Navigator>
+     
       <Stack.Screen name="Home" component={Home} options={{ title: "" }} />
       <Stack.Screen
         name="Start"
@@ -49,7 +50,11 @@ export default function NavigationStack() {
         component={Register}
         options={{ title: "", headerTransparent: true }}
       />
-
+  <Stack.Screen
+        name="Reservation"
+        component={Reservation}
+        options={{ title: "", headerTransparent: false }}
+      />
       <Stack.Screen
         name="Form"
         component={Form}
@@ -60,11 +65,7 @@ export default function NavigationStack() {
         component={Reserva}
         options={{ title: "", headerTransparent: false }}
       />
-      <Stack.Screen
-        name="Reservation"
-        component={Reservation}
-        options={{ title: "", headerTransparent: false }}
-      />
+     
       <Stack.Screen
         name="Company"
         component={Company}

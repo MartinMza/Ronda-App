@@ -18,12 +18,11 @@ export const Timepick = (props) => {
   const [show, setShow] = useState(false);
 
   const onChange = (e, selectedDate) => {
-    console.log(selectedDate)
+    console.log(selectedDate);
     setDate(moment(selectedDate));
     props.onDateChange(date);
-
   };
-console.log(date)
+  console.log(date);
   return (
     <TouchableOpacity onPress={() => setShow(true)}>
       <View>
@@ -69,10 +68,9 @@ console.log(date)
                   <View>
                     <DateTimePicker
                       display={Platform.OS === "ios" ? "spinner" : "default"}
-                      
                       value={new Date(date)}
                       mode={"time"}
-                      timeZoneOffsetInMinutes={60} 
+                      timeZoneOffsetInMinutes={60}
                       onChange={onChange}
                     ></DateTimePicker>
                   </View>

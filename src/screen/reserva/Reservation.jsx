@@ -17,7 +17,8 @@ const Reservation = () => {
   const [typeValue, setTypeValue] = useState(null);
   const [type, setType] = useState(Room);
 
-  const [time, setTime] = useState(null);
+  const [InitTime, setInitTime] = useState(null);
+  const [OutTime, setOutTime] = useState(null);
   const [date, setDate] = useState(null);
 
   return (
@@ -27,7 +28,11 @@ const Reservation = () => {
           <Text style={[styles.underText, { marginLeft: 20 }]}>
             HACÉ TU RESERVA
           </Text>
+          <Text style={{ color: "white", marginLeft: 33, marginTop: 20 }}>
+            Elige tu sede
+          </Text>
           <Drop
+            placeholder="Sedes"
             open={open}
             value={value}
             items={sedes}
@@ -36,7 +41,11 @@ const Reservation = () => {
             setItems={setSedes}
             zIndex={3}
           />
+          <Text style={{ color: "white", marginLeft: 33, marginTop: 20 }}>
+            Elige tu sala
+          </Text>
           <Drop
+            placeholder="Salas disponibles"
             open={typeOpen}
             value={typeValue}
             items={type}
@@ -45,12 +54,15 @@ const Reservation = () => {
             setItems={setType}
             zIndex={2}
           />
+          <Text style={{ color: "white", marginLeft: 33, marginTop: 20 }}>
+            Elige el día
+          </Text>
           <View
             style={{
               backgroundColor: "#fff",
               borderRadius: 6,
               marginHorizontal: 30,
-              width: "70%",
+              marginTop: 17,
               flexDirection: "row",
             }}
           >
@@ -58,9 +70,21 @@ const Reservation = () => {
               textStyle={styles.input}
               onDateChange={(value) => setDate(value)}
             />
+          </View>
+          <View
+            style={{
+              borderRadius: 6,
+              marginHorizontal: 30,
+              flexDirection: "row",
+            }}
+          >
             <Timepick
               textStyle={styles.input}
-              onDateChange={(value) => setTime(value)}
+              onDateChange={(value) => setInitTime(value)}
+            />
+            <Timepick
+              textStyle={styles.input}
+              onDateChange={(value) => setOutTime(value)}
             />
           </View>
         </View>

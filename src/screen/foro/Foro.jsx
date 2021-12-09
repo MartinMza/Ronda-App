@@ -31,16 +31,11 @@ const Foro = () => {
     onSubmit: async (data) => {
       const post = await axios
         .post(`http://${localhost}/api/posts/`, data)
-        .then(() => {
-          axios
-            .get(`http://${localhost}/api/posts/users/${user.id}`)
-            .then((data) => console.log("hola"));
-        });
     },
   });
   useEffect(() => {
     axios
-      .get(`http://${localhost}/api/posts/users/5`)
+      .get(`http://${localhost}/api/posts/users/6`)
       .then((res) => setPost((res.data).reverse()))
       .then(()=>console.log("use Effect ok"))
       .catch((err) => console.error(err));
@@ -105,7 +100,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 6,
     marginVertical: 30,
-    marginBottom: 15,
+    marginBottom:15,
     padding: 15,
   },
 

@@ -42,7 +42,7 @@ export const Datepick = (props) => {
             <TouchableOpacity
               style={{
                 flex: 1,
-                alignItems: "center",
+                alignItems: "flex-end",
                 flexDirection: "row",
               }}
               visible={show}
@@ -51,9 +51,10 @@ export const Datepick = (props) => {
               <TouchableOpacity
                 style={{
                   flex: 1,
-
                   marginHorizontal: 20,
                   borderRadius: 6,
+                  borderTopColor: "#e9e9e9",
+                  borderTopWidth: 1,
                 }}
                 onPress={() => {
                   console.log("clickeeedddd");
@@ -63,12 +64,13 @@ export const Datepick = (props) => {
                   style={{
                     backgroundColor: "#fff",
                     borderRadius: 6,
+
                     overflow: "hidden",
                   }}
                 >
-                  <View>
+                  <View style={{ marginTop: 20 }}>
                     <DateTimePicker
-                      display={Platform.OS === "ios" ? "inline" : "default"}
+                      display={Platform.OS === "ios" ? "spinner" : "default"}
                       timeZoneOffsetInMinutes={0}
                       value={new Date(date)}
                       mode={"date"}
@@ -79,7 +81,15 @@ export const Datepick = (props) => {
                         )
                       }
                       onChange={onChange}
-                    ></DateTimePicker>
+                    >
+                      <TouchableHighlight
+                        underlayColor={"transparent"}
+                        style={[styles.btnText, styles.btnCancel]}
+                        onPress={()=>console.log("cancelado")}
+                      >
+                        Cancel
+                      </TouchableHighlight>
+                    </DateTimePicker>
                   </View>
                 </View>
               </TouchableOpacity>
@@ -92,3 +102,21 @@ export const Datepick = (props) => {
 };
 
 Datepick.defaultProps = { textStyle: {}, onDateChange: () => {} };
+
+const styles = StyleSheet.create({
+  btnText: {
+    position: "absolute",
+    top: 0,
+    height: 42,
+    paddingHorizontal: 28,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  btnCancel: {
+    left: 0,
+  },
+  btnDone: {
+    right: 0,
+  },
+});
