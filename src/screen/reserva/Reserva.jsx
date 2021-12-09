@@ -18,6 +18,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../features/userSlice";
 
+import moment from "moment";
+
 export default function Reserva(props) {
   const { navigation } = props;
   const dispatch = useDispatch();
@@ -48,6 +50,29 @@ export default function Reserva(props) {
   //--------------------------------------------//
   const user = useSelector(selectUser);
   // --------------------ROUTE GET---------------------------//
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState("date");
+  const [show, setShow] = useState(false);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === "ios");
+    setDate(currentDate);
+  };
+
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode("date");
+  };
+
+  const showTimepicker = () => {
+    showMode("time");
+  };
+  date? console.log(moment().format("DD/MM/YYYY")):null
 
   useEffect(() => {
     const id = typeValue ? idType(typeValue, value) : null;
@@ -216,6 +241,24 @@ export default function Reserva(props) {
           <Button onPress={() => handleBooking()}>
             <Text style={styles.buttonText}>Reservar</Text>
           </Button>
+          <View>
+            <View  style={styles.buttonForReservation}>
+              <TouchableOpacity onPress={showDatepicker} title="Show date picker!" ><Text>{moment().format("DD/MM/YYYY")}</Text></TouchableOpacity>
+            </View>
+            <View>
+              <TouchableOpacity onPress={showTimepicker} title="Show time picker!" />
+            </View>
+            {show && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                mode={mode}
+                is24Hour={true}
+                display={Platform.OS === "ios" ? "spinner" : "default"}
+                onChange={onChange}
+              />
+            )}
+          </View>
         </View>
       </Gradient>
     </View>

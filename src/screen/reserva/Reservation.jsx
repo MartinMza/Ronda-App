@@ -7,6 +7,7 @@ const Reservation = () => {
   return (
     <View style={styles.container}>
       <Datepick textStyle={{paddingVertical:15, paddingHorizontal:10, borderColor:"gray", borderWidth:2}}/>
+      <Text>Hola</Text>
     </View>
   );
 };
@@ -15,7 +16,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     flex: 1,
-    marginTop: 80
+    marginTop: 80, marginBottom:80
   },
 });
 export default Reservation;
