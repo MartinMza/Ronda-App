@@ -1,4 +1,4 @@
-const { Room, Organization } = require("../models");
+const { Room, Organization, Reservation }= require("../models");
 const { google } = require("googleapis");
 const { OAuth2 } = google.auth;
 const oAuth2Client = new OAuth2(
@@ -24,7 +24,7 @@ class GoogleCalendarAPI {
   static async getSingleEvent(req, res) {
     try {
       const event = await calendar.events.get({
-        calendarId: "primary",
+        calendarId: req.params.calendarId,
         eventId: req.params.eventId,
       });
       res.status(200).json({ event: event.data });
@@ -143,6 +143,14 @@ class GoogleCalendarAPI {
                   avaliable_credits:
                     organization.avaliable_credits - room.credit_value * horas,
                 });
+                
+
+                Reservation.create({
+                    eventId:event.id,
+                    calendarId:calendarId,
+                    location:req.body.location,
+                    
+                })
                 return res.status(200).send(event);
               });
             } else {

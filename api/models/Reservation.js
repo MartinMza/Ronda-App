@@ -8,10 +8,6 @@ Reservation.init({
         type: S.STRING,
         allowNull: false,
     },
-    userId: {
-        type: S.STRING,
-        allowNull: false,
-    },
     calendarId: {
         type: S.STRING,
         allowNull: false,
@@ -22,12 +18,11 @@ Reservation.init({
     },
     start: {
         type: S.STRING,
-        allowNull: false,
     },
-    end: {
+    end:{
         type: S.STRING,
-        allowNull: false,
     }
+    
 },{sequelize, modelName: "reservation"});
 
 module.exports = Reservation;
