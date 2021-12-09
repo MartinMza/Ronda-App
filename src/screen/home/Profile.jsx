@@ -68,7 +68,7 @@ export default function Profile(props) {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.touchable}
-          onPress={() => navigation.navigate("Reserva")}
+          onPress={() => navigation.navigate("Reservation")}
         >
           <Icon name="calendar-check" size={25} style={styles.icons} />
           <Text>Reserva</Text>

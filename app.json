@@ -1,5 +1,6 @@
 {
   "expo": {
+    "userInterfaceStyle": "automatic",
     "scheme": "ronda",
     "name": "App",
     "slug": "App",

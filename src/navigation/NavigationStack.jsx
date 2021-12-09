@@ -8,7 +8,7 @@ import Register from "../screen/register/Register";
 import Form from "../screen/register/Form";
 import Confirmation from "../screen/register/Confirmation";
 import Reserva from "../screen/reserva/Reserva";
-
+import Reservation from "../screen/reserva/Reservation";
 import Company from "../screen/register/Company";
 import NewCompany from "../screen/register/NewCompany";
 
@@ -17,7 +17,12 @@ const Stack = createStackNavigator();
 export default function NavigationStack() {
   return (
     <Stack.Navigator>
-     
+      <Stack.Screen
+        name="Reservation"
+        component={Reservation}
+        options={{ title: "", headerTransparent: true }}
+      />
+  
          
       <Stack.Screen
         name="Start"
@@ -40,7 +45,7 @@ export default function NavigationStack() {
         component={Confirmation}
         options={{ title: "", headerTransparent: true }}
       />
-  
+        
       <Stack.Screen
         name="NewCompany"
         component={NewCompany}

@@ -1,4 +1,4 @@
-const {Post} = require('../models');
+const {Post, User} = require('../models');
 
 class PostController{
     //find one using sequelize
@@ -6,7 +6,7 @@ class PostController{
         try{
             const posts = await Post.findAll({
                 where: {
-                    campus: req.params.campus
+                    campusId: req.params.campusId
                 }
             });
             res.send(posts);
@@ -27,6 +27,9 @@ class PostController{
             const posts = await Post.findAll({
                 where: {
                     userId: req.params.userId
+                },
+                include: {
+                    model: User
                 }
             });
             res.send(posts);
@@ -54,6 +57,7 @@ class PostController{
             const post = await Post.create({
                 content: req.body.content,
                 userId: req.user.id,
+                campusId: req.user.campusId,
             });
             res.send(post);
         }catch(err){

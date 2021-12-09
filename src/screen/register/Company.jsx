@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../../features/userSlice";
 import Button from "../../components/button/Button";
 import DropDownPicker from "react-native-dropdown-picker";
-import { Campus } from "../../utils/DataReservation.jsx";
+import { Campus, CampusID } from "../../utils/DataReservation.jsx";
 
 const Company = (props) => {
   const { navigation } = props;
@@ -49,7 +49,12 @@ const Company = (props) => {
   }, [value]);
 
   const handleConfirmation = () => {
+    const id = myCampus ? CampusID(myCampus) : null;
     axios.put(`http://${localhost}/api/organization/empresa/${value}`);
+    axios.put(`http://${localhost}/api/user/`,{
+      campusId: id
+    })
+    .then(()=>navigation.navigate("Home"))
   };
   return (
     <View style={styles.container}>

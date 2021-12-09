@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Image, Text, View, StyleSheet } from "react-native";
+import { Image, Text, View, StyleSheet} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import logo from "../../../assets/LogoRondaColor.jpg"
 import Gradient from "../../components/gradient/Gradient";
@@ -46,6 +46,7 @@ export default function Home(props) {
   },[]);
   return (
     <View style={styles.container}>
+    
       <Gradient>
 
          <Foro/> 
