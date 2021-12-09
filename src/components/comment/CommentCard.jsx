@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   input: {
     width: 330,
     borderRadius: 6,
-    marginButton: 15,
+    marginBottom: 15,
     padding: 15,
   },
   mainName: {

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import {
   Image,
   Text,
-  TextInput,
+  // TextInput,
   View,
   StyleSheet,
   TouchableOpacity,
@@ -13,12 +13,15 @@ import axios from "axios";
 import { localhost } from "../../localHostIP.json";
 import { useFormik } from "formik";
 import CommentList from "../../components/comment/CommentList";
+import { TextInput } from "react-native-gesture-handler";
 
 export default function Post(props) {
   const { content, img, name, id, userId } = props;
 
   const [comments, setComments] = useState([]);
   const [load, setLoad] = useState(false);
+  const [send, setSend] = useState(false)
+  const [text, setText] = useState("")
 
   useEffect(() => {
     if (load) {
@@ -28,20 +31,28 @@ export default function Post(props) {
         .then(() => console.log("use Effect super ok"))
         .catch((err) => console.error(err));
     }
-  }, [load]);
+  }, [load, send]);
 
-  const formik = useFormik({
-    initialValues: {
-      content: "",
-    },
-    validateOnChange: false,
-    onSubmit: async (data) => {
-      const post = await axios.post(
-        `http://${localhost}/api/comment/${id}`,
-        data
-      );
-    },
-  });
+  // const formik = useFormik({
+  //   initialValues: {
+  //     comment: "",
+  //   },
+  //   validateOnChange: false,
+  //   onSubmit: async (data) => {
+  //     const post = await axios.post(
+  //       `http://${localhost}/api/comment/${id}`,
+  //       data
+  //     );
+  //   },
+  // });
+
+  const handleSubmit = async (data) => {
+    setSend(!send)
+    const post = await axios.post(
+      `http://${localhost}/api/comment/${id}`,
+      data
+    );
+  };
 
   return (
     <View>
@@ -91,12 +102,11 @@ export default function Post(props) {
           editable
           numberOfLines={2}
           style={{ width: 290, marginLeft: 5, marginVertical: 15 }}
-          value={formik.values.content}
-          onChangeText={(text) => formik.setFieldValue("content", text)}
+          onChangeText={(text) => setText(text)}
         />
         <TouchableOpacity
           style={styles.buttonSend}
-          onPress={formik.handleSubmit}
+          onPress={()=>handleSubmit(text)}
         >
           <Icon name="paper-plane" size={20} />
         </TouchableOpacity>
@@ -143,7 +153,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   comment: {
-    marginTop:5,
+    marginTop: 5,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "white",

@@ -23,23 +23,17 @@ const Foro = () => {
   const formik = useFormik({
     initialValues: {
       content: "",
-      campus: "general",
     },
     //validationSchema: Yup.object(validationSchema()),
     validateOnChange: false,
     onSubmit: async (data) => {
       const post = await axios
         .post(`http://${localhost}/api/posts/`, data)
-        .then(() => {
-          axios
-            .get(`http://${localhost}/api/posts/users/${user.id}`) 
-            .then((data) => console.log("hola"));
-        });
     },
   });
   useEffect(() => {
     axios
-      .get(`http://${localhost}/api/posts/users/5`)
+      .get(`http://${localhost}/api/posts/1`)
       .then((res) => setPost((res.data).reverse()))
       .then(()=>console.log("use Effect ok"))
       .catch((err) => console.error(err));

@@ -4,7 +4,7 @@ import Post from "../../screen/foro/Post"
 
 export default function PostList(props) {
   const { posts } = props;
-  
+  console.log(`posts`, posts)
   return (
     <FlatList
       data={posts}
