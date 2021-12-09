@@ -4,14 +4,29 @@ const sequelize = require("../config/db");
 class Reservation extends S.Model {}
 
 Reservation.init({
-    turnId: {
-        type: S.INTEGER,
+    eventId: {
+        type: S.STRING,
         allowNull: false,
-        foreingKey: true,
-        references: {
-            model: "turnos",
-            key: "id"
-        }
+    },
+    userId: {
+        type: S.STRING,
+        allowNull: false,
+    },
+    calendarId: {
+        type: S.STRING,
+        allowNull: false,
+    },
+    location: {
+        type: S.STRING,
+        allowNull: false,
+    },
+    start: {
+        type: S.STRING,
+        allowNull: false,
+    },
+    end: {
+        type: S.STRING,
+        allowNull: false,
     }
 },{sequelize, modelName: "reservation"});
 
