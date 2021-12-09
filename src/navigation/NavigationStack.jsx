@@ -17,42 +17,40 @@ const Stack = createStackNavigator();
 export default function NavigationStack() {
   return (
     <Stack.Navigator>
-     
-      <Stack.Screen
-        name="Profile"
-        component={Profile}
-        options={{ title: "" }}
-      />
-         
+      <Stack.Screen name="Home" component={Home} options={{ title: "" }} />
       <Stack.Screen
         name="Start"
         component={Start}
         options={{ title: "", headerTransparent: true }}
       />
-      <Stack.Screen name="Home" component={Home} options={{ title: "" }} />
       <Stack.Screen
         name="Login"
         component={Login}
         options={{ title: "", headerTransparent: true }}
       />
-         <Stack.Screen
+      <Stack.Screen
+        name="Profile"
+        component={Profile}
+        options={{ title: "" }}
+      />
+      <Stack.Screen
         name="Confirmation"
         component={Confirmation}
         options={{ title: "", headerTransparent: true }}
       />
-  
+
       <Stack.Screen
         name="NewCompany"
         component={NewCompany}
         options={{ title: "", headerTransparent: true }}
       />
-     
+
       <Stack.Screen
         name="Register"
         component={Register}
         options={{ title: "", headerTransparent: true }}
       />
-    
+
       <Stack.Screen
         name="Form"
         component={Form}
@@ -63,7 +61,7 @@ export default function NavigationStack() {
         component={Reserva}
         options={{ title: "", headerTransparent: false }}
       />
- <Stack.Screen
+      <Stack.Screen
         name="Company"
         component={Company}
         options={{ title: "", headerTransparent: true }}
