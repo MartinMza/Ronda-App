@@ -248,7 +248,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 18,
     padding: 10,
     flexDirection: "row",
-    //justifyContent: "space-between",
     marginVertical: 5,
   },
 
