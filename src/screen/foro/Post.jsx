@@ -19,13 +19,14 @@ export default function Post(props) {
           </TouchableOpacity>
         </View>
         <Text>{content}</Text>
-        {/* {img ? <Image source={{uri: img}} /> : null} */}
-        <Image
-          style={styles.imagen}
-          source={{
-            uri: img,
-          }}
-        />
+        {img ? (
+          <Image
+            style={styles.imagen}
+            source={{
+              uri: img,
+            }}
+          />
+        ) : null}
       </View>
       <View style={styles.footer}>
         <TouchableOpacity style={styles.buttonFooter}>
@@ -43,7 +44,6 @@ export default function Post(props) {
 }
 
 const styles = StyleSheet.create({
-
   input: {
     width: 330,
     backgroundColor: "white",
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   imagen: {
     width: 300,
     height: 150,
-    marginVertical:15,
+    marginVertical: 15,
     borderRadius: 6,
   },
 });

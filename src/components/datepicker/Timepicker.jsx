@@ -12,21 +12,22 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 
 import moment from "moment";
 
-export const Datepick = (props) => {
+export const Timepick = (props) => {
   const { textStyle, onDateChange } = props;
   const [date, setDate] = useState(moment());
   const [show, setShow] = useState(false);
 
   const onChange = (e, selectedDate) => {
+    console.log(selectedDate)
     setDate(moment(selectedDate));
     props.onDateChange(date);
-    setShow(false);
-  };
 
+  };
+console.log(date)
   return (
     <TouchableOpacity onPress={() => setShow(true)}>
       <View>
-        <Text style={textStyle}>{date.format("DD/MM/YYYY")}</Text>
+        <Text style={textStyle}>{date.format("HH:mm")}</Text>
         <Modal
           transparent={true}
           animationType="slide"
@@ -51,7 +52,6 @@ export const Datepick = (props) => {
               <TouchableOpacity
                 style={{
                   flex: 1,
-
                   marginHorizontal: 20,
                   borderRadius: 6,
                 }}
@@ -68,16 +68,11 @@ export const Datepick = (props) => {
                 >
                   <View>
                     <DateTimePicker
-                      display={Platform.OS === "ios" ? "inline" : "default"}
-                      timeZoneOffsetInMinutes={0}
+                      display={Platform.OS === "ios" ? "spinner" : "default"}
+                      
                       value={new Date(date)}
-                      mode={"date"}
-                      minimumDate={new Date(moment().format("DD/MM/YYYY"))}
-                      maximumDate={
-                        new Date(
-                          moment().subtract(5, "years").format("DD/MM/YYYY")
-                        )
-                      }
+                      mode={"time"}
+                      timeZoneOffsetInMinutes={60} 
                       onChange={onChange}
                     ></DateTimePicker>
                   </View>
@@ -91,4 +86,4 @@ export const Datepick = (props) => {
   );
 };
 
-Datepick.defaultProps = { textStyle: {}, onDateChange: () => {} };
+Timepick.defaultProps = { textStyle: {}, onDateChange: () => {} };

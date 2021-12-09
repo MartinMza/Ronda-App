@@ -3,9 +3,10 @@ import { useSelector } from "react-redux";
 import { Image, Text, View, StyleSheet, TouchableOpacity } from "react-native";
 
 import Gradient from "../../components/gradient/Gradient";
+import PostList from "../../components/post/PostList";
 import { TextInput } from "react-native-gesture-handler";
 import { selectUser } from "../../features/userSlice";
-import Post from "../foro/Post"
+import Post from "../foro/Post";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { localhost } from "../../localHostIP.json";
@@ -18,6 +19,7 @@ const Foro = () => {
   //   navigation.navigate("Home");
   // };
   const user = useSelector(selectUser);
+  const [loadMore, setLoadMore] = useState(true);
   const [post, setPost] = useState();
   const formik = useFormik({
     initialValues: {
@@ -31,19 +33,20 @@ const Foro = () => {
         .post(`http://${localhost}/api/posts/`, data)
         .then(() => {
           axios
-            .get(`http://${localhost}/api/posts/users/${user.id}`) 
+            .get(`http://${localhost}/api/posts/users/${user.id}`)
             .then((data) => console.log("hola"));
         });
     },
   });
-  useEffect(() => {
-    axios
-      .get(`http://${localhost}/api/posts/users/5`)
-      .then((res) => setPost(res.data))
-      .catch((err) => console.error(err));
-  }, []);
-
-  console.log(`post`, post);
+useEffect(() => {
+        axios
+          .get(`http://${localhost}/api/posts/users/5`)
+          .then((res) => setPost(res.data))
+          .then(()=> setLoadMore(false))
+          .catch((err) => console.error(err));
+      }, [])
+  
+ 
 
   return (
     <View style={styles.container}>
@@ -66,10 +69,11 @@ const Foro = () => {
         <TouchableOpacity onPress={formik.handleSubmit} style={styles.button}>
           <Text style={styles.buttonText}>Publicar</Text>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => setLoadMore(true)}>
           <Text style={styles.underText}>MÁS RECIENTES</Text>
         </TouchableOpacity>
-        {post ? post.reverse().map((e,i) => {return <Post content={e.content} key={i} name={e.user.name} img={"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn-images-1.medium.com%2Fmax%2F2000%2F1*OsMBUUchHRtTT3n-ZX2xbA.jpeg&f=1&nofb=1"}/>}) : null}
+        {/* {post ? post.reverse().map((e,i) => {return <Post content={e.content} key={i} name={e.user.name} img={"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn-images-1.medium.com%2Fmax%2F2000%2F1*OsMBUUchHRtTT3n-ZX2xbA.jpeg&f=1&nofb=1"}/>}) : null} */}
+        {post ? <PostList posts={post} /> : null}
       </Gradient>
     </View>
   );
