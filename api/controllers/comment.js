@@ -1,4 +1,4 @@
-const { Comment } = require("../models");
+const { Comment, User } = require("../models");
 
 class CommentController {
   static async addComment(req, res) {
@@ -46,6 +46,12 @@ class CommentController {
         where: {
           postId: req.params.id,
         },
+        include: [
+          {
+            model: User,
+            attributes: ["username", "email", "role"],
+          }
+        ]
       });
       return res.status(200).json(comments);
     } catch (err) {

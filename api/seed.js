@@ -141,69 +141,7 @@ const fakeRoom = [
   },
 ];
 
-const fakeTurno = [
-  //------------------------------------------------------SALA 1
-  {
-    time: "9:00-10:00",
-    day: "Lunes",
-  },
-  {
-    time: "14:00-15:00",
-    day: "Lunes",
-  },
-  {
-    time: "18:00-19:00",
-    day: "Lunes",
-  },
-  {
-    time: "9:00-10:00",
-    day: "Martes",
-  },
-  {
-    time: "14:00-15:00",
-    day: "Martes",
-  },
-  {
-    time: "18:00-19:00",
-    day: "Martes",
-  },
-  {
-    time: "9:00-10:00",
-    day: "Miercoles",
-  },
-  {
-    time: "14:00-15:00",
-    day: "Miercoles",
-  },
-  {
-    time: "18:00-19:00",
-    day: "Miercoles",
-  },
-  {
-    time: "9:00-10:00",
-    day: "Jueves",
-  },
-  {
-    time: "14:00-15:00",
-    day: "Jueves",
-  },
-  {
-    time: "18:00-19:00",
-    day: "Jueves",
-  },
-  {
-    time: "9:00-10:00",
-    day: "Viernes",
-  },
-  {
-    time: "14:00-15:00",
-    day: "Viernes",
-  },
-  {
-    time: "18:00-19:00",
-    day: "Viernes",
-  },
-];
+
 
 fakeOrganization = [{
   name: "TestUno",
@@ -254,18 +192,12 @@ fakeOrganization = [{
 
 const seed = async () => {
   try {
-    const lastArr = [];
-    fakeRoom.forEach((room) => {
-      fakeTurno.map((turn) => {
-        return lastArr.push({ ...turn, roomId: room.id });
-      });
-    });
+   
 
     console.log("Seeding...");
     await User.bulkCreate(fakeUsers);
     await Campus.bulkCreate(fakeCampus);
     await Room.bulkCreate(fakeRoom);
-    await Turno.bulkCreate(lastArr);
     await Membership.bulkCreate(fakeMemberships);
     await Organization.bulkCreate(fakeOrganization);
     return process.exit();

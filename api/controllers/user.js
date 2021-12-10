@@ -1,7 +1,7 @@
 const {User, Skill} = require('../models');
 
 class UserController {
-    static async allUsers (req, res) {
+    static async allUsersByOrg (req, res) {
         try {
             const users = await User.findAll({
                 where: {

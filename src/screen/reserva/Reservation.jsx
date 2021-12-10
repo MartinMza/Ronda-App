@@ -31,27 +31,27 @@ const Reservation = () => {
   const [InitTime, setInitTime] = useState(null);
   const [OutTime, setOutTime] = useState(null);
   const [date, setDate] = useState(null);
+  const month = parseInt(moments(date).tz("Etc/GMT+5").format("MM")) - 1;
 
   const handleReservation = () => {
     axios
       .post(`http://${localhost}/api/calendar/set`, {
         syear: `${moments(date).tz("Etc/GMT+5").format("YYYY")}`,
-        smonth: `${moments(date).tz("Etc/GMT+5").format("MM")}`,
+        smonth: `${month}`,
         sday: `${moments(date).tz("Etc/GMT+5").format("DD")}`,
         shours: `${moments(InitTime).tz("Etc/GMT+5").format("HH")}`,
         sminutes: `${moments(InitTime).tz("Etc/GMT+5").format("mm")}`,
         location: `Sala ${typeValue} ${value}`,
         eyear: `${moments(date).tz("Etc/GMT+5").format("YYYY")}`,
-        emonth: `${moments(date).tz("Etc/GMT+5").format("MM")}`,
+        emonth: `${month}`,
         eday: `${moments(date).tz("Etc/GMT+5").format("DD")}`,
         ehours: `${moments(OutTime).tz("Etc/GMT+5").format("HH")}`,
         eminutes: `${moments(OutTime).tz("Etc/GMT+5").format("mm")}`,
       })
-      .then(() => console.log("Listo"));
+      .then(() => {alert("Tu reserva está lista")
+    navigation.navigate("Home")});
   };
 
-  // console.log("BBBBB",OutTime)
-  // console.log("CCCCCC",date)
   return (
     <View style={styles.container}>
       <Gradient>
