@@ -20,6 +20,7 @@ export default function Profile(props) {
       .post(`http://${localhost}/api/auth/logout`)
       .then(() => dispatch(logOut()))
       .then(()=>navigation.navigate("Start"))
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {

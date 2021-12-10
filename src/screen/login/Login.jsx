@@ -27,12 +27,13 @@ const Login = (props) => {
     validationSchema: Yup.object(validationSchema()),
     validateOnChange: false,
     onSubmit: async (data) => {
-      const user = await axios.post(
+      await axios.post(
         `http://${localhost}/api/auth/login`,
        data
       )
       .then(data=>dispatch(login(data.data))) 
       .then(()=>navigation.navigate("Home"))
+      .catch((err) => console.error(err));
       ;
     },
   });
