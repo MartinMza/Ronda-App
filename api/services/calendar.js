@@ -1,117 +1,272 @@
-const {google} = require('googleapis');
-const {OAuth2} = google.auth
-const oAuth2Client = new OAuth2(process.env.GOOGLE_CALENDAR_CLIENT_ID, process.env.GOOGLE_CALENDAR_CLIENT_SECRET)
+const { Room, Organization, Reservation } = require("../models");
+const { google } = require("googleapis");
+const { OAuth2 } = google.auth;
+const oAuth2Client = new OAuth2(
+  process.env.GOOGLE_CALENDAR_CLIENT_ID,
+  process.env.GOOGLE_CALENDAR_CLIENT_SECRET
+);
 
-oAuth2Client.setCredentials({refresh_token:process.env.GOOGLE_CALENDAR_REFRESH_TOKEN})
+oAuth2Client.setCredentials({
+  refresh_token: process.env.GOOGLE_CALENDAR_REFRESH_TOKEN,
+});
 
-const calendar= google.calendar({version:"v3", auth: oAuth2Client})
+const calendar = google.calendar({ version: "v3", auth: oAuth2Client });
 
-// const eventStartTime = new Date()
-// eventStartTime.setDate(eventStartTime.getDate() + 2)
-
-// const eventEndTime = new Date()
-// eventEndTime.setDate(eventEndTime.getDate() + 4)
-
-// const event = {
-//     summary: "Reserva",
-//     location: "Adress 1234",
-//     description: "Tomar falopa del culo de un enano peludo.",
-//     start: {
-//         dateTime: eventStartTime,
-//         timeZone: "America/Buenos_Aires"
-//     },
-//     end: {
-//         dateTime: eventEndTime,
-//         timeZone: "America/Buenos_Aires"
-//     },
-//     colorId: 1,
-// }
-
-// calendar.freebusy.query({
-//     resource: {
-//         timeMin: eventStartTime,
-//         timeMax: eventEndTime,
-//         timeZone: "America/Buenos_Aires",
-//         items: [{ id: "primary" }],
-//     }
-// }, (err,res)=> {
-//     if(err) return console.error("Free Busy query error", err)
-
-//     const eventsArr = res.data.calendars.primary.busy
-//     if(eventsArr.length === 0) return calendar.events.insert({calendarId: "primary", resource: event }, err=>{
-//         if (err) return console.error("Calendar event creation error:", err)
-
-//         return console.log("calendar event created")
-//     })
-//     return console.log("Sorry I'm busy")
-// })
-
-//date from new Date(year, monthIndex, day, hours, minutes)
-
-class GoogleCalendarAPI{
-    static async setEvent(req, res){
-        try{
-            const start = new Date(req.body.syear ,req.body.smonth, req.body.sday, req.body.shours, req.body.sminutes)
-            const end = new Date(req.body.eyear ,req.body.emonth, req.body.eday, req.body.ehours, req.body.eminutes)
-            const event = {
-                summary: "Reserva de sala",
-                location: req.body.location,
-                description: `Reserva de sala`,
-                start: {
-                    dateTime: start,
-                    timeZone: "America/Buenos_Aires"
-                },
-                end: {
-                    dateTime: end,
-                    timeZone: "America/Buenos_Aires"
-                },
-                colorId: 1
-            }
-
-            const events = await calendar.freebusy.query({
-                resource: {
-                    timeMin: start,
-                    timeMax: end,
-                    timeZone: "America/Buenos_Aires",
-                    items: [{ id: "primary" }],
-                }
-            }, (err,response)=> {
-                if(err) return res.status(500).json({message: "Free Busy query error", err})
-
-                const eventsArr = response.data.calendars.primary.busy
-
-                if(eventsArr.length === 0) return calendar.events.insert({calendarId: "primary", resource: event }, err=>{
-                    if (err) return res.status(500).json({message: "Calendar event creation error", err})
-                    return res.status(200).json({message: "Calendar event created"})
-                })
-                
-                return res.status(500).json({message: "Sorry I'm busy"})
-            })
-            // const {data} = await calendar.events.insert({calendarId: "primary", resource: event })
-            // res.status(200).json({data})
-
-            // calendar.freebusy.query({
-            //     resource: {
-            //         timeMin: start,
-            //         timeMax: end,
-            //         timeZone: "America/Buenos_Aires",
-            //         items: [{ id: "primary" }],
-            //     }
-            // }, (err,res)=> {
-            //     if(err) return console.error("Free Busy query error", err)
-            
-            //     const eventsArr = res.data.calendars.primary.busy
-            //     if(eventsArr.length === 0) return calendar.events.insert({calendarId: "primary", resource: event }, err=>{
-            //         if (err) return console.error("Calendar event creation error:", err)
-            
-            //         return res.send("created")
-            //     })
-            //     return res.sendStatus(403)
-            // })
-        }catch(err){
-            res.status(500).json({err})
-        }
+class GoogleCalendarAPI {
+  static async getCalendars(req, res) {
+    try {
+      const calendars = await calendar.calendarList.list();
+      res.status(200).json({ calendars: calendars.data.items });
+    } catch (err) {
+      res.status(500).json({ err });
     }
+  }
+  static async getSingleEvent(req, res) {
+    try {
+      const event = await calendar.events.get({
+        calendarId: req.params.calendarId,
+        eventId: req.params.eventId,
+      });
+      res.status(200).json({ event: event.data });
+    } catch (err) {
+      res.status(500).json({ err });
+    }
+  }
+
+  static async setEvent(req, res) {
+    try {
+      console.log("BODYBODY", req.body);
+      const uniqueId = (length = 16) => {
+        return parseInt(
+          Math.ceil(Math.random() * Date.now())
+            .toPrecision(length)
+            .toString(36)
+        );
+      };
+      const calendarIdDetector = () => {
+        switch (req.body.location) {
+          case "Sala Grande Belgrano":
+            return "dpgat7mp9g3iqb1vl33044q1t8@group.calendar.google.com";
+            break;
+          case "Sala Mediana Belgrano":
+            return "mefoahcm5d4o2vug0mcb8chppo@group.calendar.google.com";
+            break;
+          case "Sala Chiquita Belgrano":
+            return "clcgphnh6pd1r06kcd3gnvpr4g@group.calendar.google.com";
+            break;
+          case "Sala Grande Recoleta":
+            return "bd853a232n0euu5l5do7ecdng0@group.calendar.google.com";
+            break;
+          case "Sala Mediana Recoleta":
+            return "6f5j31cnmj87kgp77lcb84h020@group.calendar.google.com";
+            break;
+          case "Sala Chiquita Recoleta":
+            return "l5u9tg3427n15evsojvetlcb0k@group.calendar.google.com";
+            break;
+          default:
+            return "BAD LOCATION";
+        }
+      };
+      const calendarId = calendarIdDetector();
+
+      const start = new Date(
+        parseInt(req.body.syear),
+        parseInt(req.body.smonth),
+        parseInt(req.body.sday),
+        parseInt(req.body.shours),
+        parseInt(req.body.sminutes)
+      );
+      console.log("STAAAAART", start);
+      const end = new Date(
+        parseInt(req.body.eyear),
+        parseInt(req.body.emonth),  
+        parseInt(req.body.eday),
+        parseInt(req.body.ehours),
+        parseInt(req.body.eminutes)
+      );
+      console.log("ENNNNNDDD",end)
+      const rest = end - start;
+      const horas = rest / 3600000;
+
+      const event = {
+        summary: "Reserva de sala",
+        location: req.body.location,
+        description: `Reserva de sala`,
+        start: {
+          dateTime: start,
+          timeZone: "America/Buenos_Aires",
+        },
+        end: {
+          dateTime: end,
+          timeZone: "America/Buenos_Aires",
+        },
+        colorId: 1,
+        id: uniqueId(),
+      };
+
+      const room = await Room.findOne({
+        where: {
+          name: req.body.location,
+        },
+      });
+
+      const organization = await Organization.findOne({
+        where: {
+          id: req.user.organizationId,
+        },
+      });
+
+      const events = await calendar.freebusy.query(
+        {
+          resource: {
+            timeMin: start,
+            timeMax: end,
+            timeZone: "America/Buenos_Aires",
+            items: [{ id: calendarId }],
+          },
+        },
+        (err, response) => {
+          if (err){
+            console.log("The API returned an error: " + err);
+            return res
+              .status(500)
+              .json({ message: "Free Busy query error", err });
+          }
+            
+
+          const eventsArr = response.data.calendars[calendarId].busy;
+          console.log("EVENTSARR", eventsArr);
+
+          if (eventsArr.length === 0) {
+            console.log("No events found ENTRO AL EVENT ARR === 0");
+            if (organization.avaliable_credits >= room.credit_value) {
+              calendar.events.insert({ calendarId, resource: event }, (err) => {
+                if (err) {
+                  console.log("The API returned an error: ADENTRO DEL IF DDEL EVENT ARR = 0 " + err);
+                  return res
+                    .status(500)
+                    .json({ message: "Calendar event creation error", err });
+                }
+
+                organization.update({
+                  avaliable_credits:
+                    organization.avaliable_credits - room.credit_value * horas,
+                });
+
+                Reservation.create({
+                  eventId: event.id,
+                  calendarId: calendarId,
+                  location: req.body.location,
+                });
+                return res.status(200).send(event);
+              });
+            } else {
+              console.log("NO TENES CREDITOS MAESTRO");
+              return res.status(500).json({ message: "No tenes credito." });
+            }
+          } else {
+            console.log("Evento ya existente MAESTRO NEA");
+            return res.status(500).json({ message: "sorry im busy" });
+          }
+        }
+      );
+    } catch (err) {
+      console.log("ERROR MAESTRO", err);
+      res.status(500).json({ err });
+    }
+  }
+
+  static async getEvents(req, res) {
+    try {
+      const start = new Date(
+        req.body.syear,
+        req.body.smonth,
+        req.body.sday,
+        req.body.shours,
+        req.body.sminutes
+      );
+      const end = new Date(
+        req.body.eyear,
+        req.body.emonth,
+        req.body.eday,
+        req.body.ehours,
+        req.body.eminutes
+      );
+      const events = await calendar.events.list({
+        calendarId: "primary",
+        timeMin: start,
+        timeMax: end,
+        timeZone: "America/Buenos_Aires",
+        singleEvents: true,
+        orderBy: "startTime",
+      });
+      res.status(200).json({ events: events.data.items });
+    } catch (err) {
+      res.status(500).json({ err });
+    }
+  }
+
+  static async deleteEvent(req, res) {
+    try {
+      const calendarIdDetector = () => {
+        switch (req.body.location) {
+          case "Sala Grande Belgrano":
+            return "dpgat7mp9g3iqb1vl33044q1t8@group.calendar.google.com";
+            break;
+          case "Sala Mediana Belgrano":
+            return "mefoahcm5d4o2vug0mcb8chppo@group.calendar.google.com";
+            break;
+          case "Sala Chiquita Belgrano":
+            return "clcgphnh6pd1r06kcd3gnvpr4g@group.calendar.google.com";
+            break;
+          case "Sala Grande Recoleta":
+            return "bd853a232n0euu5l5do7ecdng0@group.calendar.google.com";
+            break;
+          case "Sala Mediana Recoleta":
+            return "6f5j31cnmj87kgp77lcb84h020@group.calendar.google.com";
+            break;
+          case "Sala Chiquita Recoleta":
+            return "l5u9tg3427n15evsojvetlcb0k@group.calendar.google.com";
+            break;
+          default:
+            return "BAD LOCATION";
+        }
+      };
+      const calendarId = calendarIdDetector();
+
+      const evento = await calendar.events.get({
+        calendarId: calendarId,
+        eventId: req.params.eventId,
+      });
+
+      const room = await Room.findOne({
+        where: {
+          name: req.body.location,
+        },
+      });
+      const organization = await Organization.findOne({
+        where: {
+          id: req.user.organizationId,
+        },
+      });
+      const end = parseInt(evento.data.end.dateTime.slice(11, 13));
+      const start = parseInt(evento.data.start.dateTime.slice(11, 13));
+      const horas = end - start;
+
+      await organization.update({
+        avaliable_credits:
+          organization.avaliable_credits + room.credit_value * horas,
+      });
+
+      const event = await calendar.events.delete({
+        calendarId: calendarId,
+        eventId: req.params.eventId,
+      });
+      res.status(200).json({ event });
+    } catch (err) {
+      res.status(500).json({ err });
+    }
+  }
 }
 
-module.exports = GoogleCalendarAPI
+module.exports = GoogleCalendarAPI;
