@@ -7,6 +7,7 @@ import {
   Text,
   TextInput,
   StyleSheet,
+  FlatList,
 } from "react-native";
 import logo from "../../../assets/logo.png";
 import Gradient from "../../components/gradient/Gradient";
@@ -16,6 +17,7 @@ import { selectUser } from "../../features/userSlice";
 import Button from "../../components/button/Button";
 import DropDownPicker from "react-native-dropdown-picker";
 import { Campus, CampusID } from "../../utils/DataReservation.jsx";
+import CompanyList from "../../components/companyList/Company";
 
 const Company = (props) => {
   const { navigation } = props;
@@ -51,23 +53,19 @@ const Company = (props) => {
   const handleConfirmation = () => {
     const id = myCampus ? CampusID(myCampus) : null;
     axios.put(`http://${localhost}/api/organization/empresa/${value}`);
-    axios.put(`http://${localhost}/api/user/`,{
-      campusId: id
-    })
-    .then(()=>navigation.navigate("Home"))
+    axios
+      .put(`http://${localhost}/api/user/`, {
+        campusId: id,
+      })
+      .then(() => navigation.navigate("Home"));
   };
+
   return (
     <View style={styles.container}>
       <Gradient>
         <Image source={logo} style={styles.logo} />
         <View style={styles.field}>
-          <Text
-            style={[
-              styles.underText,
-            ]}
-          >
-            ELIGE TU EMPRESA
-          </Text>
+          <Text style={[styles.underText]}>ELIGE TU EMPRESA</Text>
           <TextInput
             autoFocus={true}
             placeholder="Busca tu empresa"
@@ -90,9 +88,12 @@ const Company = (props) => {
             }}
           />
 
-          {boolean
-            ? null
-            : myOrganization?.map((item) => (
+          {boolean ? null : (
+            <FlatList
+              data={myOrganization? myOrganization:"No hay"}
+              numColumns={1}
+              keyExtractor={(value) => String(value.id)}
+              renderItem={({ item }) => (
                 <TouchableOpacity
                   onPress={() => {
                     setValue(item?.name);
@@ -101,7 +102,9 @@ const Company = (props) => {
                 >
                   <Text style={[styles.input]}>{item?.name}</Text>
                 </TouchableOpacity>
-              ))}
+              )}
+            />
+          )}
 
           <DropDownPicker
             open={open}

@@ -1,10 +1,21 @@
 import React, { useState } from "react";
-import { Button, View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import { Datepick } from "../../components/datepicker/Datepicker";
 import { Timepick } from "../../components/datepicker/Timepicker";
 import Gradient from "../../components/gradient/Gradient";
 import Drop from "../../components/reservation/Drop";
-import { Campus, Room, Person, idType } from "../../utils/DataReservation.jsx";
+import {
+  Campus,
+  Room,
+  Person,
+  idType,
+  Day,
+  Hour,
+} from "../../utils/DataReservation.jsx";
+import moments from "moment-timezone";
+import Button from "../../components/button/Button";
+import axios from "axios";
+import { localhost } from "../../localHostIP.json";
 
 const Reservation = () => {
   //=============CAMPUS=======================//
@@ -21,6 +32,26 @@ const Reservation = () => {
   const [OutTime, setOutTime] = useState(null);
   const [date, setDate] = useState(null);
 
+  const handleReservation = () => {
+    axios
+      .post(`http://${localhost}/api/calendar/set`, {
+        syear: `${moments(date).tz("Etc/GMT+5").format("YYYY")}`,
+        smonth: `${moments(date).tz("Etc/GMT+5").format("MM")}`,
+        sday: `${moments(date).tz("Etc/GMT+5").format("DD")}`,
+        shours: `${moments(InitTime).tz("Etc/GMT+5").format("HH")}`,
+        sminutes: `${moments(InitTime).tz("Etc/GMT+5").format("mm")}`,
+        location: `Sala ${typeValue} ${value}`,
+        eyear: `${moments(date).tz("Etc/GMT+5").format("YYYY")}`,
+        emonth: `${moments(date).tz("Etc/GMT+5").format("MM")}`,
+        eday: `${moments(date).tz("Etc/GMT+5").format("DD")}`,
+        ehours: `${moments(OutTime).tz("Etc/GMT+5").format("HH")}`,
+        eminutes: `${moments(OutTime).tz("Etc/GMT+5").format("mm")}`,
+      })
+      .then(() => console.log("Listo"));
+  };
+
+  // console.log("BBBBB",OutTime)
+  // console.log("CCCCCC",date)
   return (
     <View style={styles.container}>
       <Gradient>
@@ -41,7 +72,7 @@ const Reservation = () => {
             setItems={setSedes}
             zIndex={3}
           />
-          <Text style={{ color: "white", marginLeft: 33, marginTop: 20 }}>
+          <Text style={{ color: "white", marginLeft: 33, marginTop: 11 }}>
             Elige tu sala
           </Text>
           <Drop
@@ -54,7 +85,7 @@ const Reservation = () => {
             setItems={setType}
             zIndex={2}
           />
-          <Text style={{ color: "white", marginLeft: 33, marginTop: 20 }}>
+          <Text style={{ color: "white", marginLeft: 33, marginTop: 11 }}>
             Elige el día
           </Text>
           <View
@@ -71,10 +102,15 @@ const Reservation = () => {
               onDateChange={(value) => setDate(value)}
             />
           </View>
+          <Text style={{ color: "white", marginLeft: 33, marginTop: 30 }}>
+            Elige la hora de ingreso
+          </Text>
           <View
             style={{
+              backgroundColor: "#fff",
               borderRadius: 6,
               marginHorizontal: 30,
+              marginTop: 20,
               flexDirection: "row",
             }}
           >
@@ -82,12 +118,29 @@ const Reservation = () => {
               textStyle={styles.input}
               onDateChange={(value) => setInitTime(value)}
             />
+          </View>
+          <Text style={{ color: "white", marginLeft: 33, marginTop: 30 }}>
+            Elige la hora de salida
+          </Text>
+          <View
+            style={{
+              backgroundColor: "#fff",
+              borderRadius: 6,
+              marginHorizontal: 30,
+              marginTop: 20,
+              flexDirection: "row",
+              marginBottom: 25,
+            }}
+          >
             <Timepick
               textStyle={styles.input}
               onDateChange={(value) => setOutTime(value)}
             />
           </View>
         </View>
+        <Button onPress={handleReservation}>
+          <Text style={styles.buttonText}>HACER RESERVA</Text>
+        </Button>
       </Gradient>
     </View>
   );
@@ -110,6 +163,11 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline",
     padding: 10,
     marginTop: 8,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 15,
+    // fontFamily: "Lato_900Black",
   },
 });
 export default Reservation;

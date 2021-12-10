@@ -11,6 +11,7 @@ import Reserva from "../screen/reserva/Reserva";
 import Reservation from "../screen/reserva/Reservation";
 import Company from "../screen/register/Company";
 import NewCompany from "../screen/register/NewCompany";
+import Approve from "../screen/adminorg/approveMembers/ApproveMembers"
 
 const Stack = createStackNavigator();
 
@@ -18,15 +19,21 @@ export default function NavigationStack() {
   return (
     <Stack.Navigator>
      
-      <Stack.Screen name="Home" component={Home} options={{ title: "" }} />
       <Stack.Screen
         name="Start"
         component={Start}
         options={{ title: "", headerTransparent: true }}
       />
+      <Stack.Screen name="Home" component={Home} options={{ title: "" }} />
+
       <Stack.Screen
         name="Login"
         component={Login}
+        options={{ title: "", headerTransparent: true }}
+      />
+       <Stack.Screen
+        name="Approve"
+        component={Approve}
         options={{ title: "", headerTransparent: true }}
       />
       <Stack.Screen
@@ -50,7 +57,7 @@ export default function NavigationStack() {
         component={Register}
         options={{ title: "", headerTransparent: true }}
       />
-  <Stack.Screen
+      <Stack.Screen
         name="Reservation"
         component={Reservation}
         options={{ title: "", headerTransparent: false }}
@@ -65,7 +72,7 @@ export default function NavigationStack() {
         component={Reserva}
         options={{ title: "", headerTransparent: false }}
       />
-     
+
       <Stack.Screen
         name="Company"
         component={Company}

@@ -11,18 +11,27 @@ import {
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 import moment from "moment";
-
+import moments from "moment-timezone";
 export const Timepick = (props) => {
   const { textStyle, onDateChange } = props;
-  const [date, setDate] = useState(moment());
+  const [date, setDate] = useState(moments().tz("Etc/GMT+5"));
   const [show, setShow] = useState(false);
 
   const onChange = (e, selectedDate) => {
-    console.log(selectedDate);
+    console.log(selectedDate, "sadasdasda");
     setDate(moment(selectedDate));
-    props.onDateChange(date);
   };
-  console.log(date);
+
+  const handleCancel = () => {
+    setDate(moment(new Date()));
+    setShow(false);
+  };
+
+  const handleDone = () => {
+    props.onDateChange(date);
+    setShow(false);
+  };
+
   return (
     <TouchableOpacity onPress={() => setShow(true)}>
       <View>
@@ -42,7 +51,7 @@ export const Timepick = (props) => {
             <TouchableOpacity
               style={{
                 flex: 1,
-                alignItems: "center",
+                alignItems: "flex-end",
                 flexDirection: "row",
               }}
               visible={show}
@@ -68,12 +77,28 @@ export const Timepick = (props) => {
                   <View>
                     <DateTimePicker
                       display={Platform.OS === "ios" ? "spinner" : "default"}
+                      is24Hour={true}
                       value={new Date(date)}
                       mode={"time"}
-                      timeZoneOffsetInMinutes={60}
+                      timeZoneOffsetInSeconds={3600}
+                      locale="es-ES"
+                      minuteInterval={30}
+                      //timeZoneOffsetInMinutes={30}
                       onChange={onChange}
                     ></DateTimePicker>
                   </View>
+                  <TouchableOpacity
+                    style={[styles.btnText, styles.btnCancel]}
+                    onPress={handleCancel}
+                  >
+                    <Text> Cancel</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[styles.btnText, styles.btnDone]}
+                    onPress={handleDone}
+                  >
+                    <Text> Done</Text>
+                  </TouchableOpacity>
                 </View>
               </TouchableOpacity>
             </TouchableOpacity>
@@ -85,3 +110,22 @@ export const Timepick = (props) => {
 };
 
 Timepick.defaultProps = { textStyle: {}, onDateChange: () => {} };
+
+const styles = StyleSheet.create({
+  btnText: {
+    position: "absolute",
+    top: 0,
+    height: 42,
+    paddingHorizontal: 28,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "red",
+  },
+  btnCancel: {
+    left: 0,
+  },
+  btnDone: {
+    right: 0,
+  },
+});

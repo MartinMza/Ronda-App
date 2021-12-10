@@ -11,15 +11,21 @@ import {
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 import moment from "moment";
-
+import moments from "moment-timezone";
 export const Datepick = (props) => {
   const { textStyle, onDateChange } = props;
   const [date, setDate] = useState(moment());
   const [show, setShow] = useState(false);
-
+  console.log("ASDSADJAKSHDJKAS", date);
   const onChange = (e, selectedDate) => {
     setDate(moment(selectedDate));
-    props.onDateChange(date);
+  };
+  const handleCancel = () => {
+    setDate(moment(new Date()));
+    setShow(false);
+  };
+  const handleDone = () => {
+    onDateChange(date);
     setShow(false);
   };
 
@@ -64,33 +70,33 @@ export const Datepick = (props) => {
                   style={{
                     backgroundColor: "#fff",
                     borderRadius: 6,
-
                     overflow: "hidden",
                   }}
                 >
                   <View style={{ marginTop: 20 }}>
                     <DateTimePicker
                       display={Platform.OS === "ios" ? "spinner" : "default"}
-                      timeZoneOffsetInMinutes={0}
                       value={new Date(date)}
                       mode={"date"}
                       minimumDate={new Date(moment().format("DD/MM/YYYY"))}
-                      maximumDate={
-                        new Date(
-                          moment().subtract(5, "years").format("DD/MM/YYYY")
-                        )
-                      }
+                      maximumDate={new Date(2024, 11, 31)}
                       onChange={onChange}
-                    >
-                      <TouchableHighlight
-                        underlayColor={"transparent"}
-                        style={[styles.btnText, styles.btnCancel]}
-                        onPress={()=>console.log("cancelado")}
-                      >
-                        Cancel
-                      </TouchableHighlight>
-                    </DateTimePicker>
+                      locale="es-ES"
+                    />
                   </View>
+
+                  <TouchableOpacity
+                    style={[styles.btnText, styles.btnCancel]}
+                    onPress={handleCancel}
+                  >
+                    <Text> Cancel</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[styles.btnText, styles.btnDone]}
+                    onPress={handleDone}
+                  >
+                    <Text> Done</Text>
+                  </TouchableOpacity>
                 </View>
               </TouchableOpacity>
             </TouchableOpacity>
@@ -112,6 +118,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
+    color: "red",
   },
   btnCancel: {
     left: 0,

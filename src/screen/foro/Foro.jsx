@@ -24,7 +24,6 @@ const Foro = () => {
   const formik = useFormik({
     initialValues: {
       content: "",
-      campus: "general",
     },
     //validationSchema: Yup.object(validationSchema()),
     validateOnChange: false,
@@ -35,9 +34,8 @@ const Foro = () => {
   });
   useEffect(() => {
     axios
-      .get(`http://${localhost}/api/posts/users/6`)
+      .get(`http://${localhost}/api/posts/1`)
       .then((res) => setPost((res.data).reverse()))
-      .then(()=>console.log("use Effect ok"))
       .catch((err) => console.error(err));
   }, [load])
 
