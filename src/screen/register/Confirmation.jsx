@@ -23,8 +23,9 @@ export default function Confirmation(props) {
   const [codeDos, setCodeDos] = useState("");
   const [codeTres, setCodeTres] = useState("");
   const [codeCuatro, setCodeCuatro] = useState("");
-
   const user = useSelector(selectUser)
+  const dispatch = useDispatch();
+
   const { navigation } = props;
   const inputUno = useRef(null);
   const inputDos = useRef(null);
