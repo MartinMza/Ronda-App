@@ -32,16 +32,26 @@ const Foro = () => {
         .then(() => {
           axios
             .get(`http://${localhost}/api/posts/users/${user.id}`) 
-            .then((data) => console.log("hola"));
+            .then((data) => console.log("hola"))
+            .catch((err) => console.error(err));
         });
     },
   });
   useEffect(() => {
     axios
-      .get(`http://${localhost}/api/posts/users/5`)
+      .get(`http://${localhost}/api/posts/users/6`)
       .then((res) => setPost(res.data))
       .catch((err) => console.error(err));
   }, []);
+
+  const checkLike = async (postId) => { //chequea si el usuario ya le dio like al post
+    try {
+      const like = await axios.get(`http://${localhost}/api/likes/${postId}/single`)
+      return like ? true : false
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   console.log(`post`, post);
 
@@ -69,7 +79,7 @@ const Foro = () => {
         <TouchableOpacity>
           <Text style={styles.underText}>MÁS RECIENTES</Text>
         </TouchableOpacity>
-        {post ? post.reverse().map((e,i) => {return <Post content={e.content} key={i} name={e.user.name} img={"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn-images-1.medium.com%2Fmax%2F2000%2F1*OsMBUUchHRtTT3n-ZX2xbA.jpeg&f=1&nofb=1"}/>}) : null}
+        {post ? post.reverse().map((e,i) => {return <Post dataId={{postId: e.id, postOwnerId: e.user.id}} myLike={checkLike(e.id)} content={e.content} key={i} name={e.user.name} img={"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn-images-1.medium.com%2Fmax%2F2000%2F1*OsMBUUchHRtTT3n-ZX2xbA.jpeg&f=1&nofb=1"}/>}) : null}
       </Gradient>
     </View>
   );
