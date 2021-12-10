@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { Image, Text, View, StyleSheet, TouchableOpacity } from "react-native";
 
 
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 export default function CommentCard(props) {
-  const {content} = props
+  const {content, name, img} = props
   return (
     <View style={styles.input}>
       <View style={styles.header}>
-        {/* <Text style={styles.mainName}>{name}</Text> */}
+          <Image source={{uri: img,}} style={styles.image} />
+        <Text style={styles.mainName}>{name}</Text>
         <TouchableOpacity>
           <Icon
             name="ellipsis-v"
@@ -19,7 +20,7 @@ export default function CommentCard(props) {
           />
         </TouchableOpacity>
       </View>
-      <Text>{content}</Text>
+        <Text>{content}</Text>
     </View>
   );
 }
@@ -48,6 +49,9 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     marginTop: 5,
     justifyContent: "center",
-    alignItems: "center",
   },
+  image:{
+    width: 15,
+    height:15,
+  }
 });

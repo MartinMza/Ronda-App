@@ -18,7 +18,6 @@ export const Timepick = (props) => {
   const [show, setShow] = useState(false);
 
   const onChange = (e, selectedDate) => {
-    console.log(selectedDate, "sadasdasda");
     setDate(moment(selectedDate));
   };
 

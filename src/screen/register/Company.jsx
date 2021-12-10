@@ -17,7 +17,6 @@ import { selectUser } from "../../features/userSlice";
 import Button from "../../components/button/Button";
 import DropDownPicker from "react-native-dropdown-picker";
 import { Campus, CampusID } from "../../utils/DataReservation.jsx";
-import CompanyList from "../../components/companyList/Company";
 
 const Company = (props) => {
   const { navigation } = props;
@@ -39,7 +38,8 @@ const Company = (props) => {
   useEffect(() => {
     axios
       .get(`http://${localhost}/api/organization/`)
-      .then((data) => setOrganization(data["data"]));
+      .then((data) => setOrganization(data["data"]))
+      .catch((err) => console.log(err));
   }, []);
 
   //===============USE EFFECT FILTER ORGANIZATIONS=============//
@@ -52,12 +52,13 @@ const Company = (props) => {
 
   const handleConfirmation = () => {
     const id = myCampus ? CampusID(myCampus) : null;
-    axios.put(`http://${localhost}/api/organization/empresa/${value}`);
+    axios.put(`http://${localhost}/api/organization/empresa/${value}`)
     axios
       .put(`http://${localhost}/api/user/`, {
         campusId: id,
       })
-      .then(() => navigation.navigate("Home"));
+      .then(() => navigation.navigate("Home"))
+      .catch((err) => console.log(err));
   };
 
   return (

@@ -20,9 +20,9 @@ export default function Post(props) {
 
   const [comments, setComments] = useState([]);
   const [load, setLoad] = useState(false);
-  const [send, setSend] = useState(false)
-  const [text, setText] = useState("")
-  const [like, setLike] = useState(false); //WIP
+  const [send, setSend] = useState(false);
+  const [text, setText] = useState("");
+  const [like, setLike] = useState(false);
   const [like2, setLike2] = useState(false); // backup -v (hardcode)
 
   //------------------comment-------------------
@@ -37,12 +37,10 @@ export default function Post(props) {
     }
   }, [load, send]);
 
-  const handleSubmit = async (data) => {
-    setSend(!send)
-    const post = await axios.post(
-      `http://${localhost}/api/comment/${id}`,
-      data
-    );
+  const handleSubmit = async (text) => {
+    setSend(!send);
+    axios.post(`http://${localhost}/api/comment/${id}`, { comment: text });
+    setText("");
   };
 
   //----------------------like-------------------
@@ -50,27 +48,27 @@ export default function Post(props) {
   useEffect(() => {
     axios
       .get(`http://${localhost}/api/likes/${id}/single`)
-      .then(({data}) => data.like ? setLike(true) : setLike(false)) //to check "data"
+      .then(({ data }) => (data.like ? setLike(true) : setLike(false)))
       .catch((err) => console.log(err));
-}, [])
+  }, []);
 
-const likeHandle = async () => {
-try {
-  if (!like) {
-    await axios
-      .post(`http://${localhost}/api/likes/${id}`)
-      .then(() => setLike(true))
-  } else {
-    await axios
-      .delete(`http://${localhost}/api/likes/${id}`)
-      .then(() => setLike(false));
-  }
-} catch (error) {
-  console.log(error)
-}
-};
+  const likeHandle = async () => {
+    try {
+      if (!like) {
+        await axios
+          .post(`http://${localhost}/api/likes/${id}`)
+          .then(() => setLike(true));
+      } else {
+        await axios
+          .delete(`http://${localhost}/api/likes/${id}`)
+          .then(() => setLike(false));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-const likeHandle2 = () => like2 ? setLike2(false) : setLike2(true) //backup -v (hardcode)
+  const likeHandle2 = () => (like2 ? setLike2(false) : setLike2(true)); //backup -v (hardcode)
 
   return (
     <View>
@@ -100,9 +98,9 @@ const likeHandle2 = () => like2 ? setLike2(false) : setLike2(true) //backup -v (
           <Icon
             name="heart"
             size={20}
-            color={like2 ? "red" : "black"}
-            solid = {like2 ? true : false}
-            onPress={() => likeHandle2()}
+            color={like ? "red" : "black"}
+            solid={like ? true : false}
+            onPress={() => likeHandle()}
           />
         </TouchableOpacity>
         <TouchableOpacity
@@ -120,7 +118,7 @@ const likeHandle2 = () => like2 ? setLike2(false) : setLike2(true) //backup -v (
         </TouchableOpacity>
       </View>
       <View style={styles.comment}>
-        <CommentList comment={comments} />
+        {load ? <CommentList comment={comments} /> : null}
       </View>
 
       <View style={styles.commentBox}>
@@ -130,6 +128,7 @@ const likeHandle2 = () => like2 ? setLike2(false) : setLike2(true) //backup -v (
           editable
           numberOfLines={2}
           style={{ width: 290, marginLeft: 5, marginVertical: 15 }}
+          value={text}
           onChangeText={(text) => setText(text)}
         />
         <TouchableOpacity

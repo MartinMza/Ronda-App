@@ -34,14 +34,16 @@ class LikeController {
         userId: req.user.id,
         postId: req.params.id,
       })
-      if (checkLike) return res.send("like already set")
+      if (checkLike.dataValues.postId) {
+        return res.status(401).send("like already set")
+      }
       const like = await Like.create({ // da el like
         userId: req.user.id,
         postId: req.params.id,
       });
-      res.status(201).send(like);
+      return res.status(201).send(like);
     } catch (err) {
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
   }
 

@@ -78,7 +78,8 @@ export default function Reserva(props) {
     const id = typeValue ? idType(typeValue, value) : null;
     axios
       .get(`http://${localhost}/api/reservation/campus/${value}/room/${id}`)
-      .then((res) => dispatch(myReservation(res.data)));
+      .then((res) => dispatch(myReservation(res.data)))
+      .catch((err) => console.log(err));
   }, [value, typeValue]);
 
   let reservation = useSelector(selectReservation);
@@ -127,7 +128,8 @@ export default function Reserva(props) {
           .get(
             `http://${localhost}/api/reservation/room/${idRoom}/day/${day}/time/${time}`
           )
-          .then((res) => setMyBooking(res.data.id));
+          .then((res) => setMyBooking(res.data.id))
+          .catch((err) => console.log(err));
       }, [day, time])
     : null;
 

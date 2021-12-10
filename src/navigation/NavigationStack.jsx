@@ -12,13 +12,18 @@ import Reservation from "../screen/reserva/Reservation";
 import Company from "../screen/register/Company";
 import NewCompany from "../screen/register/NewCompany";
 import Approve from "../screen/adminorg/approveMembers/ApproveMembers"
+import MyProfile from "../screen/home/MyProfile";
 
 const Stack = createStackNavigator();
 
 export default function NavigationStack() {
   return (
-    <Stack.Navigator>
-     
+    <Stack.Navigator initialRouteName="Start" >
+          <Stack.Screen
+        name="MyProfile"
+        component={MyProfile}
+        options={{ title: "" }}
+      />
       <Stack.Screen
         name="Start"
         component={Start}
@@ -31,7 +36,7 @@ export default function NavigationStack() {
         component={Login}
         options={{ title: "", headerTransparent: true }}
       />
-       <Stack.Screen
+    <Stack.Screen
         name="Approve"
         component={Approve}
         options={{ title: "", headerTransparent: true }}
@@ -41,6 +46,7 @@ export default function NavigationStack() {
         component={Profile}
         options={{ title: "" }}
       />
+    
       <Stack.Screen
         name="Confirmation"
         component={Confirmation}
@@ -60,7 +66,7 @@ export default function NavigationStack() {
       <Stack.Screen
         name="Reservation"
         component={Reservation}
-        options={{ title: "", headerTransparent: false }}
+        options={{ title: "", headerTransparent: true }}
       />
       <Stack.Screen
         name="Form"

@@ -49,13 +49,14 @@ const Reservation = () => {
         eminutes: `${moments(OutTime).tz("Etc/GMT+5").format("mm")}`,
       })
       .then(() => {alert("Tu reserva está lista")
-    navigation.navigate("Home")});
+    navigation.navigate("Home")})
+    .catch((err) => console.log(err));
   };
 
   return (
     <View style={styles.container}>
       <Gradient>
-        <View>
+        <View style={{marginTop:45}}>
           <Text style={[styles.underText, { marginLeft: 20 }]}>
             HACÉ TU RESERVA
           </Text>

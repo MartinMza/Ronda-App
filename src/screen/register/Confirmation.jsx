@@ -45,7 +45,8 @@ export default function Confirmation(props) {
         email: user.email,
         password: user.password,
       })
-      .then((data) => dispatch(login(data.data)));
+      .then((data) => dispatch(login(data.data)))
+      .catch((err) => console.log(err));
   }, [token.length > 3]);
   return (
     <View style={styles.container}>

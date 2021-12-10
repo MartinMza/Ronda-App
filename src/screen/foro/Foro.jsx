@@ -27,9 +27,10 @@ const Foro = () => {
     },
     //validationSchema: Yup.object(validationSchema()),
     validateOnChange: false,
-    onSubmit: async (data) => {
+    onSubmit: async (data,{resetForm}) => {
       const post = await axios
         .post(`http://${localhost}/api/posts/`, data)
+        .then(()=>resetForm({data:""}))
     },
   });
   useEffect(() => {

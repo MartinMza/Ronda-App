@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Image, Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import profile from "../../../assets/icons/profile.png";
+
 import { useSelector } from "react-redux";
 import { selectUser, logOut } from "../../features/userSlice";
 import { useDispatch } from "react-redux";
@@ -50,7 +50,7 @@ export default function Profile(props) {
           borderBottomWidth: 1,
         }}
       >
-        <Image source={profile} style={styles.profile} />
+        <TouchableOpacity onPress={() => navigation.navigate("MyProfile")}><Image source={{uri:user.picture}} style={styles.profile} /></TouchableOpacity>
         <View style={{ marginTop: 5 }}>
           <Text style={styles.text}>{user ? user.name : "Name"}</Text>
           <Text style={styles.text}>Puesto</Text>
@@ -87,11 +87,11 @@ export default function Profile(props) {
           />
           <Text>Membresías Individuales</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.touchable}>
+        <TouchableOpacity style={styles.touchable}  onPress={() =>navigation.navigate("Approve")}>
           <Icon
             name="users"
             size={25}
-            onPress={() => console.log("profile")}
+           
             style={styles.icons}
           />
           <Text>Organización</Text>

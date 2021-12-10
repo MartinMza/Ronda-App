@@ -5,6 +5,7 @@ import {
   FlatList,
   StyleSheet,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Gradient from "../../../components/gradient/Gradient";
@@ -12,16 +13,30 @@ import { localhost } from "../../../localHostIP.json";
 import axios from "axios";
 import { selectUser } from "../../../features/userSlice";
 import { useSelector } from "react-redux";
+import * as WebBrowser from "expo-web-browser";
 
-export default function ApproveMembers() {
+export default function ApproveMembers(props) {
+  const { item } = props;
   const [pendingUsers, setPendingUsers] = useState([]);
+  const [option, setOption] = useState(false)
   const user = useSelector(selectUser);
-  useEffect(() => {
+  option? useEffect(() => {
     axios
       .get(`http://${localhost}/api/user/users`)
-      .then((data) => setPendingUsers(data.data));
-  }, []);
-  console.log(pendingUsers);
+      .then((data) =>{ setPendingUsers(data.data)
+    setOption(false)});
+  }, []):null
+
+  const handleApprove = (item) => {
+    axios.put(`http://${localhost}/api/organization/confirm/${item}`);
+    setOption(true)
+  };
+
+  const handleDecline = (item) => {
+    axios.delete(`http://${localhost}/api/organization/decline/${item}`);
+    setOption(true)
+  };
+  
   return (
     <View style={styles.container}>
       <Gradient>
@@ -29,35 +44,60 @@ export default function ApproveMembers() {
           <Text style={[styles.underText]}>MIEMBROS DE LA EMPRESA</Text>
           <FlatList
             data={pendingUsers}
-            numColumns={1}
+            numColumns={2}
+            style={{ borderRadius: 6 }}
             showsVerticalScrollIndicator={false}
+            keyExtractor={(usari) => String(usari.id)}
+            columnWrapperStyle={styles.row}
             renderItem={({ item }) => (
               <View
                 style={{
                   borderRadius: 6,
                   backgroundColor: "white",
-                  flexDirection: "row",
                   marginTop: 10,
                   marginHorizontal: 25,
+                  alignItems: "center",
                 }}
               >
-                <Text style={[styles.input]}>{item.name}</Text>
-                <Text style={[styles.input]}>{item.org_state}</Text>
-                {item.org_state!=="approved"? (<View style={{flexDirection:"row"}}>
-                <Icon
-                  name="check-circle"
-                  size={24}
-                  solid
-                  color="green"
-                  style={{ padding: 10 }}
-                />
-                <Icon
-                  name="times-circle"
-                  size={24}
-                  solid
-                  color="red"
-                  style={{ padding: 10 }}
-                /></View>):null}
+                <Text
+                  style={[styles.input, { fontSize: 18, fontWeight: "bold" }]}
+                >
+                  {item.name}
+                </Text>
+                <Image source={{ uri: item.picture }} style={styles.profile} />
+                
+                  <Text style={([styles.input], { fontStyle: "italic",marginBottom:10 })}>
+                    {item.email}
+                  </Text>
+               
+                {user.role === "organizationAdmin" ? (
+                  <Text style={[styles.input]}>{item.org_state}</Text>
+                ) : null}
+
+                {user.role === "organizationAdmin" ? (
+                  item.org_state === "pending" ? (
+                    <View style={{ flexDirection: "row" }}>
+                      <TouchableOpacity onPress={() => handleApprove(item.id)}>
+                        <Icon
+                          name="check-circle"
+                          size={24}
+                          solid
+                          color="green"
+                          style={{ padding: 10 }}
+                        />
+                      </TouchableOpacity>
+                      <TouchableOpacity onPress={() => handleDecline(item.id)}>
+                        <Icon
+                          name="times-circle"
+                          size={24}
+                          solid
+                          color="red"
+                          style={{ padding: 10 }}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                  ) : null
+                ) : null}
               </View>
             )}
           />
@@ -78,6 +118,7 @@ const styles = StyleSheet.create({
     width: 123,
     height: 35,
     padding: 10,
+    textAlign: "center",
   },
   underText: {
     color: "white",
@@ -87,5 +128,16 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 20,
     marginBottom: 10,
+  },
+  row: {
+    margin: 6,
+  },
+  profile: {
+    width: 53,
+    height: 53,
+    flexDirection: "row",
+    marginVertical: 15,
+    marginLeft: 16,
+    marginRight: 11,
   },
 });

@@ -105,20 +105,55 @@ class OrganizationController {
           id: req.user.organizationId,
         },
       });
+      if (organization.dataValues.id !== req.user.organizationId) {
+        return res.status(403).send("No tienes permisos para esta accion");
+      }
+      console.log(organization)
+      const user= await User.findOne({
+        where:{
+          id:req.params.userId
+        }
+      })
+      console.log("USERRRR",user)
+     
+      await user.update({
+       org_state: "approved",
+      });
+      res.status(201).send("Usuario Confirmado");
+      
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  static async declineUser(req, res, next) {
+    try {
+      if (req.user.role !== "organizationAdmin") {
+        return res.status(403).send("No tienes permisos para esta accion");
+      }
+      const organization = await Organization.findOne({
+        where: {
+          id: req.user.organizationId,
+        },
+      });
       if (organization.id !== req.user.organizationId) {
         return res.status(403).send("No tienes permisos para esta accion");
       }
-      await User.update({
+      await User.destroy({
         where: {
           id: req.params.userId,
-        },
-        org_state: "approved",
-      });
-      res.status(201).send("Usuario Confirmado");
-    } catch (err) {
+        }
+      })
+      res.status(201).send("Usuario denegado y eliminado de la base de datos");
+    }
+    catch (err) {
       next(err);
     }
   }
 }
+
+module.exports = OrganizationController;
+  
+
 
 module.exports = OrganizationController;
