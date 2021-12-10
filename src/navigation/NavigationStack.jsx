@@ -66,7 +66,7 @@ export default function NavigationStack() {
       <Stack.Screen
         name="Reservation"
         component={Reservation}
-        options={{ title: "", headerTransparent: true }}
+        options={{ title: "", headerTransparent: false }}
       />
       <Stack.Screen
         name="Form"

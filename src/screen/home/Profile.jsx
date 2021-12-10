@@ -50,7 +50,7 @@ export default function Profile(props) {
           borderBottomWidth: 1,
         }}
       >
-        <TouchableOpacity onPress={() => navigation.navigate("MyProfile")}><Image source={{uri:user.picture}} style={styles.profile} /></TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("MyProfile")}><Image source={{uri:user?.picture}} style={styles.profile} /></TouchableOpacity>
         <View style={{ marginTop: 5 }}>
           <Text style={styles.text}>{user ? user.name : "Name"}</Text>
           <Text style={styles.text}>Puesto</Text>

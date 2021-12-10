@@ -56,8 +56,8 @@ const Reservation = () => {
   return (
     <View style={styles.container}>
       <Gradient>
-        <View style={{marginTop:45}}>
-          <Text style={[styles.underText, { marginLeft: 20 }]}>
+        <View style={{marginTop:5}}>
+          <Text style={[styles.underText, { marginLeft: 20, marginTop:10 }]}>
             HACÉ TU RESERVA
           </Text>
           <Text style={{ color: "white", marginLeft: 33, marginTop: 20 }}>
@@ -151,6 +151,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     flex: 1,
+ 
   },
   input: {
     paddingVertical: 15,

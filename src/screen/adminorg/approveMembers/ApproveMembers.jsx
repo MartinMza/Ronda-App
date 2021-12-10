@@ -18,25 +18,22 @@ import * as WebBrowser from "expo-web-browser";
 export default function ApproveMembers(props) {
   const { item } = props;
   const [pendingUsers, setPendingUsers] = useState([]);
-  const [option, setOption] = useState(false)
+  const [option, setOption] = useState(false);
   const user = useSelector(selectUser);
-  option? useEffect(() => {
-    axios
-      .get(`http://${localhost}/api/user/users`)
-      .then((data) =>{ setPendingUsers(data.data)
-    setOption(false)});
-  }, []):null
+  useEffect(() => {
+    axios.get(`http://${localhost}/api/user/users`).then((data) => {
+      setPendingUsers(data.data);
+    });
+  }, []);
 
   const handleApprove = (item) => {
     axios.put(`http://${localhost}/api/organization/confirm/${item}`);
-    setOption(true)
   };
 
   const handleDecline = (item) => {
     axios.delete(`http://${localhost}/api/organization/decline/${item}`);
-    setOption(true)
   };
-  
+
   return (
     <View style={styles.container}>
       <Gradient>
@@ -65,11 +62,15 @@ export default function ApproveMembers(props) {
                   {item.name}
                 </Text>
                 <Image source={{ uri: item.picture }} style={styles.profile} />
-                
-                  <Text style={([styles.input], { fontStyle: "italic",marginBottom:10 })}>
-                    {item.email}
-                  </Text>
-               
+
+                <Text
+                  style={
+                    ([styles.input], { fontStyle: "italic", marginBottom: 10 })
+                  }
+                >
+                  {item.email}
+                </Text>
+
                 {user.role === "organizationAdmin" ? (
                   <Text style={[styles.input]}>{item.org_state}</Text>
                 ) : null}
