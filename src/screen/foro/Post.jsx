@@ -1,47 +1,76 @@
-import React, { useEffect, useState } from "react";
-// import { useSelector } from "react-redux";
-import { Image, Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+
+import {
+  Image,
+  Text,
+  // TextInput,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import axios from "axios";
 import { localhost } from "../../localHostIP.json";
+import { useFormik } from "formik";
+import CommentList from "../../components/comment/CommentList";
+import { TextInput } from "react-native-gesture-handler";
 
 export default function Post(props) {
-  const { content, img, name, dataId, mylike } = props;
-  // const user = useSelector((state) => state.user.user)
-  const [like, setLike] = useState(mylike); //WIP
+  const { content, img, name, id, userId } = props;
+
+  const [comments, setComments] = useState([]);
+  const [load, setLoad] = useState(false);
+  const [send, setSend] = useState(false)
+  const [text, setText] = useState("")
+  const [like, setLike] = useState(false); //WIP
   const [like2, setLike2] = useState(false); // backup -v (hardcode)
 
-  // useEffect(() => {
-  //   axios
-  //     .get(`http://${localhost}/api/likes/${dataId.postId}`)
-  //     .then(({data}) => console.log("DATA-->",data.map((e) => {
-  //       if (e.postId == dataId.postId && e.userId == dataId.ownerId) return setLike(true)
-  //     } ) ))
-  // }, [])
+  //------------------comment-------------------
 
-  // useEffect(() => {
-  //   axios
-  //     .get(`http://${localhost}/api/likes/${dataId.postId}/single`)
-  //     .then((data) => console.log("checking useEfect single like post-->",data ))
-  // }, [])
-
-  const likeHandle = async () => {
-    try {
-      if (!like) {
-        await axios
-          .post(`http://${localhost}/api/likes/${dataId.postId}`)
-          .then(() => setLike(true))
-      } else {
-        await axios
-          .delete(`http://${localhost}/api/likes/${dataId.postId}`)
-          .then(() => setLike(false));
-      }
-    } catch (error) {
-      console.log(error)
+  useEffect(() => {
+    if (load) {
+      axios
+        .get(`http://${localhost}/api/comment/${id}`)
+        .then((res) => setComments(res.data.reverse()))
+        .then(() => console.log("use Effect super ok"))
+        .catch((err) => console.error(err));
     }
+  }, [load, send]);
+
+  const handleSubmit = async (data) => {
+    setSend(!send)
+    const post = await axios.post(
+      `http://${localhost}/api/comment/${id}`,
+      data
+    );
   };
 
-  const likeHandle2 = () => like2 ? setLike2(false) : setLike2(true) //backup -v (hardcode)
+  //----------------------like-------------------
+
+  useEffect(() => {
+    axios
+      .get(`http://${localhost}/api/likes/${id}/single`)
+      .then(({data}) => data.like ? setLike(true) : setLike(false)) //to check "data"
+      .catch((err) => console.log(err));
+}, [])
+
+const likeHandle = async () => {
+try {
+  if (!like) {
+    await axios
+      .post(`http://${localhost}/api/likes/${id}`)
+      .then(() => setLike(true))
+  } else {
+    await axios
+      .delete(`http://${localhost}/api/likes/${id}`)
+      .then(() => setLike(false));
+  }
+} catch (error) {
+  console.log(error)
+}
+};
+
+const likeHandle2 = () => like2 ? setLike2(false) : setLike2(true) //backup -v (hardcode)
 
   return (
     <View>
@@ -57,30 +86,30 @@ export default function Post(props) {
           </TouchableOpacity>
         </View>
         <Text>{content}</Text>
-        {/* {img ? <Image source={{uri: img}} /> : null} */}
-        <Image
-          style={styles.imagen}
-          source={{
-            uri: img,
-          }}
-        />
+        {img ? (
+          <Image
+            style={styles.imagen}
+            source={{
+              uri: img,
+            }}
+          />
+        ) : null}
       </View>
       <View style={styles.footer}>
         <TouchableOpacity style={styles.buttonFooter}>
           <Icon
             name="heart"
             size={20}
-            color={like ? "red" : "black"}
-            solid = {like ? true : false}
-            onPress={() => likeHandle()}
+            color={like2 ? "red" : "black"}
+            solid = {like2 ? true : false}
+            onPress={() => likeHandle2()}
           />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonFooter}>
-          <Icon
-            name="comment"
-            size={20}
-            onPress={() => console.log("comment btn")}
-          />
+        <TouchableOpacity
+          style={styles.buttonFooter}
+          onPress={() => setLoad(!load)}
+        >
+          <Icon name="comment" size={20} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.buttonFooter}>
           <Icon
@@ -88,6 +117,26 @@ export default function Post(props) {
             size={20}
             onPress={() => console.log("share btn")}
           />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.comment}>
+        <CommentList comment={comments} />
+      </View>
+
+      <View style={styles.commentBox}>
+        <TextInput
+          placeholder="Agrega un comentario"
+          multiline
+          editable
+          numberOfLines={2}
+          style={{ width: 290, marginLeft: 5, marginVertical: 15 }}
+          onChangeText={(text) => setText(text)}
+        />
+        <TouchableOpacity
+          style={styles.buttonSend}
+          onPress={()=>handleSubmit(text)}
+        >
+          <Icon name="paper-plane" size={20} />
         </TouchableOpacity>
       </View>
     </View>
@@ -102,14 +151,6 @@ const styles = StyleSheet.create({
     marginTop: 30,
     marginBottom: 15,
     padding: 15,
-  },
-
-  underText: {
-    color: "white",
-    fontSize: 15,
-    fontWeight: "bold",
-    textDecorationLine: "underline",
-    padding: 20,
   },
   mainName: {
     fontWeight: "bold",
@@ -138,5 +179,26 @@ const styles = StyleSheet.create({
     height: 150,
     marginVertical: 15,
     borderRadius: 6,
+  },
+  comment: {
+    marginTop: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white",
+    borderRadius: 6,
+  },
+  commentBox: {
+    flexDirection: "row",
+    backgroundColor: "white",
+    borderRadius: 6,
+    marginTop: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonSend: {
+    width: 30,
+    height: 30,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
