@@ -5,14 +5,12 @@ import {
   Text,
   View,
   StyleSheet,
-  Linking,
   TextInput,
 } from "react-native";
 import Gradient from "../../components/gradient/Gradient";
 import Button from "../../components/button/Button";
 import logo from "../../../assets/logo.png";
 import axios from "axios";
-import { useNavigation } from "@react-navigation/native";
 import { localhost } from "../../../localHostIP.json";
 import * as WebBrowser from "expo-web-browser";
 import { selectUser, login } from "../../features/userSlice";

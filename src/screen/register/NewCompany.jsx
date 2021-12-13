@@ -46,16 +46,7 @@ const NewCompany = (props) => {
           value={formik.values.social_reason}
           onChangeText={(text) => formik.setFieldValue("social_reason", text)}
         />
-        <Input
-          placeholder="Fecha de facturación"
-          value={formik.values.date_time_fc}
-          onChangeText={(text) => formik.setFieldValue("date_time_fc", text)}
-        />
-        <Input
-          placeholder="Fecha de creación"
-          value={formik.values.data_fc}
-          onChangeText={(text) => formik.setFieldValue("data_fc", text)}
-        />
+       
         <Input
           placeholder="Numero de telefono"
           value={formik.values.phone}
@@ -64,8 +55,6 @@ const NewCompany = (props) => {
         <Text style={styles.error}>{formik.errors.name}</Text>
         <Text style={styles.error}>{formik.errors.CUIT}</Text>
         <Text style={styles.error}>{formik.errors.social_reason}</Text>
-        <Text style={styles.error}>{formik.errors.date_time_fc}</Text>
-        <Text style={styles.error}>{formik.errors.data_fc}</Text>
         <Text style={styles.error}>{formik.errors.phone}</Text>
         <Button onPress={formik.handleSubmit}>
           <Text style={{ fontSize: 15, color: "#fff" }}>CREAR EMPRESA</Text>
@@ -75,15 +64,13 @@ const NewCompany = (props) => {
   );
 };
 function initialValues() {
-  return { name: "", CUIT: "", social_reason: "", date_time_fc: "", phone: "" };
+  return { name: "", CUIT: "", social_reason: "", phone: "" };
 }
 function validationSchema() {
   return {
     name: Yup.string().min(5).required("Nombre es requerido"),
     CUIT: Yup.string().min(10).required("CUIT es requerido"),
     social_reason: Yup.string().required("Razón social es requerida"),
-    date_time_fc: Yup.string(),
-    data_fc: Yup.string(),
     phone: Yup.string().min(8).required("Telefono es requerido"),
   };
 }
@@ -91,15 +78,12 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: "100%",
-    left: 0,
-    top: 0,
-    alignItems: "center",
   },
   logo: {
     width: 300,
     height: 70,
     marginHorizontal: 70,
-    marginVertical: 70,
+    marginVertical: 110,
   },
   buttonText: {
     color: "white",
