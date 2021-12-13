@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Start from "../screen/login/Start";
 import Home from "../screen/home/Home";
 import Profile from "../screen/home/Profile";
+import MyProfile from "../screen/home/MyProfile";
 import Login from "../screen/login/Login";
 import Register from "../screen/register/Register";
 import Form from "../screen/register/Form";
@@ -16,7 +17,7 @@ const Stack = createStackNavigator();
 
 export default function NavigationStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="MyProfile" >
       <Stack.Screen name="Home" component={Home} options={{ title: "" }} />
       <Stack.Screen
         name="Start"
@@ -31,6 +32,11 @@ export default function NavigationStack() {
       <Stack.Screen
         name="Profile"
         component={Profile}
+        options={{ title: "" }}
+      />
+      <Stack.Screen
+        name="MyProfile"
+        component={MyProfile}
         options={{ title: "" }}
       />
       <Stack.Screen

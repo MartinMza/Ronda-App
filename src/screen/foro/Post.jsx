@@ -20,8 +20,8 @@ export default function Post(props) {
 
   const [comments, setComments] = useState([]);
   const [load, setLoad] = useState(false);
-  const [send, setSend] = useState(false)
-  const [text, setText] = useState("")
+  const [send, setSend] = useState(false);
+  const [text, setText] = useState("");
 
   useEffect(() => {
     if (load) {
@@ -46,12 +46,9 @@ export default function Post(props) {
   //   },
   // });
 
-  const handleSubmit = async (data) => {
-    setSend(!send)
-    const post = await axios.post(
-      `http://${localhost}/api/comment/${id}`,
-      data
-    );
+  const handleSubmit = async (text) => {
+    setSend(!send);
+    axios.post(`http://${localhost}/api/comment/${id}`, { comment: text });
   };
 
   return (
@@ -92,7 +89,7 @@ export default function Post(props) {
         </TouchableOpacity>
       </View>
       <View style={styles.comment}>
-        <CommentList comment={comments} />
+        {load ? <CommentList comment={comments} /> : null}
       </View>
 
       <View style={styles.commentBox}>
@@ -106,7 +103,7 @@ export default function Post(props) {
         />
         <TouchableOpacity
           style={styles.buttonSend}
-          onPress={()=>handleSubmit(text)}
+          onPress={() => handleSubmit(text)}
         >
           <Icon name="paper-plane" size={20} />
         </TouchableOpacity>
