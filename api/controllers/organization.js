@@ -27,7 +27,7 @@ class OrganizationController {
         phone,
         type: "Empresa",
       });
-      await User.update(
+      const user = await User.update(
         {
           organizationId: organization.id,
           role: "organizationAdmin",
@@ -37,9 +37,10 @@ class OrganizationController {
           where: {
             id: req.user.id,
           },
+          returning: true,
         }
       );
-      res.status(201).send("Empresa creada, vos sos el admin");
+      res.status(201).send(user);
     } catch (err) {
       console.log(err)
       next(err);

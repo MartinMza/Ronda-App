@@ -5,6 +5,7 @@ const oAuth2Client = new OAuth2(
   process.env.GOOGLE_CALENDAR_CLIENT_ID,
   process.env.GOOGLE_CALENDAR_CLIENT_SECRET
 );
+const sendEmail = require("../config/nodemailer");
 
 oAuth2Client.setCredentials({
   refresh_token: process.env.GOOGLE_CALENDAR_REFRESH_TOKEN,
@@ -91,7 +92,7 @@ class GoogleCalendarAPI {
       const event = {
         summary: "Reserva de sala",
         location: req.body.location,
-        description: `Reserva de sala`,
+        description: `Reserva hecha por:${req.user.name}`,
         start: {
           dateTime: start,
           timeZone: "America/Buenos_Aires",
@@ -140,6 +141,7 @@ class GoogleCalendarAPI {
           if (eventsArr.length === 0) {
             console.log("No events found ENTRO AL EVENT ARR === 0");
             if (organization.avaliable_credits >= room.credit_value) {
+              console.log("ENTRO AL IF DE ORGANIZATION");
               calendar.events.insert({ calendarId, resource: event }, (err) => {
                 if (err) {
                   console.log("The API returned an error: ADENTRO DEL IF DDEL EVENT ARR = 0 " + err);
@@ -158,6 +160,27 @@ class GoogleCalendarAPI {
                   calendarId: calendarId,
                   location: req.body.location,
                 });
+
+                console.log("Event created but email not send yet");
+                         
+                sendEmail(
+                  req.user.email,
+                  "Reserva de sala",
+                  `<div style="background-image: linear-gradient(45deg, #EB76FF, #8144CF, #44CFC7);
+                  padding: 40px;
+                  border-radius: 10px;
+                  text-align: center;
+                  color: white;
+                  ">
+                  <h2>Hola ${req.user.name}, tu reserva ha sido creada con éxito.</h2><br>
+                  
+                  <h3>Datos de tu reserva: </h3><br>
+                  <h4>Lugar: ${req.body.location}</h4>
+                  <h4>Fecha: ${req.body.sday}/${parseInt(req.body.smonth)+ 1 }/${req.body.syear}</h4>
+                  <h4>Hora de inicio: ${req.body.shours}:${req.body.sminutes}</h4>
+                  <h4>Hora de fin: ${req.body.ehours}:${req.body.eminutes}</h4>
+                  </div>`
+                )
                 return res.status(200).send(event);
               });
             } else {
@@ -170,6 +193,11 @@ class GoogleCalendarAPI {
           }
         }
       );
+
+       
+
+        
+
     } catch (err) {
       console.log("ERROR MAESTRO", err);
       res.status(500).json({ err });
