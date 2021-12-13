@@ -6,7 +6,6 @@ const otp = require("otp-generator");
 
 class Auth {
   static async login(req, res) {
-
     try {
       res.send(req.user);
     } catch (error) {
@@ -15,7 +14,6 @@ class Auth {
   }
 
   static async register(req, res) {
-   
     try {
       if (req.body.role === "admin") {
         //you cant create an admin account
@@ -52,10 +50,41 @@ class Auth {
       const subject = "Correo de verificación";
 
       const html = `
-        <h1>Clickee este link para verificar su correo electronico:</h1><br>
-        <h1>COPIA ESTE CODIGO</h1>
-        <br>
-        <h2>${otpGenerator}<h2>`;
+        <div style="background-image: linear-gradient(45deg, #EB76FF, #8144CF, #44CFC7);
+        padding: 40px;
+        border-radius: 10px;
+        text-align: center;
+        color: white;
+        ">
+  <h1>Utilice este código para verificar su correo electrónico en la app de Ronda:</h1><br>
+  <h3>COPIA ESTE CÓDIGO</h3>
+  <div>
+    <span style="font: italic small-caps bold 25px/30px Georgia, serif;
+    background-color: white;
+    color: black;
+    margin: 5px;
+    padding: 6px;
+    border-radius: 5px; ">${otpGenerator[0]}</span>
+    <span style="font: italic small-caps bold 25px/30px Georgia, serif;
+    background-color: white;
+    color: black;
+    margin: 5px;
+    padding: 6px;
+    border-radius: 5px; ">${otpGenerator[1]}</span>
+    <span style="font: italic small-caps bold 25px/30px Georgia, serif;
+    background-color: white;
+    color: black;
+    margin: 5px;
+    padding: 6px;
+    border-radius: 5px; ">${otpGenerator[2]}</span>
+    <span style="font: italic small-caps bold 25px/30px Georgia, serif;
+    background-color: white;
+    color: black;
+    margin: 5px;
+    padding: 6px;
+    border-radius: 5px; ">${otpGenerator[3]}</span>
+    
+</div>`;
 
       await sendEmail(email, subject, html);
 
@@ -83,12 +112,37 @@ class Auth {
         });
         const email = req.body.email;
         const subject = "Correo de verificación";
-
+        //put all into a gray div and put the code in a h2
         const html = `
-        <h1>Clickee este link para verificar su correo electronico:</h1><br>
-        <h1>COPIA ESTE CODIGO</h1>
-        <br>
-        <h2>${otpGenerator}<h2>`;
+        <div style="background-image: linear-gradient(45deg, #EB76FF, #8144CF, #44CFC7);
+        padding: 40px;
+        border-radius: 10px;
+        text-align: center;">
+        <h1>Utilice este código para verificar su correo electrónico en la app de Ronda:</h1><br>
+        <h3>COPIA ESTE CÓDIGO</h3>>
+  <div>
+    <span style="font: italic small-caps bold 25px/30px Georgia, serif;
+    background-color: white;
+    margin: 5px;
+    padding: 6px;
+    border-radius: 5px; ">${otpGenerator[0]}</span>
+    <span style="font: italic small-caps bold 25px/30px Georgia, serif;
+    background-color: white;
+    margin: 5px;
+    padding: 6px;
+    border-radius: 5px; " >${otpGenerator[1]}</span>
+    <span style="font: italic small-caps bold 25px/30px Georgia, serif;
+    background-color: white;
+    margin: 5px;
+    padding: 6px;
+    border-radius: 5px; " >${otpGenerator[2]}</span>
+    <span style="font: italic small-caps bold 25px/30px Georgia, serif;
+    background-color: white;
+    margin: 5px;
+    padding: 6px;
+    border-radius: 5px; " >${otpGenerator[3]}</span>
+  </div>
+</div>`;
 
         await sendEmail(email, subject, html);
 
@@ -101,8 +155,7 @@ class Auth {
         return res.send("Email sent");
       }
       res.send("Email not found");
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error);
     }
   }
@@ -114,7 +167,7 @@ class Auth {
       });
       if (user) {
         await User.update(
-          { 
+          {
             otp: null,
             confirmed: true,
           },
@@ -131,7 +184,7 @@ class Auth {
   }
   static async logout(req, res) {
     try {
-      console.log(req.user)
+      console.log(req.user);
       req.logout();
       res.send("done");
     } catch (error) {

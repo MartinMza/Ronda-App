@@ -18,11 +18,11 @@ router.use('/calendar', checkAuth, calendar)
 router.use('/admin', checkAuth, checkAdmin, admin);
 router.use('/posts', post);
 router.use('/likes',checkAuth, like);
-router.use('/comment',checkAuth, comment);
+router.use('/comment', comment);
 router.use('/room',checkAuth, room);
 router.use('/user',checkAuth,user);
 router.use('/message',checkAuth,message);
-router.use('/organization',checkAuth,organization);
+router.use('/organization', organization);
 router.use('/reservation', checkAuth, reservation)
 
 module.exports = router;

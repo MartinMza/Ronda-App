@@ -1,4 +1,4 @@
-const { Room, Organization, Reservation }= require("../models");
+const { Room, Organization, Reservation } = require("../models");
 const { google } = require("googleapis");
 const { OAuth2 } = google.auth;
 const oAuth2Client = new OAuth2(
@@ -35,6 +35,7 @@ class GoogleCalendarAPI {
 
   static async setEvent(req, res) {
     try {
+      console.log("BODYBODY", req.body);
       const uniqueId = (length = 16) => {
         return parseInt(
           Math.ceil(Math.random() * Date.now())
@@ -69,19 +70,21 @@ class GoogleCalendarAPI {
       const calendarId = calendarIdDetector();
 
       const start = new Date(
-        req.body.syear,
-        req.body.smonth,
-        req.body.sday,
-        req.body.shours,
-        req.body.sminutes
+        parseInt(req.body.syear),
+        parseInt(req.body.smonth),
+        parseInt(req.body.sday),
+        parseInt(req.body.shours),
+        parseInt(req.body.sminutes)
       );
+      console.log("STAAAAART", start);
       const end = new Date(
-        req.body.eyear,
-        req.body.emonth,
-        req.body.eday,
-        req.body.ehours,
-        req.body.eminutes
+        parseInt(req.body.eyear),
+        parseInt(req.body.emonth),  
+        parseInt(req.body.eday),
+        parseInt(req.body.ehours),
+        parseInt(req.body.eminutes)
       );
+      console.log("ENNNNNDDD",end)
       const rest = end - start;
       const horas = rest / 3600000;
 
@@ -123,17 +126,23 @@ class GoogleCalendarAPI {
           },
         },
         (err, response) => {
-          if (err)
+          if (err){
+            console.log("The API returned an error: " + err);
             return res
               .status(500)
               .json({ message: "Free Busy query error", err });
+          }
+            
 
           const eventsArr = response.data.calendars[calendarId].busy;
+          console.log("EVENTSARR", eventsArr);
 
           if (eventsArr.length === 0) {
+            console.log("No events found ENTRO AL EVENT ARR === 0");
             if (organization.avaliable_credits >= room.credit_value) {
               calendar.events.insert({ calendarId, resource: event }, (err) => {
                 if (err) {
+                  console.log("The API returned an error: ADENTRO DEL IF DDEL EVENT ARR = 0 " + err);
                   return res
                     .status(500)
                     .json({ message: "Calendar event creation error", err });
@@ -143,25 +152,26 @@ class GoogleCalendarAPI {
                   avaliable_credits:
                     organization.avaliable_credits - room.credit_value * horas,
                 });
-                
 
                 Reservation.create({
-                    eventId:event.id,
-                    calendarId:calendarId,
-                    location:req.body.location,
-                    
-                })
+                  eventId: event.id,
+                  calendarId: calendarId,
+                  location: req.body.location,
+                });
                 return res.status(200).send(event);
               });
             } else {
+              console.log("NO TENES CREDITOS MAESTRO");
               return res.status(500).json({ message: "No tenes credito." });
             }
           } else {
+            console.log("Evento ya existente MAESTRO NEA");
             return res.status(500).json({ message: "sorry im busy" });
           }
         }
       );
     } catch (err) {
+      console.log("ERROR MAESTRO", err);
       res.status(500).json({ err });
     }
   }
