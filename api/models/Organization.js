@@ -12,15 +12,15 @@ Organization.init({
         type: S.STRING,
         allowNull: false,
     },
-    date_time_fc: {
-        type: S.DATE,
+    creationDate: {
+        type: S.STRING,
     },
     social_reason: {
         type: S.STRING,
         allowNull: false,
     },
-    day_fc: {
-        type: S.DATEONLY,
+    facturationDay: {
+        type: S.STRING
     },
     phone: {
         type: S.STRING,
@@ -35,6 +35,12 @@ Organization.init({
     },
     
 
-},{sequelize, modelName: "organization"});
+},{hooks:{
+    beforeCreate: (organization) => {
+        organization.creationDate = `${new Date().getDate()}/${new Date().getMonth()}/${new Date().getFullYear()}`;
+        organization.facturationDay = `${new Date().getDate()}/${new Date().getMonth()}/${new Date().getFullYear()}`;
+        console.log(organization);
+    }
+},sequelize, modelName: "organization"});
     
 module.exports = Organization;

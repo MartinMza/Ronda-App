@@ -16,14 +16,12 @@ class OrganizationController {
 
   static async createEmpresa(req, res, next) {
     try {
-      const { name, CUIT, social_reason, date_time_fc, date_fc, phone } =
+      const { name, CUIT, social_reason,phone } =
         req.body;
       const organization = await Organization.create({
         name,
         CUIT,
         social_reason,
-        date_time_fc,
-        date_fc,
         phone,
         type: "Empresa",
       });
@@ -48,14 +46,12 @@ class OrganizationController {
   }
   static async createParticular(req, res, next) {
     try {
-      const { name, CUIT, social_reason, date_time_fc, date_fc, phone } =
+      const { name, CUIT, social_reason, phone } =
         req.body;
       const organization = await Organization.create({
         name,
         CUIT,
         social_reason,
-        date_time_fc,
-        date_fc,
         phone,
         type: "Particular",
       });
@@ -151,10 +147,6 @@ class OrganizationController {
       next(err);
     }
   }
-}
-
-module.exports = OrganizationController;
-  
-
+} 
 
 module.exports = OrganizationController;
