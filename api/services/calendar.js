@@ -36,7 +36,7 @@ class GoogleCalendarAPI {
 
   static async setEvent(req, res) {
     try {
-      console.log("BODYBODY", req.body);
+      
       const uniqueId = (length = 16) => {
         return parseInt(
           Math.ceil(Math.random() * Date.now())
@@ -77,7 +77,6 @@ class GoogleCalendarAPI {
         parseInt(req.body.shours),
         parseInt(req.body.sminutes)
       );
-      console.log("STAAAAART", start);
       const end = new Date(
         parseInt(req.body.eyear),
         parseInt(req.body.emonth),  
@@ -85,14 +84,13 @@ class GoogleCalendarAPI {
         parseInt(req.body.ehours),
         parseInt(req.body.eminutes)
       );
-      console.log("ENNNNNDDD",end)
       const rest = end - start;
       const horas = rest / 3600000;
 
       const event = {
         summary: "Reserva de sala",
         location: req.body.location,
-        description: `Reserva hecha por:${req.user.name}`,
+        description: `Reserva hecha por: ${req.user.email}`,
         start: {
           dateTime: start,
           timeZone: "America/Buenos_Aires",
@@ -133,15 +131,13 @@ class GoogleCalendarAPI {
               .status(500)
               .json({ message: "Free Busy query error", err });
           }
-            
 
           const eventsArr = response.data.calendars[calendarId].busy;
-          console.log("EVENTSARR", eventsArr);
 
           if (eventsArr.length === 0) {
             console.log("No events found ENTRO AL EVENT ARR === 0");
             if (organization.avaliable_credits >= room.credit_value) {
-              console.log("ENTRO AL IF DE ORGANIZATION");
+              
               calendar.events.insert({ calendarId, resource: event }, (err) => {
                 if (err) {
                   console.log("The API returned an error: ADENTRO DEL IF DDEL EVENT ARR = 0 " + err);
@@ -184,22 +180,14 @@ class GoogleCalendarAPI {
                 return res.status(200).send(event);
               });
             } else {
-              console.log("NO TENES CREDITOS MAESTRO");
               return res.status(500).json({ message: "No tenes credito." });
             }
           } else {
-            console.log("Evento ya existente MAESTRO NEA");
             return res.status(500).json({ message: "sorry im busy" });
           }
         }
       );
-
-       
-
-        
-
     } catch (err) {
-      console.log("ERROR MAESTRO", err);
       res.status(500).json({ err });
     }
   }
