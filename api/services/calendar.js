@@ -5,6 +5,7 @@ const oAuth2Client = new OAuth2(
   process.env.GOOGLE_CALENDAR_CLIENT_ID,
   process.env.GOOGLE_CALENDAR_CLIENT_SECRET
 );
+const sendEmail = require("../config/nodemailer");
 
 oAuth2Client.setCredentials({
   refresh_token: process.env.GOOGLE_CALENDAR_REFRESH_TOKEN,
@@ -35,7 +36,7 @@ class GoogleCalendarAPI {
 
   static async setEvent(req, res) {
     try {
-      console.log("BODYBODY", req.body);
+      
       const uniqueId = (length = 16) => {
         return parseInt(
           Math.ceil(Math.random() * Date.now())
@@ -76,7 +77,6 @@ class GoogleCalendarAPI {
         parseInt(req.body.shours),
         parseInt(req.body.sminutes)
       );
-      console.log("STAAAAART", start);
       const end = new Date(
         parseInt(req.body.eyear),
         parseInt(req.body.emonth),  
@@ -84,14 +84,13 @@ class GoogleCalendarAPI {
         parseInt(req.body.ehours),
         parseInt(req.body.eminutes)
       );
-      console.log("ENNNNNDDD",end)
       const rest = end - start;
       const horas = rest / 3600000;
 
       const event = {
         summary: "Reserva de sala",
         location: req.body.location,
-        description: `Reserva de sala`,
+        description: `Reserva hecha por: ${req.user.email}`,
         start: {
           dateTime: start,
           timeZone: "America/Buenos_Aires",
@@ -132,14 +131,13 @@ class GoogleCalendarAPI {
               .status(500)
               .json({ message: "Free Busy query error", err });
           }
-            
 
           const eventsArr = response.data.calendars[calendarId].busy;
-          console.log("EVENTSARR", eventsArr);
 
           if (eventsArr.length === 0) {
             console.log("No events found ENTRO AL EVENT ARR === 0");
             if (organization.avaliable_credits >= room.credit_value) {
+              
               calendar.events.insert({ calendarId, resource: event }, (err) => {
                 if (err) {
                   console.log("The API returned an error: ADENTRO DEL IF DDEL EVENT ARR = 0 " + err);
@@ -158,20 +156,38 @@ class GoogleCalendarAPI {
                   calendarId: calendarId,
                   location: req.body.location,
                 });
+
+                console.log("Event created but email not send yet");
+                         
+                sendEmail(
+                  req.user.email,
+                  "Reserva de sala",
+                  `<div style="background-image: linear-gradient(45deg, #EB76FF, #8144CF, #44CFC7);
+                  padding: 40px;
+                  border-radius: 10px;
+                  text-align: center;
+                  color: white;
+                  ">
+                  <h2>Hola ${req.user.name}, tu reserva ha sido creada con éxito.</h2><br>
+                  
+                  <h3>Datos de tu reserva: </h3><br>
+                  <h4>Lugar: ${req.body.location}</h4>
+                  <h4>Fecha: ${req.body.sday}/${parseInt(req.body.smonth)+ 1 }/${req.body.syear}</h4>
+                  <h4>Hora de inicio: ${req.body.shours}:${req.body.sminutes}</h4>
+                  <h4>Hora de fin: ${req.body.ehours}:${req.body.eminutes}</h4>
+                  </div>`
+                )
                 return res.status(200).send(event);
               });
             } else {
-              console.log("NO TENES CREDITOS MAESTRO");
               return res.status(500).json({ message: "No tenes credito." });
             }
           } else {
-            console.log("Evento ya existente MAESTRO NEA");
             return res.status(500).json({ message: "sorry im busy" });
           }
         }
       );
     } catch (err) {
-      console.log("ERROR MAESTRO", err);
       res.status(500).json({ err });
     }
   }
