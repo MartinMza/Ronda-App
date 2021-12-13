@@ -9,24 +9,42 @@ import Register from "../screen/register/Register";
 import Form from "../screen/register/Form";
 import Confirmation from "../screen/register/Confirmation";
 import Reserva from "../screen/reserva/Reserva";
-
+import Reservation from "../screen/reserva/Reservation";
 import Company from "../screen/register/Company";
 import NewCompany from "../screen/register/NewCompany";
+import Approve from "../screen/adminorg/approveMembers/ApproveMembers"
+import MyProfile from "../screen/home/MyProfile";
 
 const Stack = createStackNavigator();
 
 export default function NavigationStack() {
   return (
+<<<<<<< HEAD
     <Stack.Navigator initialRouteName="MyProfile" >
       <Stack.Screen name="Home" component={Home} options={{ title: "" }} />
+=======
+    <Stack.Navigator initialRouteName="Start" >
+          <Stack.Screen
+        name="MyProfile"
+        component={MyProfile}
+        options={{ title: "" }}
+      />
+>>>>>>> 5ffe37b1b4a05c001d16501ecb2894a1e1bb2fa3
       <Stack.Screen
         name="Start"
         component={Start}
         options={{ title: "", headerTransparent: true }}
       />
+      <Stack.Screen name="Home" component={Home} options={{ title: "" }} />
+
       <Stack.Screen
         name="Login"
         component={Login}
+        options={{ title: "", headerTransparent: true }}
+      />
+    <Stack.Screen
+        name="Approve"
+        component={Approve}
         options={{ title: "", headerTransparent: true }}
       />
       <Stack.Screen
@@ -34,6 +52,7 @@ export default function NavigationStack() {
         component={Profile}
         options={{ title: "" }}
       />
+    
       <Stack.Screen
         name="MyProfile"
         component={MyProfile}
@@ -44,7 +63,6 @@ export default function NavigationStack() {
         component={Confirmation}
         options={{ title: "", headerTransparent: true }}
       />
-
       <Stack.Screen
         name="NewCompany"
         component={NewCompany}
@@ -56,7 +74,11 @@ export default function NavigationStack() {
         component={Register}
         options={{ title: "", headerTransparent: true }}
       />
-
+      <Stack.Screen
+        name="Reservation"
+        component={Reservation}
+        options={{ title: "", headerTransparent: false }}
+      />
       <Stack.Screen
         name="Form"
         component={Form}
@@ -67,6 +89,7 @@ export default function NavigationStack() {
         component={Reserva}
         options={{ title: "", headerTransparent: false }}
       />
+
       <Stack.Screen
         name="Company"
         component={Company}

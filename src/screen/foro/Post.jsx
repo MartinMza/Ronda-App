@@ -22,6 +22,10 @@ export default function Post(props) {
   const [load, setLoad] = useState(false);
   const [send, setSend] = useState(false);
   const [text, setText] = useState("");
+  const [like, setLike] = useState(false);
+  const [like2, setLike2] = useState(false); // backup -v (hardcode)
+
+  //------------------comment-------------------
 
   useEffect(() => {
     if (load) {
@@ -33,23 +37,38 @@ export default function Post(props) {
     }
   }, [load, send]);
 
-  // const formik = useFormik({
-  //   initialValues: {
-  //     comment: "",
-  //   },
-  //   validateOnChange: false,
-  //   onSubmit: async (data) => {
-  //     const post = await axios.post(
-  //       `http://${localhost}/api/comment/${id}`,
-  //       data
-  //     );
-  //   },
-  // });
-
   const handleSubmit = async (text) => {
     setSend(!send);
     axios.post(`http://${localhost}/api/comment/${id}`, { comment: text });
+    setText("");
   };
+
+  //----------------------like-------------------
+
+  useEffect(() => {
+    axios
+      .get(`http://${localhost}/api/likes/${id}/single`)
+      .then(({ data }) => (data.like ? setLike(true) : setLike(false)))
+      .catch((err) => console.log(err));
+  }, []);
+
+  const likeHandle = async () => {
+    try {
+      if (!like) {
+        await axios
+          .post(`http://${localhost}/api/likes/${id}`)
+          .then(() => setLike(true));
+      } else {
+        await axios
+          .delete(`http://${localhost}/api/likes/${id}`)
+          .then(() => setLike(false));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const likeHandle2 = () => (like2 ? setLike2(false) : setLike2(true)); //backup -v (hardcode)
 
   return (
     <View>
@@ -60,7 +79,7 @@ export default function Post(props) {
             <Icon
               name="ellipsis-v"
               size={15}
-              onPress={() => console.log("Like")}
+              onPress={() => console.log("options btn")}
             />
           </TouchableOpacity>
         </View>
@@ -76,7 +95,13 @@ export default function Post(props) {
       </View>
       <View style={styles.footer}>
         <TouchableOpacity style={styles.buttonFooter}>
-          <Icon name="heart" size={20} onPress={() => console.log("Like")} />
+          <Icon
+            name="heart"
+            size={20}
+            color={like ? "red" : "black"}
+            solid={like ? true : false}
+            onPress={() => likeHandle()}
+          />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.buttonFooter}
@@ -85,7 +110,11 @@ export default function Post(props) {
           <Icon name="comment" size={20} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.buttonFooter}>
-          <Icon name="share" size={20} onPress={() => console.log("Like")} />
+          <Icon
+            name="share"
+            size={20}
+            onPress={() => console.log("share btn")}
+          />
         </TouchableOpacity>
       </View>
       <View style={styles.comment}>
@@ -99,6 +128,7 @@ export default function Post(props) {
           editable
           numberOfLines={2}
           style={{ width: 290, marginLeft: 5, marginVertical: 15 }}
+          value={text}
           onChangeText={(text) => setText(text)}
         />
         <TouchableOpacity
@@ -118,7 +148,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 6,
     marginTop: 30,
-    marginButton: 15,
+    marginBottom: 15,
     padding: 15,
   },
   mainName: {

@@ -11,6 +11,7 @@ import Gradient from "./src/components/gradient/Gradient";
 import store from "./src/store/store";
 
 import * as Linking from "expo-linking";
+import NavigationDrawer from "./src/navigation/NavigationDrawer";
 
 export default function App() {
   LogBox.ignoreAllLogs();
@@ -27,14 +28,10 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <NavigationContainer >
+      <NavigationContainer>
         <NavigationStack />
         <StatusBar style="auto" />
       </NavigationContainer>
-
-
-
-
     </Provider>
   );
 }

@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Image, Text, View, StyleSheet, TouchableOpacity } from "react-native";
 
 import Gradient from "../../components/gradient/Gradient";
-import PostList from "../../components/post/PostList"
+import PostList from "../../components/post/PostList";
 import { TextInput } from "react-native-gesture-handler";
 import { selectUser } from "../../features/userSlice";
 
@@ -18,6 +18,7 @@ const Foro = () => {
   //   navigation.navigate("Home");
   // };
   const user = useSelector(selectUser);
+  const [loadMore, setLoadMore] = useState(true);
   const [post, setPost] = useState();
   const [load, setLoad] = useState(true)
   const formik = useFormik({
@@ -26,20 +27,29 @@ const Foro = () => {
     },
     //validationSchema: Yup.object(validationSchema()),
     validateOnChange: false,
-    onSubmit: async (data) => {
+    onSubmit: async (data,{resetForm}) => {
       const post = await axios
         .post(`http://${localhost}/api/posts/`, data)
+        .then(()=>resetForm({data:""}))
     },
   });
   useEffect(() => {
     axios
       .get(`http://${localhost}/api/posts/1`)
       .then((res) => setPost((res.data).reverse()))
-      .then(()=>console.log("use Effect ok"))
       .catch((err) => console.error(err));
   }, [load])
 
-  
+  // const checkLike = async (postId) => { //chequea si el usuario ya le dio like al post
+  //   try {
+  //     const like = await axios.get(`http://${localhost}/api/likes/${postId}/single`)
+  //     return like ? true : false
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+
+  console.log(`post`, post);
 
   return (
     <View style={styles.container}>
@@ -65,7 +75,7 @@ const Foro = () => {
         <TouchableOpacity onPress={()=>setLoad(!load)}>
           <Text style={styles.underText}>MÁS RECIENTES</Text>
         </TouchableOpacity>
-        {/* {post ? post.reverse().map((e,i) => {return <Post content={e.content} key={i} name={e.user.name} img={"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn-images-1.medium.com%2Fmax%2F2000%2F1*OsMBUUchHRtTT3n-ZX2xbA.jpeg&f=1&nofb=1"}/>}) : null} */}
+        {/* {post ? post.reverse().map((e,i) => {return <Post dataId={{postId: ... userId:...}} myLike={checkLike()} content={e.content} key={i} name={e.user.name} img={"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn-images-1.medium.com%2Fmax%2F2000%2F1*OsMBUUchHRtTT3n-ZX2xbA.jpeg&f=1&nofb=1"}/>}) : null} */}
         {post ? <PostList posts={post}/> : null}
       </Gradient>
     </View>
@@ -98,7 +108,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 6,
     marginVertical: 30,
-    marginBottom: 15,
+    marginBottom:15,
     padding: 15,
   },
 

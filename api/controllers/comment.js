@@ -1,4 +1,4 @@
-const { Comment } = require("../models");
+const { Comment, User } = require("../models");
 
 class CommentController {
   static async addComment(req, res) {
@@ -47,7 +47,20 @@ class CommentController {
           postId: req.params.id,
         },
       });
-      return res.status(200).json(comments);
+      const commentListWithUser = comments.map(async(comment) => {
+        const user = await User.findOne({
+          where: {
+            id: comment.userId,
+          }
+        })
+        return {
+          ...comment.dataValues,
+          user: user.dataValues
+        };
+      })
+      const commentList = await Promise.all(commentListWithUser);
+  
+      return res.status(200).json(commentList);
     } catch (err) {
       return res.status(500).json({
         message: err.message,

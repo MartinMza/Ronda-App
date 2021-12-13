@@ -23,8 +23,9 @@ export default function Confirmation(props) {
   const [codeDos, setCodeDos] = useState("");
   const [codeTres, setCodeTres] = useState("");
   const [codeCuatro, setCodeCuatro] = useState("");
-
   const user = useSelector(selectUser)
+  const dispatch = useDispatch();
+
   const { navigation } = props;
   const inputUno = useRef(null);
   const inputDos = useRef(null);
@@ -44,7 +45,8 @@ export default function Confirmation(props) {
         email: user.email,
         password: user.password,
       })
-      .then((data) => dispatch(login(data.data)));
+      .then((data) => dispatch(login(data.data)))
+      .catch((err) => console.log(err));
   }, [token.length > 3]);
   return (
     <View style={styles.container}>
