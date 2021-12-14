@@ -60,13 +60,11 @@ export default function Profile(props) {
         </View>
       </View>
       <View>
-        
-        <TouchableOpacity style={styles.touchable} onPress={() => navigation.navigate("Calendar")}>
-          <Icon
-            name="calendar"
-            size={25}
-            style={styles.icons}
-          />
+        <TouchableOpacity
+          style={styles.touchable}
+          onPress={() => navigation.navigate("Calendar")}
+        >
+          <Icon name="calendar" size={25} style={styles.icons} />
           <Text>Mis reservas</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -76,17 +74,18 @@ export default function Profile(props) {
           <Icon name="calendar-check" size={25} style={styles.icons} />
           <Text>Hacer una reserva</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.touchable}>
+        <TouchableOpacity
+          style={styles.touchable}
+          onPress={() => navigation.navigate("Salas")}
+        >
           <Icon name="home" size={25} style={styles.icons} />
           <Text>Salas y Espacios</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.touchable}>
-          <Icon
-            name="suitcase"
-            size={25}
-            onPress={() => console.log("profile")}
-            style={styles.icons}
-          />
+        <TouchableOpacity
+          style={styles.touchable}
+          onPress={() => navigation.navigate("Membership")}
+        >
+          <Icon name="suitcase" size={25} style={styles.icons} />
           <Text>Mi mebresía</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -111,7 +110,6 @@ export default function Profile(props) {
           <Icon name="power-off" size={25} style={styles.icons} />
           <Text>Cerrar Sección</Text>
         </TouchableOpacity>
-   
       </View>
     </View>
   );

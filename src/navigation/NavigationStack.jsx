@@ -12,12 +12,24 @@ import NewCompany from "../screen/register/NewCompany";
 import Approve from "../screen/adminorg/approveMembers/ApproveMembers"
 import MyProfile from "../screen/home/MyProfile";
 import Calendar from "../screen/calendar/Calendar"
+import Salas from "../screen/salasyespacios/Salas"
+import  Membership  from "../screen/membresia/Membership";
 
 const Stack = createStackNavigator();
 
 export default function NavigationStack() {
   return (
     <Stack.Navigator initialRouteName="Start" >
+        <Stack.Screen
+        name="Salas"
+        component={Salas}
+        options={{ title: "" }}
+      />
+       <Stack.Screen
+        name="Membership"
+        component={Membership}
+        options={{ title: "" }}
+      />
           <Stack.Screen
         name="Calendar"
         component={Calendar}
