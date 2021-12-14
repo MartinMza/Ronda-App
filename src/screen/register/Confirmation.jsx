@@ -21,7 +21,7 @@ export default function Confirmation(props) {
   const [codeDos, setCodeDos] = useState("");
   const [codeTres, setCodeTres] = useState("");
   const [codeCuatro, setCodeCuatro] = useState("");
-  const user = useSelector(selectUser)
+  const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
   const { navigation } = props;
@@ -29,13 +29,13 @@ export default function Confirmation(props) {
   const inputDos = useRef(null);
   const inputTres = useRef(null);
   const inputCuatro = useRef(null);
-  let token = code+codeDos+codeTres+codeCuatro
+  let token = code + codeDos + codeTres + codeCuatro;
   const handleConfirmation = () => {
     axios
       .put(`http://${localhost}/api/auth/verify/${token}`, user.email)
       .then(() => navigation.navigate("Company"))
       .catch(() => alert("Código incorrecto"));
-  }
+  };
 
   useEffect(() => {
     axios

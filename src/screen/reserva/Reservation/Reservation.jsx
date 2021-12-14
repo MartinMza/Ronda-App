@@ -50,9 +50,11 @@ const Reservation = () => {
       .catch((err) => alert("No podemos generar tu reserva"));
   };
 
-  const handleCalendars = () =>{
-WebBrowser.openBrowserAsync(`https://bit.ly/${value.toLowerCase()}-${typeValue.toLowerCase()}`)
-  }
+  const handleCalendars = () => {
+    WebBrowser.openBrowserAsync(
+      `https://bit.ly/${value.toLowerCase()}-${typeValue.toLowerCase()}`
+    );
+  };
   return (
     <View style={styles.container}>
       <Gradient>
@@ -108,11 +110,11 @@ WebBrowser.openBrowserAsync(`https://bit.ly/${value.toLowerCase()}-${typeValue.t
                   marginLeft: 33,
                   marginTop: 5,
                   fontWeight: "bold",
-                  textDecorationLine:"underline"
+                  textDecorationLine: "underline",
                 }}
               >
                 VER DISPONIBILIDAD DE {value.toUpperCase()}
-               {""} {typeValue.toUpperCase()}
+                {""} {typeValue.toUpperCase()}
               </Text>
             </TouchableOpacity>
           ) : null}

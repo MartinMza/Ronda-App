@@ -16,6 +16,7 @@ const calendar = google.calendar({ version: "v3", auth: oAuth2Client });
 class GoogleCalendarAPI {
   static async getCalendars(req, res) {
     try {
+      console.log()
       const calendars = await calendar.calendarList.list();
       res.status(200).json({ calendars: calendars.data.items });
     } catch (err) {
@@ -86,6 +87,9 @@ class GoogleCalendarAPI {
       );
       const rest = end - start;
       const horas = rest / 3600000;
+      const startEvent= `El dia ${req.body.sday}/${req.body.smonth}/${req.body.syear} a las ${req.body.shours}:${req.body.sminutes} `
+      const endEvent= `El dia ${req.body.eday}/${req.body.emonth}/${req.body.eyear} a las ${req.body.ehours}:${req.body.eminutes} `
+  
 
       const event = {
         summary: "Reserva de sala",
@@ -155,6 +159,10 @@ class GoogleCalendarAPI {
                   eventId: event.id,
                   calendarId: calendarId,
                   location: req.body.location,
+                  userId: req.user.id,
+                  roomId: room.id,
+                  start: startEvent,
+                  end: endEvent
                 });
 
                 console.log("Event created but email not send yet");
@@ -225,7 +233,7 @@ class GoogleCalendarAPI {
   static async deleteEvent(req, res) {
     try {
       const calendarIdDetector = () => {
-        switch (req.body.location) {
+        switch (req.params.location) {
           case "Sala Grande Belgrano":
             return "dpgat7mp9g3iqb1vl33044q1t8@group.calendar.google.com";
             break;
@@ -257,7 +265,7 @@ class GoogleCalendarAPI {
 
       const room = await Room.findOne({
         where: {
-          name: req.body.location,
+          name: req.params.location,
         },
       });
       const organization = await Organization.findOne({

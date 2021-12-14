@@ -61,11 +61,10 @@ export default function Profile(props) {
       </View>
       <View>
         
-        <TouchableOpacity style={styles.touchable}>
+        <TouchableOpacity style={styles.touchable} onPress={() => navigation.navigate("Calendar")}>
           <Icon
             name="calendar"
             size={25}
-            onPress={() => console.log("profile")}
             style={styles.icons}
           />
           <Text>Mis reservas</Text>

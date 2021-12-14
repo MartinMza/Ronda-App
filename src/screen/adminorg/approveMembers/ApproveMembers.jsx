@@ -31,7 +31,12 @@ export default function ApproveMembers(props) {
   };
 
   const handleDecline = (item) => {
-    axios.delete(`http://${localhost}/api/organization/decline/${item}`);
+    axios
+      .delete(`http://${localhost}/api/organization/decline/${item}`)
+      .then(() => axios.get(`http://${localhost}/api/user/users`))
+      .then((data) => {
+        setPendingUsers(data.data);
+      });
   };
 
   return (

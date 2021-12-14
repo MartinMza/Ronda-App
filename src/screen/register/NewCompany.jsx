@@ -8,10 +8,14 @@ import Gradient from "../../components/gradient/Gradient";
 import { localhost } from "../../localHostIP.json";
 import Button from "../../components/button/Button";
 import Input from "../../components/input/Input";
+import Drop from "../../components/reservation/Drop"
+import { Campus } from "../../utils/DataReservation";
 
 const NewCompany = (props) => {
   const { navigation } = props;
-
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [sedes, setSedes] = useState(Campus);
   const goToLogin = () => {
     navigation.navigate("Login");
   };
@@ -52,6 +56,16 @@ const NewCompany = (props) => {
           value={formik.values.phone}
           onChangeText={(text) => formik.setFieldValue("phone", text)}
         />
+           <Drop
+            placeholder="Sedes"
+            open={open}
+            value={value}
+            items={sedes}
+            setOpen={setOpen}
+            setValue={setValue}
+            setItems={setSedes}
+            zIndex={3}
+          />
         <Text style={styles.error}>{formik.errors.name}</Text>
         <Text style={styles.error}>{formik.errors.CUIT}</Text>
         <Text style={styles.error}>{formik.errors.social_reason}</Text>
