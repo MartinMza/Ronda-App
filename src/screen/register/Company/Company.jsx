@@ -42,8 +42,7 @@ const Company = (props) => {
   }, [value]);
 
   const handleConfirmation = () => {
-    axios
-      .put(`http://${localhost}/api/organization/empresa/${value}`)
+    axios.put(`http://${localhost}/api/organization/empresa/${value}`)
       .then(() => navigation.navigate("Home"))
       .catch((err) => console.log(err));
   };
@@ -54,29 +53,29 @@ const Company = (props) => {
         <Image source={logo} style={styles.logo} />
         <View style={styles.field}>
           <View>
-            <Text style={[styles.underText]}>ELIGE TU EMPRESA</Text>
-            <TextInput
-              autoFocus={true}
-              placeholder="Busca tu empresa"
-              placeholderTextColor="black"
-              style={[
-                styles.input,
-                value
-                  ? {
-                      borderTopLeftRadius: 10,
-                      borderTopRightRadius: 10,
-                      borderColor: "black",
-                      borderWidth: 1,
-                    }
-                  : { borderRadius: 10, borderColor: "black", borderWidth: 1 },
-              ]}
-              value={value}
-              onChangeText={(text) => {
-                setValue(text);
-                setBoolean(false);
-              }}
-            />
-          </View>
+          <Text style={[styles.underText]}>ELIGE TU EMPRESA</Text>
+          <TextInput
+            autoFocus={true}
+            placeholder="Busca tu empresa"
+            placeholderTextColor="black"
+            style={[
+              styles.input,
+              value
+                ? {
+                    borderTopLeftRadius: 10,
+                    borderTopRightRadius: 10,
+                    borderColor: "black",
+                    borderWidth: 1,
+                  }
+                : { borderRadius: 10, borderColor: "black", borderWidth: 1 },
+            ]}
+            value={value}
+            onChangeText={(text) => {
+              setValue(text);
+              setBoolean(false);
+            }}
+          />
+</View>
           {boolean ? null : (
             <FlatList
               data={myOrganization ? myOrganization : "No hay"}

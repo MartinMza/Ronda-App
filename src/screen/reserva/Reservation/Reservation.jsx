@@ -1,18 +1,16 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
-import { Datepick } from "../../../components/datepicker/Datepicker"
+import { View, TouchableOpacity, Text } from "react-native";
+import { Datepick } from "../../../components/datepicker/Datepicker";
 import { Timepick } from "../../../components/datepicker/Timepicker";
 import Gradient from "../../../components/gradient/Gradient";
 import Drop from "../../../components/reservation/Drop";
-import {
-  Campus,
-  Room,
-} from "../../../utils/DataReservation.jsx";
+import { Campus, Room } from "../../../utils/DataReservation.jsx";
 import styles from "./ReservationStyle";
 import moments from "moment-timezone";
 import Button from "../../../components/button/Button";
 import axios from "axios";
 import { localhost } from "../../../localHostIP.json";
+import * as WebBrowser from "expo-web-browser";
 
 const Reservation = () => {
   //=============CAMPUS=======================//
@@ -52,6 +50,9 @@ const Reservation = () => {
       .catch((err) => alert("No podemos generar tu reserva"));
   };
 
+  const handleCalendars = () =>{
+WebBrowser.openBrowserAsync(`https://bit.ly/${value.toLowerCase()}-${typeValue.toLowerCase()}`)
+  }
   return (
     <View style={styles.container}>
       <Gradient>
@@ -59,7 +60,14 @@ const Reservation = () => {
           <Text style={[styles.underText, { marginLeft: 20, marginTop: 10 }]}>
             HACÉ TU RESERVA
           </Text>
-          <Text style={{ color: "white", marginLeft: 33, marginTop: 20, fontWeight:"bold" }}>
+          <Text
+            style={{
+              color: "white",
+              marginLeft: 33,
+              marginTop: 20,
+              fontWeight: "bold",
+            }}
+          >
             Elige tu sede
           </Text>
           <Drop
@@ -72,7 +80,14 @@ const Reservation = () => {
             setItems={setSedes}
             zIndex={3}
           />
-          <Text style={{ color: "white", marginLeft: 33, marginTop: 11,  fontWeight:"bold"  }}>
+          <Text
+            style={{
+              color: "white",
+              marginLeft: 33,
+              marginTop: 7,
+              fontWeight: "bold",
+            }}
+          >
             Elige tu sala
           </Text>
           <Drop
@@ -85,7 +100,30 @@ const Reservation = () => {
             setItems={setType}
             zIndex={2}
           />
-          <Text style={{ color: "white", marginLeft: 33, marginTop: 11, fontWeight:"bold"  }}>
+          {value && typeValue ? (
+            <TouchableOpacity onPress={handleCalendars}>
+              <Text
+                style={{
+                  color: "white",
+                  marginLeft: 33,
+                  marginTop: 5,
+                  fontWeight: "bold",
+                  textDecorationLine:"underline"
+                }}
+              >
+                VER DISPONIBILIDAD DE {value.toUpperCase()}
+               {""} {typeValue.toUpperCase()}
+              </Text>
+            </TouchableOpacity>
+          ) : null}
+          <Text
+            style={{
+              color: "white",
+              marginLeft: 33,
+              marginTop: 15,
+              fontWeight: "bold",
+            }}
+          >
             Elige el día
           </Text>
           <View
@@ -102,7 +140,14 @@ const Reservation = () => {
               onDateChange={(value) => setDate(value)}
             />
           </View>
-          <Text style={{ color: "white", marginLeft: 33, marginTop: 30, fontWeight:"bold"  }}>
+          <Text
+            style={{
+              color: "white",
+              marginLeft: 33,
+              marginTop: 17,
+              fontWeight: "bold",
+            }}
+          >
             Elige la hora de ingreso
           </Text>
           <View
@@ -110,7 +155,7 @@ const Reservation = () => {
               backgroundColor: "#fff",
               borderRadius: 6,
               marginHorizontal: 30,
-              marginTop: 20,
+              marginTop: 17,
               flexDirection: "row",
             }}
           >
@@ -119,7 +164,14 @@ const Reservation = () => {
               onDateChange={(value) => setInitTime(value)}
             />
           </View>
-          <Text style={{ color: "white", marginLeft: 33, marginTop: 30, fontWeight:"bold"  }}>
+          <Text
+            style={{
+              color: "white",
+              marginLeft: 33,
+              marginTop: 30,
+              fontWeight: "bold",
+            }}
+          >
             Elige la hora de salida
           </Text>
           <View

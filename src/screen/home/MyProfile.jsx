@@ -3,36 +3,37 @@ import { Image, Text, View, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Gradient from "../../components/gradient/Gradient";
 import Button from "../../components/button/Button";
-import { selectUser } from "../../features/userSlice";
-import { useSelector } from "react-redux";
+import { selectUser, login } from "../../features/userSlice";
+import { useSelector, useDispatch } from "react-redux";
 import { TextInput } from "react-native-gesture-handler";
 import axios from "axios";
 import { localhost } from "../../localHostIP.json";
 
-export default function MyProfile() {
+export default function MyProfile(props) {
+  const { navigation } = props;
   const user = useSelector(selectUser);
-
+  const dispatch = useDispatch();
   const [editablePhone, setEditablePhone] = useState(false);
   const [editableProfession, setEditableProfession] = useState(false);
 
-  const [phone, setPhone] = useState("");
-  const [profession, setProfession] = useState("");
+  const [myPhone, setMyPhone] = useState("");
+  const [myProfession, setMyProfession] = useState("");
 
   //edit profile //pending
   const handleEdit = () => {
     axios
       .put(`http://${localhost}/api/user/`, {
-        phone: phone,
-        profession: profession,
+        phone: `${myPhone ? myPhone : user.phone}`,
+        profession: `${myProfession ? myProfession : user.profession}`,
       })
-      .then((data) => console.log("holi"));
+      .then((data) => dispatch(login(data.data)))
+      .then(() => navigation.navigate("Home"));
   };
-  console.log("AAAAA|", phone);
-  console.log("BBBBBB|", profession);
+
   return (
     <View style={styles.container}>
       <Gradient>
-        <View>
+        <View style={styles.imageContainer}>
           <Image source={{ uri: user?.picture }} style={styles.image} />
         </View>
         <Text
@@ -69,9 +70,9 @@ export default function MyProfile() {
                   : styles.input
               }
               editable={editablePhone}
-              value={phone ? phone : user.phone}
+              value={myPhone ? myPhone : user.phone}
               onChangeText={(text) => {
-                setPhone(text);
+                setMyPhone(text);
               }}
             />
             <Icon
@@ -91,9 +92,9 @@ export default function MyProfile() {
                   : styles.input
               }
               editable={editableProfession}
-              value={profession ? profession : user.profession}
+              value={myProfession ? myProfession : user.profession}
               onChangeText={(text) => {
-                setProfession(text);
+                setMyProfession(text);
               }}
             />
             <Icon
@@ -106,7 +107,7 @@ export default function MyProfile() {
           </View>
         </View>
         <View style={{ marginTop: 20 }}>
-          <Button onPress={()=>console.log("joko")}>
+          <Button onPress={handleEdit}>
             <Text style={{ color: "white", fontSize: 15 }}>
               GUARDAR CAMBIOS
             </Text>
@@ -125,10 +126,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   image: {
-    width: 150,
-    height: 150,
-    marginLeft: 16,
-    marginRight: 11,
+    height: "100%",
+    width: "100%",
   },
   input: {
     fontSize: 15,
@@ -144,5 +143,14 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     flexDirection: "row",
     justifyContent: "space-around",
+  },
+  imageContainer: {
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderRadius: 76,
+    backgroundColor: "rgba(255,255,255,0.5)",
+    marginVertical: 30,
+    width: 150,
+    height: 150,
   },
 });
