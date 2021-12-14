@@ -5,6 +5,7 @@ const adminRoomController = require('./room');
 const adminCommentController = require('./comment');
 const adminPostController = require('./post');
 const superAdminController = require('./superAdmin');
+const adminOrganizationController = require('./organization');
 
 module.exports = {
     adminUserController,
@@ -13,5 +14,6 @@ module.exports = {
     adminRoomController,
     adminCommentController,
     adminPostController,
+    adminOrganizationController,
     superAdminController
 }

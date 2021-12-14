@@ -5,20 +5,24 @@ import Home from "../screen/home/Home";
 import Profile from "../screen/home/Profile";
 import Login from "../screen/login/Login";
 import Register from "../screen/register/Register";
-import Form from "../screen/register/Form";
 import Confirmation from "../screen/register/Confirmation";
-import Reserva from "../screen/reserva/Reserva";
-import Reservation from "../screen/reserva/Reservation";
-import Company from "../screen/register/Company";
+import Reservation from "../screen/reserva/Reservation/Reservation";
+import Company from "../screen/register/Company/Company";
 import NewCompany from "../screen/register/NewCompany";
 import Approve from "../screen/adminorg/approveMembers/ApproveMembers"
 import MyProfile from "../screen/home/MyProfile";
+import Calendar from "../screen/calendar/Calendar"
 
 const Stack = createStackNavigator();
 
 export default function NavigationStack() {
   return (
     <Stack.Navigator initialRouteName="Start" >
+          <Stack.Screen
+        name="Calendar"
+        component={Calendar}
+        options={{ title: "" }}
+      />
           <Stack.Screen
         name="MyProfile"
         component={MyProfile}
@@ -68,16 +72,7 @@ export default function NavigationStack() {
         component={Reservation}
         options={{ title: "", headerTransparent: false }}
       />
-      <Stack.Screen
-        name="Form"
-        component={Form}
-        options={{ title: "", headerTransparent: true }}
-      />
-      <Stack.Screen
-        name="Reserva"
-        component={Reserva}
-        options={{ title: "", headerTransparent: false }}
-      />
+    
 
       <Stack.Screen
         name="Company"

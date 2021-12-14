@@ -1,23 +1,18 @@
 import React, { useEffect } from "react";
-import { Image, Text, View, StyleSheet} from "react-native";
+import { Image, View, StyleSheet} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import logo from "../../../assets/LogoRondaColor.jpg"
 import Gradient from "../../components/gradient/Gradient";
-import Button from "../../components/button/Button";
-
 import IconsRight from "../../components/icons/IconsRight"
 import Foro from "../foro/Foro";
-import Reserva from "../reserva/Reserva"
-import { useDispatch, useSelector } from "react-redux";
-import { selectUser,login } from "../../features/userSlice";
-import axios from "axios"
-import {localhost} from "../../../localHostIP.json"
+import { useSelector } from "react-redux";
+import { selectUser } from "../../features/userSlice";
 
 
 export default function Home(props) {
   const { navigation} = props;
   const user = useSelector(selectUser)
-  const dispatch = useDispatch()
+  
   // user? useEffect(()=>{
   //   console.log(user)
   //     axios.get(`http://${localhost}/api/auth/me`)

@@ -8,6 +8,7 @@ class MessageController {
         senderId: req.user.id,
         receiverId: req.params.id,
         message: req.body.message,
+        userEmail: req.user.email,
       });
       res.status(201).json(message);
     } catch (err) {
