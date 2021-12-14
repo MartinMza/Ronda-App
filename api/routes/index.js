@@ -11,6 +11,7 @@ const admin = require('./admin');
 const organization = require('./organization');
 const reservation = require('./reservation');
 const calendar = require ('./calendar');
+const membership = require ('./membership')
 
 
 router.use('/auth', auth);
@@ -23,7 +24,8 @@ router.use('/room',checkAuth, room);
 router.use('/user',checkAuth,user);
 router.use('/message',checkAuth,message);
 router.use('/organization', organization);
-router.use('/reservation', checkAuth, reservation)
+router.use('/reservation', checkAuth, reservation);
+router.use('/membership', checkAuth, membership);
 
 module.exports = router;
 
