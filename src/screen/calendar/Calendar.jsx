@@ -22,9 +22,8 @@ export default function Calendar() {
   console.log(reservations);
 
   const cancelReservation = (id, eventId, location) => {
-    axios.delete(
-      `http://${localhost}/api/calendar/delete/${eventId}/${location}`
-    ); //delete from calendar
+    axios
+      .delete(`http://${localhost}/api/calendar/delete/${eventId}/${location}`); //delete from calendar
     axios
       .delete(`http://${localhost}/api/reservation/cancel/${id}`) // delete from db
       .then(() => axios.get(`http://${localhost}/api/reservation/own`))
