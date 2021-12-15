@@ -14,6 +14,7 @@ import Approve from "../screen/adminorg/approveMembers/ApproveMembers";
 import Calendar from "../screen/calendar/Calendar";
 import Salas from "../screen/salasyespacios/Salas";
 import Membership from "../screen/membresia/Membership";
+import NewMembership from "../screen/admin/membreship/NewMembership";
 import Inbox from "../screen/messenger/Inbox";
 import Chat from "../screen/messenger/Chat";
 import Search from "../screen/messenger/Search";
@@ -22,9 +23,18 @@ const Stack = createStackNavigator();
 
 export default function NavigationStack() {
   return (
-    <Stack.Navigator initialRouteName="Home">
-      <Stack.Screen name="Salas" component={Salas} options={{ title: "" }} />
-      <Stack.Screen
+    <Stack.Navigator initialRouteName="Start" >
+        <Stack.Screen
+        name="NewMembership"
+        component={NewMembership}
+        options={{ title: "" }}
+      />
+        <Stack.Screen
+        name="Salas"
+        component={Salas}
+        options={{ title: "" }}
+      />
+       <Stack.Screen
         name="Membership"
         component={Membership}
         options={{ title: "" }}

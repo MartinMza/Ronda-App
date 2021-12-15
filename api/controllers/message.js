@@ -12,7 +12,6 @@ class MessageController {
       });
       res.status(201).json(message);
     } catch (err) {
-    console.log("ERRORRRR",err)
       res.status(500).send(err);
     }
   }
@@ -64,10 +63,8 @@ class MessageController {
             [S.Op.or]: [ { senderId: req.user.id, receiverId: req.params.id }, { senderId: req.params.id, receiverId: req.user.id } ]
         },
       });
-      console.log("MESSAGES",messages)
       res.status(200).json(messages);
     } catch (err) {
-        console.log("ERROR",err)
       res.status(500).json(err);
     }
   }
