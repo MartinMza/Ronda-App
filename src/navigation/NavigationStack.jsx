@@ -16,13 +16,18 @@ import Salas from "../screen/salasyespacios/Salas"
 import  Membership  from "../screen/membresia/Membership";
 import NewMembership from "../screen/admin/membreship/NewMembership";
 import CreateMembership from "../screen/admin/membreship/CreateMembership";
-
+import AssignMembership from "../screen/admin/membreship/AssignMembership";
 
 const Stack = createStackNavigator();
 
 export default function NavigationStack() {
   return (
     <Stack.Navigator initialRouteName="Start" >
+       <Stack.Screen
+        name="AssignMembership"
+        component={AssignMembership}
+        options={{ title: "" }}
+      />
         <Stack.Screen
         name="CreateMembership"
         component={CreateMembership}

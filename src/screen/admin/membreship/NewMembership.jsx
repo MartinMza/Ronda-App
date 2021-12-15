@@ -18,13 +18,6 @@ export default function NewMembership(props) {
       .catch((err) => console.log(err));
   }, []);
 
-  const assignMembership = () => {
-    axios
-      .get(`http://${localhost}/api/admin/${membership}/${organization}`)
-      .then(({ }) => alert("Membresia asignada correctamenta"))
-      .catch((err) => alert("No se pudo asignar membresia"));
-  };
-
   return (
     <View style={styles.container}>
       <Gradient>

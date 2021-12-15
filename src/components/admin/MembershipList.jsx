@@ -4,7 +4,6 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { useDispatch } from "react-redux";
 import { myMembership} from "../../features/membershipSlice";
-import { selectReservation } from "../../features/reservationSlice";
 
 export default function MembershipList(props) {
   const { organizations, navigation } = props;
@@ -12,7 +11,7 @@ export default function MembershipList(props) {
 
   const handleEdit = (item) => {
     dispatch(myMembership(item));
-    navigation.navigate('Home')
+    navigation.navigate('AssignMembership')
   };
   return (
     <FlatList
