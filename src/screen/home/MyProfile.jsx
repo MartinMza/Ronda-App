@@ -91,8 +91,6 @@ const styles = StyleSheet.create({
     marginLeft: 16,
     marginRight: 11,
   },
-<<<<<<< HEAD
-=======
   input: {
     fontSize: 15,
     marginBottom: 10,
@@ -106,5 +104,4 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
   },
->>>>>>> 5ffe37b1b4a05c001d16501ecb2894a1e1bb2fa3
 });
