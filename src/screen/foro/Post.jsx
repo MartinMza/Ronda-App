@@ -48,11 +48,12 @@ export default function Post(props) {
   useEffect(() => {
     axios
       .get(`http://${localhost}/api/likes/${id}/single`)
-      .then(({ data }) => (data.like ? setLike(true) : setLike(false)))
+      .then((data) => console.log("tst data (like)-->", data))
+        // data.like ? setLike(true) : setLike(false)
       .catch((err) => console.log(err));
   }, []);
 
-  const likeHandle = async () => {
+  /*   const likeHandle = async () => {
     try {
       if (!like) {
         await axios
@@ -66,6 +67,21 @@ export default function Post(props) {
     } catch (error) {
       console.log(error);
     }
+  }; */
+
+  const handleLike = () => {
+    // like / dislike fn
+    console.log("tst hanleLike id , like -->", id, like);
+    if (like)
+      axios
+        .delete(`http://${localhost}/api/likes/${id}`)
+        .then(() => setLike(false))
+        .catch((err) => console.log(err)); //dislike
+
+    axios
+      .post(`http://${localhost}/api/likes/${id}`)
+      .then(() => setLike(true))
+      .catch((err) => console.log(err)); //like
   };
 
   const likeHandle2 = () => (like2 ? setLike2(false) : setLike2(true)); //backup -v (hardcode)
@@ -100,7 +116,7 @@ export default function Post(props) {
             size={20}
             color={like ? "red" : "black"}
             solid={like ? true : false}
-            onPress={() => likeHandle()}
+            onPress={() => handleLike()}
           />
         </TouchableOpacity>
         <TouchableOpacity
