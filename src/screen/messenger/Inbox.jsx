@@ -12,9 +12,9 @@ export default function Inbox(props) {
   const user = useSelector(selectUser);
   console.log(user);
 
-  const goToSearch = () =>{
-    navigation.navigate("Search")
-  }
+  const goToSearch = () => {
+    navigation.navigate("Search");
+  };
 
   useEffect(() => {
     navigation.setOptions({
@@ -59,17 +59,14 @@ export default function Inbox(props) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.box}>
-        <MessageList message={fakeData} />
-        <View style={styles.newSend}>
-          <Icon
-            name="plus"
-            size={35}
-            color="white"
-            onPress={goToSearch}
-          />
+      <Gradient>
+        <View style={styles.box}>
+          <MessageList message={fakeData} />
+          <View style={styles.newSend}>
+            <Icon name="plus" size={35} color="white" onPress={goToSearch} />
+          </View>
         </View>
-      </View>
+      </Gradient>
     </View>
   );
 }
@@ -111,13 +108,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     flexDirection: "row",
   },
-  newSend:{
-    width:60,
-    height:60,
+  newSend: {
+    width: 60,
+    height: 60,
     borderRadius: 50,
     backgroundColor: "#8144CF",
     alignItems: "center",
     justifyContent: "center",
     marginVertical: 15,
-  }
+  },
 });

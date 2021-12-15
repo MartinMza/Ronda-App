@@ -1,17 +1,28 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Image, Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import { myMailUser } from "../../features/mailUserSlice";
 
 export default function UserCard(props) {
-  const { img, name, id, email } = props;
+  const { item, navigation } = props;
+
+  const dispatch = useDispatch();
+
+  const goToChat = () => {
+    dispatch(myMailUser(item));
+    navigation.navigate("Chat");
+  };
+
   return (
-    <View style={styles.input}>
-      <View style={styles.header}>
-        <Image source={{ uri: img }} style={styles.image} />
-        <Text style={styles.mainName}>{name}</Text>
+    <TouchableOpacity onPress={goToChat}>
+      <View style={styles.input}>
+        <View style={styles.header}>
+          {/* <Image source={{ uri: img }} style={styles.image} /> */}
+          <Text style={styles.mainName}>{item.name}</Text>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 
@@ -47,7 +58,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   image: {
-    width: 40,
-    height: 40,
+    width: 15,
+    height: 15,
   },
 });

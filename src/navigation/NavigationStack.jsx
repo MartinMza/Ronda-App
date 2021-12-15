@@ -23,18 +23,14 @@ const Stack = createStackNavigator();
 
 export default function NavigationStack() {
   return (
-    <Stack.Navigator initialRouteName="Start" >
-        <Stack.Screen
+    <Stack.Navigator initialRouteName="Inbox">
+      <Stack.Screen
         name="NewMembership"
         component={NewMembership}
         options={{ title: "" }}
       />
-        <Stack.Screen
-        name="Salas"
-        component={Salas}
-        options={{ title: "" }}
-      />
-       <Stack.Screen
+      <Stack.Screen name="Salas" component={Salas} options={{ title: "" }} />
+      <Stack.Screen
         name="Membership"
         component={Membership}
         options={{ title: "" }}
@@ -77,9 +73,6 @@ export default function NavigationStack() {
         component={Inbox}
         options={{
           title: "",
-          cardStyle: {
-            backgroundColor: "#44CFC7",
-          },
           headerStyle: {
             height: 50,
             backgroundColor: "rgba(255,255,255,0.5)",
@@ -91,9 +84,6 @@ export default function NavigationStack() {
         component={Chat}
         options={{
           title: "",
-          cardStyle: {
-            backgroundColor: "#44CFC7",
-          },
           headerStyle: {
             height: 50,
             backgroundColor: "rgba(255,255,255,0.5)",
@@ -105,9 +95,6 @@ export default function NavigationStack() {
         component={Search}
         options={{
           title: "",
-          cardStyle: {
-            backgroundColor: "#44CFC7",
-          },
           headerStyle: {
             height: 50,
             backgroundColor: "rgba(255,255,255,0.5)",

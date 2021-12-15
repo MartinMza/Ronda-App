@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   Text,
@@ -9,20 +9,31 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import UserList from "../../components/users/UserList";
+import axios from "axios";
+import { localhost } from "../../../localHostIP.json";
 
 import { selectUser } from "../../features/userSlice";
 import { useSelector } from "react-redux";
-import profile from "../../../assets/icons/profile.png"
+import profile from "../../../assets/icons/profile.png";
+import Gradient from "../../components/gradient/Gradient";
 
 export default function Search(props) {
-  const {navigation} = props
+  const { navigation } = props;
   const user = useSelector(selectUser);
-  console.log(user);
+
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <View style={{ flexDirection: "row", alignItems: "flex-start", justifyContent: "center", marginLeft: 10,}}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "flex-start",
+            justifyContent: "center",
+            marginLeft: 10,
+          }}
+        >
           <Icon
             name="arrow-left"
             size={20}
@@ -35,8 +46,15 @@ export default function Search(props) {
     });
   }, []);
 
+  useEffect(() => {
+    axios
+      .get(`http://${localhost}/api/user/users`)
+      .then((res) => setUsers(res.data));
+  }, []);
+
   return (
     <View style={styles.container}>
+      <Gradient>
         <View style={styles.box}>
           <View style={styles.sendBox}>
             <TextInput
@@ -44,12 +62,14 @@ export default function Search(props) {
               multiline
               editable
               numberOfLines={1}
-              style={{ width: 280, marginVertical: 15, marginHorizontal: 5, }}
+              style={{ width: 280, marginVertical: 15, marginHorizontal: 5 }}
               // value={text}
               onChangeText={(text) => console.log(text)}
             />
           </View>
+          {users ? <UserList users={users} navigation={navigation} /> : null}
         </View>
+      </Gradient>
     </View>
   );
 }
@@ -98,12 +118,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  logo:{
+  logo: {
     width: 27,
-    height:27,
+    height: 27,
     resizeMode: "contain",
     // marginVertical:15,
-    marginHorizontal: 15
+    marginHorizontal: 15,
   },
   mainName: {
     fontWeight: "bold",

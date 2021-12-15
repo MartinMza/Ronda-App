@@ -11,14 +11,15 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import Gradient from "../../components/gradient/Gradient";
 import MessageList from "../../components/menssenger/MessageList";
 
-import { selectUser } from "../../features/userSlice";
+import { selectMailUser } from "../../features/mailUserSlice";
 import { useSelector } from "react-redux";
 import profile from "../../../assets/icons/profile.png"
 
 export default function Chat(props) {
   const {navigation} = props
-  const user = useSelector(selectUser);
-  console.log(user);
+  const receiver = useSelector(selectMailUser);
+  const {id, name, email, picture} = receiver
+  console.log("receptor", receiver);
 
   useEffect(() => {
     navigation.setOptions({
@@ -30,12 +31,20 @@ export default function Chat(props) {
             style={styles.bars}
             onPress={navigation.goBack}
           />
-          <Image source={profile} style={styles.logo} />
-          <Text style={styles.mainName}>Jose Luis</Text>
+          <Image source={{uri: picture}} style={styles.logo} />
+          <Text style={styles.mainName}>{name}</Text>
         </View>
       ),
     });
   }, []);
+
+  useEffect(() => {
+    axios
+      .get(`http://${localhost}/api/message/${id}`)
+      .then((res)=> console.log(res.data))
+      .catch((err) => console.log(err));
+  }, []);
+
 
   const fakeData = [
     {
@@ -43,51 +52,11 @@ export default function Chat(props) {
       content: "Hola pepe soy jose luis",
       user: { name: "Jose Luis", id: 1 },
     },
-    {
-      id: 2,
-      content: "Hola pepe soy jbalvin",
-      user: { name: "Jose ", id: 2 },
-    },
-    {
-      id: 4,
-      content: "Hola pepe tu vieja",
-      user: { name: "Luis", id: 1 },
-    },
-    {
-      id: 5,
-      content: "Hola pepe soy jose luis",
-      user: { name: "Jose Luis", id: 1 },
-    },
-    {
-      id: 6,
-      content: "Hola pepe soy jbalvin",
-      user: { name: "Jose ", id: 2 },
-    },
-    {
-      id: 7,
-      content: "Hola pepe tu vieja",
-      user: { name: "Luis", id: 1 },
-    },
-    {
-      id: 8,
-      content: "Hola pepe soy jose luis",
-      user: { name: "Jose Luis", id: 1 },
-    },
-    {
-      id: 9,
-      content: "Hola pepe soy jbalvin",
-      user: { name: "Jose ", id: 2 },
-    },
-    {
-      id: 10,
-      content: "Hola pepe tu vieja",
-      user: { name: "Luis", id: 1 },
-    },
   ];
 
   return (
     <View style={styles.container}>
-      {/* <Gradient> */}
+      <Gradient>
         <View style={styles.box}>
           <MessageList message={fakeData} />
           <View style={styles.sendBox}>
@@ -108,7 +77,7 @@ export default function Chat(props) {
             </TouchableOpacity>
           </View>
         </View>
-      {/* </Gradient> */}
+      </Gradient>
     </View>
   );
 }
