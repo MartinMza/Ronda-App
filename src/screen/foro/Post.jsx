@@ -46,10 +46,10 @@ export default function Post(props) {
   //----------------------like-------------------
 
   useEffect(() => {
+    console.log("tst useeffect id --> ", id)    
     axios
       .get(`http://${localhost}/api/likes/${id}/single`)
-      .then((data) => console.log("tst data (like)-->", data))
-        // data.like ? setLike(true) : setLike(false)
+      .then(({data}) => data ? setLike(true) : setLike(false)) 
       .catch((err) => console.log(err));
   }, []);
 
