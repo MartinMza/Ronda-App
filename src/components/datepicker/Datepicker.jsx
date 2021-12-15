@@ -16,7 +16,7 @@ export const Datepick = (props) => {
   const { textStyle, onDateChange } = props;
   const [date, setDate] = useState(moment());
   const [show, setShow] = useState(false);
-  console.log("ASDSADJAKSHDJKAS", date);
+
   const onChange = (e, selectedDate) => {
     setDate(moment(selectedDate));
   };
@@ -78,7 +78,7 @@ export const Datepick = (props) => {
                       display={Platform.OS === "ios" ? "spinner" : "default"}
                       value={new Date(date)}
                       mode={"date"}
-                      minimumDate={new Date(moment().format("DD/MM/YYYY"))}
+                   
                       maximumDate={new Date(2024, 11, 31)}
                       onChange={onChange}
                       locale="es-ES"

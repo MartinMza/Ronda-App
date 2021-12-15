@@ -6,22 +6,34 @@ import Profile from "../screen/home/Profile";
 import MyProfile from "../screen/home/MyProfile";
 import Login from "../screen/login/Login";
 import Register from "../screen/register/Register";
-import Form from "../screen/register/Form";
 import Confirmation from "../screen/register/Confirmation";
-import Reserva from "../screen/reserva/Reserva";
-import Reservation from "../screen/reserva/Reservation";
-import Company from "../screen/register/Company";
+import Reservation from "../screen/reserva/Reservation/Reservation";
+import Company from "../screen/register/Company/Company";
 import NewCompany from "../screen/register/NewCompany";
 import Approve from "../screen/adminorg/approveMembers/ApproveMembers";
+import Calendar from "../screen/calendar/Calendar";
+import Salas from "../screen/salasyespacios/Salas";
+import Membership from "../screen/membresia/Membership";
 import Inbox from "../screen/messenger/Inbox";
 import Chat from "../screen/messenger/Chat";
+import Search from "../screen/messenger/Search";
 
 const Stack = createStackNavigator();
 
 export default function NavigationStack() {
   return (
-    <Stack.Navigator initialRouteName="Chat">
-    
+    <Stack.Navigator initialRouteName="Home">
+      <Stack.Screen name="Salas" component={Salas} options={{ title: "" }} />
+      <Stack.Screen
+        name="Membership"
+        component={Membership}
+        options={{ title: "" }}
+      />
+      <Stack.Screen
+        name="Calendar"
+        component={Calendar}
+        options={{ title: "" }}
+      />
       <Stack.Screen
         name="Start"
         component={Start}
@@ -53,12 +65,44 @@ export default function NavigationStack() {
       <Stack.Screen
         name="Inbox"
         component={Inbox}
-        options={{ title: "" }}
+        options={{
+          title: "",
+          cardStyle: {
+            backgroundColor: "#44CFC7",
+          },
+          headerStyle: {
+            height: 50,
+            backgroundColor: "rgba(255,255,255,0.5)",
+          },
+        }}
       />
       <Stack.Screen
         name="Chat"
         component={Chat}
-        options={{ title: "" }}
+        options={{
+          title: "",
+          cardStyle: {
+            backgroundColor: "#44CFC7",
+          },
+          headerStyle: {
+            height: 50,
+            backgroundColor: "rgba(255,255,255,0.5)",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Search"
+        component={Search}
+        options={{
+          title: "",
+          cardStyle: {
+            backgroundColor: "#44CFC7",
+          },
+          headerStyle: {
+            height: 50,
+            backgroundColor: "rgba(255,255,255,0.5)",
+          },
+        }}
       />
       <Stack.Screen
         name="Confirmation"
@@ -79,16 +123,6 @@ export default function NavigationStack() {
       <Stack.Screen
         name="Reservation"
         component={Reservation}
-        options={{ title: "", headerTransparent: false }}
-      />
-      <Stack.Screen
-        name="Form"
-        component={Form}
-        options={{ title: "", headerTransparent: true }}
-      />
-      <Stack.Screen
-        name="Reserva"
-        component={Reserva}
         options={{ title: "", headerTransparent: false }}
       />
 

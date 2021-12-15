@@ -3,14 +3,14 @@ import { useSelector } from "react-redux";
 import { Image, Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
-export default function MessageCard(props) {
-  const { content, name } = props;
+export default function UserCard(props) {
+  const { img, name, id, email } = props;
   return (
     <View style={styles.input}>
       <View style={styles.header}>
+        <Image source={{ uri: img }} style={styles.image} />
         <Text style={styles.mainName}>{name}</Text>
       </View>
-      <Text>{content}</Text>
     </View>
   );
 }
@@ -26,8 +26,7 @@ const styles = StyleSheet.create({
     borderRightWidth: 3,
     borderBottomWidth: 3,
     backfaceVisibility: "hidden",
-    backgroundColor:"white",
-    
+    backgroundColor: "white",
   },
   mainName: {
     fontWeight: "bold",
@@ -48,7 +47,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   image: {
-    width: 15,
-    height: 15,
+    width: 40,
+    height: 40,
   },
 });

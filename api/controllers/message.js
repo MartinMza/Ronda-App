@@ -8,6 +8,7 @@ class MessageController {
         senderId: req.user.id,
         receiverId: req.params.id,
         message: req.body.message,
+        userEmail: req.user.email,
       });
       res.status(201).json(message);
     } catch (err) {
@@ -66,7 +67,7 @@ class MessageController {
       console.log("MESSAGES",messages)
       res.status(200).json(messages);
     } catch (err) {
-        console.log("ERRORRRR",err)
+        console.log("ERROR",err)
       res.status(500).json(err);
     }
   }

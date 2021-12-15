@@ -152,28 +152,22 @@ class ReservationController {
         },
       });
       console.log(reservation);
-      const turn = await Turno.findOne({
-        where: {
-          id: reservation.turnId,
-        },
-      });
-      console.log(turn);
-      const room = await Room.findOne({
-        where: {
-          id: reservation.roomId,
-        },
-      });
-      const organization = await Organization.findOne({
-        where: {
-          id: req.user.organizationId,
-        },
-      });
-      await organization.update({
-        avaliable_credits: organization.avaliable_credits + room.credit_value,
-      });
-      await turn.update({
-        avaliable: true,
-      });
+     
+    
+      // const room = await Room.findOne({
+      //   where: {
+      //     id: reservation.roomId,
+      //   },
+      // });
+      // const organization = await Organization.findOne({
+      //   where: {
+      //     id: req.user.organizationId,
+      //   },
+      // });
+      // await organization.update({
+      //   avaliable_credits: organization.avaliable_credits + room.credit_value,
+      // });
+    
       await reservation.destroy();
       res.status(200).json(reservation);
     } catch (error) {

@@ -15,6 +15,10 @@ Message.init({
     receiverId: {
         type: S.INTEGER,
         allowNull:false,
+    },
+    userEmail:{
+        type: S.TEXT,
+        allowNull:false,
     }
 },{
     hooks: {},

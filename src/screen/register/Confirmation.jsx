@@ -5,14 +5,12 @@ import {
   Text,
   View,
   StyleSheet,
-  Linking,
   TextInput,
 } from "react-native";
 import Gradient from "../../components/gradient/Gradient";
 import Button from "../../components/button/Button";
 import logo from "../../../assets/logo.png";
 import axios from "axios";
-import { useNavigation } from "@react-navigation/native";
 import { localhost } from "../../../localHostIP.json";
 import * as WebBrowser from "expo-web-browser";
 import { selectUser, login } from "../../features/userSlice";
@@ -23,7 +21,7 @@ export default function Confirmation(props) {
   const [codeDos, setCodeDos] = useState("");
   const [codeTres, setCodeTres] = useState("");
   const [codeCuatro, setCodeCuatro] = useState("");
-  const user = useSelector(selectUser)
+  const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
   const { navigation } = props;
@@ -31,13 +29,13 @@ export default function Confirmation(props) {
   const inputDos = useRef(null);
   const inputTres = useRef(null);
   const inputCuatro = useRef(null);
-  let token = code+codeDos+codeTres+codeCuatro
+  let token = code + codeDos + codeTres + codeCuatro;
   const handleConfirmation = () => {
     axios
       .put(`http://${localhost}/api/auth/verify/${token}`, user.email)
       .then(() => navigation.navigate("Company"))
       .catch(() => alert("Código incorrecto"));
-  }
+  };
 
   useEffect(() => {
     axios

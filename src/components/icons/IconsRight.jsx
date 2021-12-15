@@ -5,11 +5,15 @@ import Icon from "react-native-vector-icons/FontAwesome";
 export default function IconsRight(props) {
   const { navigation } = props;
 
+  const goToProfile = () => {
+    navigation.navigate("Profile");
+  };
+
   return (
     <View style={{ flexDirection: "row", marginRight: 22,}}>
-      <Icon name="envelope" size={24} color="black" style={styles.icons}/>
+      <Icon name="envelope" size={24} color="black" style={styles.icons} onPress={goToProfile}/>
       <Icon name="bell" size={24} color="black" style={styles.icons}/>
-      <Icon name="search" size={24} color="black" style={styles.icons}/>
+      <Icon name="search" size={24} color="black" style={styles.icons} />
     </View>
   );
 }

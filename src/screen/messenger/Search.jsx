@@ -8,14 +8,13 @@ import {
   StyleSheet,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import Gradient from "../../components/gradient/Gradient";
-import MessageList from "../../components/menssenger/MessageList";
+import UserList from "../../components/users/UserList";
 
 import { selectUser } from "../../features/userSlice";
 import { useSelector } from "react-redux";
 import profile from "../../../assets/icons/profile.png"
 
-export default function Chat(props) {
+export default function Search(props) {
   const {navigation} = props
   const user = useSelector(selectUser);
   console.log(user);
@@ -30,85 +29,27 @@ export default function Chat(props) {
             style={styles.bars}
             onPress={navigation.goBack}
           />
-          <Image source={profile} style={styles.logo} />
-          <Text style={styles.mainName}>Jose Luis</Text>
+          <Text style={styles.mainName}>Buscar Usuarios</Text>
         </View>
       ),
     });
   }, []);
 
-  const fakeData = [
-    {
-      id: 1,
-      content: "Hola pepe soy jose luis",
-      user: { name: "Jose Luis", id: 1 },
-    },
-    {
-      id: 2,
-      content: "Hola pepe soy jbalvin",
-      user: { name: "Jose ", id: 2 },
-    },
-    {
-      id: 4,
-      content: "Hola pepe tu vieja",
-      user: { name: "Luis", id: 1 },
-    },
-    {
-      id: 5,
-      content: "Hola pepe soy jose luis",
-      user: { name: "Jose Luis", id: 1 },
-    },
-    {
-      id: 6,
-      content: "Hola pepe soy jbalvin",
-      user: { name: "Jose ", id: 2 },
-    },
-    {
-      id: 7,
-      content: "Hola pepe tu vieja",
-      user: { name: "Luis", id: 1 },
-    },
-    {
-      id: 8,
-      content: "Hola pepe soy jose luis",
-      user: { name: "Jose Luis", id: 1 },
-    },
-    {
-      id: 9,
-      content: "Hola pepe soy jbalvin",
-      user: { name: "Jose ", id: 2 },
-    },
-    {
-      id: 10,
-      content: "Hola pepe tu vieja",
-      user: { name: "Luis", id: 1 },
-    },
-  ];
-
   return (
     <View style={styles.container}>
-      {/* <Gradient> */}
         <View style={styles.box}>
-          <MessageList message={fakeData} />
           <View style={styles.sendBox}>
             <TextInput
-              placeholder="Envia un mensaje"
+              placeholder="Buscar persona"
               multiline
               editable
-              numberOfLines={2}
+              numberOfLines={1}
               style={{ width: 280, marginVertical: 15, marginHorizontal: 5, }}
               // value={text}
               onChangeText={(text) => console.log(text)}
             />
-            <TouchableOpacity
-              style={styles.buttonSend}
-              onPress={() => handleSubmit(text)}
-            >
-              <Icon name="paper-plane" size={20} />
-            </TouchableOpacity>
           </View>
         </View>
-      {/* </Gradient> */}
     </View>
   );
 }
