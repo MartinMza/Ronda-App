@@ -15,6 +15,7 @@ import Calendar from "../screen/calendar/Calendar"
 import Salas from "../screen/salasyespacios/Salas"
 import  Membership  from "../screen/membresia/Membership";
 import NewMembership from "../screen/admin/membreship/NewMembership";
+import CreateMembership from "../screen/admin/membreship/CreateMembership";
 
 
 const Stack = createStackNavigator();
@@ -22,6 +23,11 @@ const Stack = createStackNavigator();
 export default function NavigationStack() {
   return (
     <Stack.Navigator initialRouteName="Start" >
+        <Stack.Screen
+        name="CreateMembership"
+        component={CreateMembership}
+        options={{ title: "" }}
+      />
         <Stack.Screen
         name="NewMembership"
         component={NewMembership}

@@ -30,15 +30,13 @@ const Register = (props) => {
     validationSchema: Yup.object(validationSchema()),
     validateOnChange: false,
     onSubmit: async (data) => {
-
       const user = await axios
         .post(`http://${localhost}/api/auth/register/`, data)
         .then(() => {
           dispatch(register(data));
           goToConfirmation();
         });
-
-    },
+    }
   });
 
   return (
