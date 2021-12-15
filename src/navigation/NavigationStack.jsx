@@ -3,18 +3,21 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Start from "../screen/login/Start";
 import Home from "../screen/home/Home";
 import Profile from "../screen/home/Profile";
+import MyProfile from "../screen/home/MyProfile";
 import Login from "../screen/login/Login";
 import Register from "../screen/register/Register";
 import Confirmation from "../screen/register/Confirmation";
 import Reservation from "../screen/reserva/Reservation/Reservation";
 import Company from "../screen/register/Company/Company";
 import NewCompany from "../screen/register/NewCompany";
-import Approve from "../screen/adminorg/approveMembers/ApproveMembers"
-import MyProfile from "../screen/home/MyProfile";
-import Calendar from "../screen/calendar/Calendar"
-import Salas from "../screen/salasyespacios/Salas"
-import  Membership  from "../screen/membresia/Membership";
+import Approve from "../screen/adminorg/approveMembers/ApproveMembers";
+import Calendar from "../screen/calendar/Calendar";
+import Salas from "../screen/salasyespacios/Salas";
+import Membership from "../screen/membresia/Membership";
 import NewMembership from "../screen/admin/membreship/NewMembership";
+import Inbox from "../screen/messenger/Inbox";
+import Chat from "../screen/messenger/Chat";
+import Search from "../screen/messenger/Search";
 import CreateMembership from "../screen/admin/membreship/CreateMembership";
 import AssignMembership from "../screen/admin/membreship/AssignMembership";
 
@@ -38,24 +41,15 @@ export default function NavigationStack() {
         component={NewMembership}
         options={{ title: "" }}
       />
-        <Stack.Screen
-        name="Salas"
-        component={Salas}
-        options={{ title: "" }}
-      />
-       <Stack.Screen
+      <Stack.Screen name="Salas" component={Salas} options={{ title: "" }} />
+      <Stack.Screen
         name="Membership"
         component={Membership}
         options={{ title: "" }}
       />
-          <Stack.Screen
+      <Stack.Screen
         name="Calendar"
         component={Calendar}
-        options={{ title: "" }}
-      />
-          <Stack.Screen
-        name="MyProfile"
-        component={MyProfile}
         options={{ title: "" }}
       />
       <Stack.Screen
@@ -70,7 +64,7 @@ export default function NavigationStack() {
         component={Login}
         options={{ title: "", headerTransparent: true }}
       />
-    <Stack.Screen
+      <Stack.Screen
         name="Approve"
         component={Approve}
         options={{ title: "", headerTransparent: true }}
@@ -80,7 +74,45 @@ export default function NavigationStack() {
         component={Profile}
         options={{ title: "" }}
       />
-    
+
+      <Stack.Screen
+        name="MyProfile"
+        component={MyProfile}
+        options={{ title: "" }}
+      />
+      <Stack.Screen
+        name="Inbox"
+        component={Inbox}
+        options={{
+          title: "",
+          headerStyle: {
+            height: 50,
+            backgroundColor: "rgba(255,255,255,0.5)",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Chat"
+        component={Chat}
+        options={{
+          title: "",
+          headerStyle: {
+            height: 50,
+            backgroundColor: "rgba(255,255,255,0.5)",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Search"
+        component={Search}
+        options={{
+          title: "",
+          headerStyle: {
+            height: 50,
+            backgroundColor: "rgba(255,255,255,0.5)",
+          },
+        }}
+      />
       <Stack.Screen
         name="Confirmation"
         component={Confirmation}
@@ -102,7 +134,6 @@ export default function NavigationStack() {
         component={Reservation}
         options={{ title: "", headerTransparent: false }}
       />
-    
 
       <Stack.Screen
         name="Company"

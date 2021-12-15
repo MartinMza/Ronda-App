@@ -1,51 +1,61 @@
 import React, { useEffect } from "react";
-import { Image, View, StyleSheet} from "react-native";
+import { Image, View, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import logo from "../../../assets/LogoRondaColor.jpg"
+import logo from "../../../assets/LogoRondaColor.jpg";
 import Gradient from "../../components/gradient/Gradient";
-import IconsRight from "../../components/icons/IconsRight"
+import IconsRight from "../../components/icons/IconsRight";
 import Foro from "../foro/Foro";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../features/userSlice";
 
-
 export default function Home(props) {
-  const { navigation} = props;
-  const user = useSelector(selectUser)
-  
+  const { navigation } = props;
+  const user = useSelector(selectUser);
+
   // user? useEffect(()=>{
   //   console.log(user)
   //     axios.get(`http://${localhost}/api/auth/me`)
   //     .then((data)=>console.log(data.data))
   // },[]):null
- 
+
   const goToProfile = () => {
     navigation.navigate("Profile");
   };
+  const goToInbox = () => {
+    navigation.navigate("Inbox");
+  };
   useEffect(() => {
     navigation.setOptions({
-      headerRight: () => (<IconsRight />),
+      headerRight: () => (
+        <View style={{ flexDirection: "row", marginRight: 22 }}>
+          <Icon
+            name="envelope"
+            size={24}
+            color="black"
+            style={{marginLeft: 17,}}
+            onPress={goToInbox}
+          />
+          <Icon name="bell" size={24} color="black" style={{marginLeft: 17,}} />
+          <Icon name="search" size={24} color="black" style={{marginLeft: 17,}} />
+        </View>
+      ),
       headerLeft: () => (
-        <View style={{flexDirection: "row",}}>
-          
+        <View style={{ flexDirection: "row" }}>
           <Icon
             name="bars"
             size={20}
             onPress={goToProfile}
             style={styles.bars}
           />
-          <Image source={logo} style={styles.logo}/>
+          <Image source={logo} style={styles.logo} />
         </View>
       ),
     });
-  },[]);
+  }, []);
   return (
     <View style={styles.container}>
-    
       <Gradient>
-
-         <Foro/> 
-
+        <Foro />
       </Gradient>
     </View>
   );
@@ -63,18 +73,15 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 20,
   },
-  logo:{
+  logo: {
     width: 180,
-    height:27,
+    height: 27,
     resizeMode: "contain",
-    marginVertical:15,
-
-    
+    marginVertical: 15,
   },
-  bars:{
+  bars: {
     color: "black",
     marginLeft: 18,
-    marginVertical:20
-  }
+    marginVertical: 20,
+  },
 });
-
