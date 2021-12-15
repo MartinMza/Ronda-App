@@ -29,7 +29,7 @@ export default function MyProfile(props) {
       .then((data) => dispatch(login(data.data)))
       .then(() => navigation.navigate("Home"));
   };
-
+console.log(user)
   return (
     <View style={styles.container}>
       <Gradient>

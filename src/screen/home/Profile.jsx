@@ -60,41 +60,45 @@ export default function Profile(props) {
         </View>
       </View>
       <View>
-        <TouchableOpacity
-          style={styles.touchable}
-          onPress={() => navigation.navigate("Calendar")}
-        >
-          <Icon name="calendar" size={25} style={styles.icons} />
-          <Text>Mis reservas</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.touchable}
-          onPress={() => navigation.navigate("Reservation")}
-        >
-          <Icon name="calendar-check" size={25} style={styles.icons} />
-          <Text>Hacer una reserva</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.touchable}
-          onPress={() => navigation.navigate("Salas")}
-        >
-          <Icon name="home" size={25} style={styles.icons} />
-          <Text>Salas y Espacios</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.touchable}
-          onPress={() => navigation.navigate("Membership")}
-        >
-          <Icon name="suitcase" size={25} style={styles.icons} />
-          <Text>Mi mebresía</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.touchable}
-          onPress={() => navigation.navigate("Approve")}
-        >
-          <Icon name="users" size={25} style={styles.icons} />
-          <Text>Mi organización</Text>
-        </TouchableOpacity>
+        {user?.org_state === "approved" ? (
+          <View>
+            <TouchableOpacity
+              style={styles.touchable}
+              onPress={() => navigation.navigate("Calendar")}
+            >
+              <Icon name="calendar" size={25} style={styles.icons} />
+              <Text>Mis reservas</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.touchable}
+              onPress={() => navigation.navigate("Reservation")}
+            >
+              <Icon name="calendar-check" size={25} style={styles.icons} />
+              <Text>Hacer una reserva</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.touchable}
+              onPress={() => navigation.navigate("Salas")}
+            >
+              <Icon name="home" size={25} style={styles.icons} />
+              <Text>Salas y Espacios</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.touchable}
+              onPress={() => navigation.navigate("Membership")}
+            >
+              <Icon name="suitcase" size={25} style={styles.icons} />
+              <Text>Mi mebresía</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.touchable}
+              onPress={() => navigation.navigate("Approve")}
+            >
+              <Icon name="users" size={25} style={styles.icons} />
+              <Text>Mi organización</Text>
+            </TouchableOpacity>
+          </View>
+        ) : null}
         {user?.role === "admin" ? (
           <TouchableOpacity style={styles.touchable}>
             <Icon
