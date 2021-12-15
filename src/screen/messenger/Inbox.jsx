@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Image, Text, View, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Gradient from "../../components/gradient/Gradient";
@@ -6,11 +6,16 @@ import MessageList from "../../components/menssenger/MessageList";
 
 import { selectUser } from "../../features/userSlice";
 import { useSelector } from "react-redux";
+import axios from "axios"
+import { localhost } from "../../../localHostIP.json";
 
 export default function Inbox(props) {
   const { navigation } = props;
   const user = useSelector(selectUser);
   console.log(user);
+
+  const [message, setMessage] = useState();
+  const [send, setSend] = useState(false);
 
   const goToSearch = () => {
     navigation.navigate("Search");
@@ -39,6 +44,15 @@ export default function Inbox(props) {
     });
   }, []);
 
+  useEffect(() => {
+    axios
+      .get(`http://${localhost}/api/message/`)
+      .then((res)=> setMessage(res.data))
+      .then(() => console.log("use Effect super ok"))
+      .catch((err) => console.log(err));
+  }, [send]);
+
+
   const fakeData = [
     {
       id: 1,
@@ -61,7 +75,7 @@ export default function Inbox(props) {
     <View style={styles.container}>
       <Gradient>
         <View style={styles.box}>
-          <MessageList message={fakeData} />
+          <MessageList message={message} />
           <View style={styles.newSend}>
             <Icon name="plus" size={35} color="white" onPress={goToSearch} />
           </View>

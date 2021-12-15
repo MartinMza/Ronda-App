@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   Text,
@@ -10,16 +10,22 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome";
 import Gradient from "../../components/gradient/Gradient";
 import MessageList from "../../components/menssenger/MessageList";
+import axios from "axios";
+import { localhost } from "../../../localHostIP.json";
 
 import { selectMailUser } from "../../features/mailUserSlice";
 import { useSelector } from "react-redux";
 import profile from "../../../assets/icons/profile.png"
 
+
 export default function Chat(props) {
   const {navigation} = props
   const receiver = useSelector(selectMailUser);
   const {id, name, email, picture} = receiver
-  console.log("receptor", receiver);
+  
+  const [message, setMessage] = useState();
+  const [send, setSend] = useState(false);
+  const [text, setText] = useState("");
 
   useEffect(() => {
     navigation.setOptions({
@@ -41,9 +47,10 @@ export default function Chat(props) {
   useEffect(() => {
     axios
       .get(`http://${localhost}/api/message/${id}`)
-      .then((res)=> console.log(res.data))
+      .then((res)=> setMessage(res.data))
+      .then(() => console.log("use Effect super ok"))
       .catch((err) => console.log(err));
-  }, []);
+  }, [send]);
 
 
   const fakeData = [
@@ -54,11 +61,17 @@ export default function Chat(props) {
     },
   ];
 
+  const handleSubmit = async (text) => {
+    setSend(!send);
+    axios.post(`http://${localhost}/api/message/${id}`, { message: text });
+    setText("");
+  };
+
   return (
     <View style={styles.container}>
       <Gradient>
         <View style={styles.box}>
-          <MessageList message={fakeData} />
+          <MessageList message={message} />
           <View style={styles.sendBox}>
             <TextInput
               placeholder="Envia un mensaje"
@@ -66,8 +79,8 @@ export default function Chat(props) {
               editable
               numberOfLines={2}
               style={{ width: 280, marginVertical: 15, marginHorizontal: 5, }}
-              // value={text}
-              onChangeText={(text) => console.log(text)}
+              value={text}
+              onChangeText={(text) => setText(text)}
             />
             <TouchableOpacity
               style={styles.buttonSend}

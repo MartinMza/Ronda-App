@@ -4,7 +4,6 @@ import MessageCard from "./MessageCard";
 
 export default function MessageList(props) {
   const { message } = props;
-console.log("AAAAAA",message)
   return (
     <FlatList
       data={message}
