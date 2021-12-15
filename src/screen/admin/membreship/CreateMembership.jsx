@@ -39,30 +39,3 @@ export default function NewMembership() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-    height: "100%",
-    flex: 1,
-  },
-  title: {
-    fontWeight: "bold",
-    color: "#fff",
-
-    marginVertical: 20,
-    paddingHorizontal: 15,
-  },
-  card: {
-    backgroundColor: "white",
-    borderRadius: 6,
-    padding: 20,
-    margin: 15,
-    width: 333,
-  },
-  text: {
-    fontWeight: "bold",
-    marginVertical: 16,
-    fontSize: 16,
-  },
-});

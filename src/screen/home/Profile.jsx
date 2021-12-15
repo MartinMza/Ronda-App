@@ -86,7 +86,7 @@ export default function Profile(props) {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.touchable}
-                onPress={() => navigation.navigate("Membership")}
+                onPress={() =>navigation.navigate("Membership")}
               >
                 <Icon name="suitcase" size={25} style={styles.icons} />
                 <Text>Mi mebresía</Text>
@@ -124,7 +124,7 @@ export default function Profile(props) {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.touchable}
-              onPress={() => navigation.navigate("Membership")}
+              onPress={() => navigation.navigate("NewMembership")}
             >
               <Icon name="suitcase" size={25} style={styles.icons} />
               <Text>Membresías</Text>

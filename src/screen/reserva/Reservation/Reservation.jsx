@@ -12,7 +12,8 @@ import axios from "axios";
 import { localhost } from "../../../localHostIP.json";
 import * as WebBrowser from "expo-web-browser";
 
-const Reservation = () => {
+const Reservation = (props) => {
+  const { navigation } = props;
   //=============CAMPUS=======================//
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);

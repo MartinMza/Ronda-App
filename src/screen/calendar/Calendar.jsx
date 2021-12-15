@@ -101,11 +101,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textDecorationLine: "underline",
     marginVertical: 26,
+    padding:5
   },
   card: {
     backgroundColor: "white",
     width: 333,
     borderRadius: 6,
     marginVertical: 10,
+    padding:6
   },
 });
