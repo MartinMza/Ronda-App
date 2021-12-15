@@ -33,7 +33,7 @@ class LikeController {
       const checkLike = await Like.findOne({ //chequea si el usuario ya le dio like
         where: {
           userId: req.user.id,
-          postId: parseInt(req.params.id),
+          postId: req.params.id,
         }
       })
       if (checkLike) return res.status(403).send("like already set")
