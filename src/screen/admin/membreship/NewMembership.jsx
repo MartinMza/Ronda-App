@@ -14,8 +14,16 @@ export default function NewMembership() {
   useEffect(() => {
     axios
       .get(`http://${localhost}/api/organization/`)
-      .then(({ data }) => setOrganizations(data));
+      .then(({ data }) => setOrganizations(data))
+      .catch((err) => console.log(err));
   }, []);
+
+  const createMembership = (membership) => {
+    axios
+      .post(`http://${localhost}/api/admin/membership`, {membership})
+      .then(({data}) => console.log("tst membership data-->",data))
+      .catch((err) => console.log(err));
+  };
 
   return (
     <View style={styles.container}>
