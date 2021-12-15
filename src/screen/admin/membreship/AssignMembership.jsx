@@ -1,11 +1,11 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Image,
   View,
   TouchableOpacity,
   Text,
-  TextInput,
+  FlatList,
   StyleSheet,
 } from "react-native";
 import { useFormik } from "formik";
@@ -18,53 +18,58 @@ import { Campus } from "../../../utils/DataReservation";
 import { useSelector } from "react-redux";
 import { selectMembership } from "../../../features/membershipSlice";
 
-
 const AssignMembership = (props) => {
   const { navigation } = props;
   const goToConfirmation = () => {
     navigation.navigate("Confirmation");
   };
-  const membership = useSelector(selectMembership)
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
-  const [sedes, setSedes] = useState(Campus);
+  const membership = useSelector(selectMembership);
+
+  const [openTwo, setOpenTwo] = useState(false);
+  const [myMembership, setMyMembership] = useState(null);
+  const [memberships, setMemberships] = useState([]);
+
   const [name, setName] = useState("");
   const [credits, setCredits] = useState("");
 
-console.log(membership)
-  const assignMembership = () => {
+  useEffect(() => {
     axios
-      .get(`http://${localhost}/api/admin/${membership}/${organization}`)
-      .then(({ }) => alert("Membresia asignada correctamenta"))
-      .catch((err) => alert("No se pudo asignar membresia"));
-  };
+      .get(`http://${localhost}/api/admin/membership/all`)
+      .then(({ data }) => setMemberships(data))
+      .catch((err) => console.log(err)); //anda a dormir kat
+  }, []); //anda a dormir kat
 
+  console.log(memberships); //que estas tomando
+  const assignMembership = () => {
+    axios //kat esta tomando de la buena
+      .get(`http://${localhost}/api/admin/${membership}/${membership.name}`)
+      .then(({}) => alert("Membresia asignada correctamenta"))
+      .catch(() => alert("No se pudo asignar membresia"));
+  };
+  console.log(myMembership);
   return (
     <View style={styles.container}>
       <Gradient>
         <Image source={logo} style={styles.logo} />
-        <TextInput
-          placeholder="Nombre de la membresia"
-          style={styles.input}
-          value={name}
-          onChangeText={(text) => setName(text)}
-        />
 
-        <Drop
-          placeholder="Sedes"
-          open={open}
-          value={value}
-          items={sedes}
-          setOpen={setOpen}
-          setValue={setValue}
-          setItems={setSedes}
-          zIndex={3}
-        />
-        <TextInput
-          placeholder="Credits"
-          style={styles.input}
-          value={credits}
-          onChangeText={(text) => setCredits(text)}
+        <FlatList
+          data={memberships}
+          numColumns={1}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={(memberships) => String(memberships.id)}
+          renderItem={({ item }) => (
+            <View style={styles.card}>
+              <TouchableOpacity
+                onPress={() => {
+                  setMyMembership(item.name);
+                }}
+              >
+                <Text>
+                  {item.name} ({item.location}), créditos: {item.credits}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
         />
 
         <TouchableOpacity onPress={assignMembership} style={styles.button}>
@@ -87,7 +92,7 @@ const styles = StyleSheet.create({
     width: 300,
     height: 70,
     marginHorizontal: 70,
-    marginTop: 100,
+    marginTop: 50,
     marginBottom: 60,
   },
   input: {
@@ -95,10 +100,9 @@ const styles = StyleSheet.create({
     height: 52,
     backgroundColor: "white",
     borderRadius: 6,
-    marginVertical: 12,
-    marginBottom: 15,
+ 
     justifyContent: "center",
-    padding: 10,
+
   },
   button: {
     width: 243,
@@ -118,6 +122,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "red",
     fontSize: 13,
+  },
+  card: {
+    backgroundColor: "white",
+    padding: 20,
+    width: 333,
   },
 });
 
