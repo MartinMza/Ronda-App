@@ -31,16 +31,16 @@ class LikeController {
   static async create(req, res) {
     try {
       const checkLike = await Like.findOne({ //chequea si el usuario ya le dio like
-        userId: req.user.id,
-        postId: req.params.id,
+        where: {
+          userId: req.user.id,
+          postId: parseInt(req.params.id),
+        }
       })
-      if (checkLike.dataValues.postId) {
-        return res.status(401).send("like already set")
-      }
+      if (checkLike) return res.status(403).send("like already set")
       const like = await Like.create({ // da el like
-        userId: req.user.id,
-        postId: req.params.id,
-      });
+          userId: req.user.id,
+          postId: req.params.id,
+      })
       return res.status(201).send(like);
     } catch (err) {
       return res.status(500).send(err);
