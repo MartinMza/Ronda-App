@@ -87,8 +87,8 @@ class GoogleCalendarAPI {
       );
       const rest = end - start;
       const horas = rest / 3600000;
-      const startEvent= `El dia ${req.body.sday}/${req.body.smonth}/${req.body.syear} a las ${req.body.shours}:${req.body.sminutes} `
-      const endEvent= `El dia ${req.body.eday}/${req.body.emonth}/${req.body.eyear} a las ${req.body.ehours}:${req.body.eminutes} `
+      const startEvent= `El dia ${req.body.sday}/${req.body.smonth+1}/${req.body.syear} a las ${req.body.shours}:${req.body.sminutes} `
+      const endEvent= `El dia ${req.body.eday}/${req.body.emonth+1}/${req.body.eyear} a las ${req.body.ehours}:${req.body.eminutes} `
   
 
       const event = {

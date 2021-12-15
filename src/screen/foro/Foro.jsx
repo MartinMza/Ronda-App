@@ -55,13 +55,13 @@ const Foro = () => {
             <TextInput
               value={formik.values.content}
               placeholder={
-                user?.org_state === "approved"
+                user?.org_state === "approved" || user?.role === "admin"
                   ? "¿Qué estas pensando?"
                   : "Aún no puedes escribir posts. Espera que aprueben tu registro"
               }
               multiline={true}
               onChangeText={(text) => {
-                user?.org_state === "approved"
+                (user?.org_state === "approved") | (user?.role === "admin")
                   ? formik.setFieldValue("content", text)
                   : null;
               }}
@@ -75,7 +75,7 @@ const Foro = () => {
           <Text style={styles.underText}>MÁS RECIENTES</Text>
         </TouchableOpacity>
 
-        {user?.org_state === "approved" && post ? (
+        {(user?.role === "admin" || user?.org_state === "approved") && post ? (
           <PostList posts={post} />
         ) : null}
       </Gradient>

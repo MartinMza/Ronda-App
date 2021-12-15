@@ -46,16 +46,14 @@ export default function Post(props) {
   //----------------------like-------------------
 
   useEffect(() => {
+    console.log("tst useeffect id --> ", id)    
     axios
       .get(`http://${localhost}/api/likes/${id}/single`)
-      .then(({ data }) => {
-        console.log("tst data (like)-->", data)
-        data.like ? setLike(true) : setLike(false)
-      })
+      .then(({data}) => data ? setLike(true) : setLike(false)) 
       .catch((err) => console.log(err));
   }, []);
 
-/*   const likeHandle = async () => {
+  /*   const likeHandle = async () => {
     try {
       if (!like) {
         await axios
@@ -71,10 +69,19 @@ export default function Post(props) {
     }
   }; */
 
-  const handleLike = () => { // like / dislike fn
-    console("tst hanleLike id , like -->", id, like)
-    if (like) axios.delete(`http://${localhost}/api/likes/${id}`).then(() => setLike(false)).catch((err) => console.log(err));//dislike
-      axios.post(`http://${localhost}/api/likes/${id}`).then(() => setLike(true)).catch((err) => console.log(err));//like
+  const handleLike = () => {
+    // like / dislike fn
+    console.log("tst hanleLike id , like -->", id, like);
+    if (like)
+      axios
+        .delete(`http://${localhost}/api/likes/${id}`)
+        .then(() => setLike(false))
+        .catch((err) => console.log(err)); //dislike
+
+    axios
+      .post(`http://${localhost}/api/likes/${id}`)
+      .then(() => setLike(true))
+      .catch((err) => console.log(err)); //like
   };
 
   const likeHandle2 = () => (like2 ? setLike2(false) : setLike2(true)); //backup -v (hardcode)
