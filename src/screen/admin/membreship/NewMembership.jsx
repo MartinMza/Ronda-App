@@ -6,16 +6,24 @@ import Gradient from "../../../components/gradient/Gradient";
 import MembershipList from "../../../components/admin/MembershipList";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import NavigationStack from "../../../navigation/NavigationStack";
 
-export default function NewMembership() {
+
+export default function NewMembership(props) {
   const [organizations, setOrganizations] = useState([]);
-
+  const { navigation } = props;
   useEffect(() => {
     axios
       .get(`http://${localhost}/api/organization/`)
-      .then(({ data }) => setOrganizations(data));
+      .then(({ data }) => setOrganizations(data))
+      .catch((err) => console.log(err));
   }, []);
+
+  const assignMembership = () => {
+    axios
+      .get(`http://${localhost}/api/admin/${membership}/${organization}`)
+      .then(({ }) => alert("Membresia asignada correctamenta"))
+      .catch((err) => alert("No se pudo asignar membresia"));
+  };
 
   return (
     <View style={styles.container}>
@@ -25,7 +33,9 @@ export default function NewMembership() {
             <Text style={[styles.title, { textDecorationLine: "underline" }]}>
               ORGANIZACIONES
             </Text>
-            <TouchableOpacity onPress={()=>navigation.navigate("CreateMembership")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("CreateMembership")}
+            >
               <Text style={styles.title}>
                 {" "}
                 Agregar membresía{" "}
@@ -33,7 +43,7 @@ export default function NewMembership() {
               </Text>
             </TouchableOpacity>
           </View>
-          <MembershipList organizations={organizations} />
+          <MembershipList organizations={organizations} navigation={navigation}/>
         </View>
       </Gradient>
     </View>

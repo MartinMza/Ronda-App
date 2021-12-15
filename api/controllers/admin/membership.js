@@ -3,10 +3,16 @@ const { Membership, Organization } = require("../../models")
 class AdminMembershipController {
     static async createMembership(req, res, next) {
         try {
+          const checkMembership = await Membership.findOne({
+            where: {
+              name: req.body.name
+            }
+          })
+          if (checkMembership) return res.status(409).send("membership already exist");
           const membership = await Membership.create({
-            name: req.body.name,
-            credits: req.body.credits,
-            location: req.body.location,
+              name: req.body.name,
+              credits: req.body.credits,
+              location: req.body.location,
           });
           return res.status(201).send(membership);
         } catch (err) {

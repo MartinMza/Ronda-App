@@ -2,10 +2,18 @@ import React from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import { useDispatch } from "react-redux";
+import { myMembership} from "../../features/membershipSlice";
+import { selectReservation } from "../../features/reservationSlice";
 
 export default function MembershipList(props) {
-  const { organizations } = props;
+  const { organizations, navigation } = props;
+  const dispatch = useDispatch();
 
+  const handleEdit = (item) => {
+    dispatch(myMembership(item));
+    navigation.navigate('Home')
+  };
   return (
     <FlatList
       data={organizations}
@@ -14,8 +22,14 @@ export default function MembershipList(props) {
       keyExtractor={(organizations) => String(organizations.id)}
       renderItem={({ item }) => (
         <View style={styles.card}>
-          <TouchableOpacity>
-          <Icon name="pen-square" size={20} solid color="gray" style={{alignSelf:"flex-end"}}/>
+          <TouchableOpacity onPress={() => handleEdit(item)}>
+            <Icon
+              name="pen-square"
+              size={20}
+              solid
+              color="gray"
+              style={{ alignSelf: "flex-end" }}
+            />
           </TouchableOpacity>
           <Text style={styles.text}>Nombre de la empresa:</Text>
           <Text>{item.name}</Text>

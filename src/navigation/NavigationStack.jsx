@@ -18,13 +18,19 @@ import NewMembership from "../screen/admin/membreship/NewMembership";
 import Inbox from "../screen/messenger/Inbox";
 import Chat from "../screen/messenger/Chat";
 import Search from "../screen/messenger/Search";
+import CreateMembership from "../screen/admin/membreship/CreateMembership";
 
 const Stack = createStackNavigator();
 
 export default function NavigationStack() {
   return (
-    <Stack.Navigator initialRouteName="Inbox">
-      <Stack.Screen
+    <Stack.Navigator initialRouteName="Inbox" >
+        <Stack.Screen
+        name="CreateMembership"
+        component={CreateMembership}
+        options={{ title: "" }}
+      />
+        <Stack.Screen
         name="NewMembership"
         component={NewMembership}
         options={{ title: "" }}
