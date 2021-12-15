@@ -55,6 +55,15 @@ class AdminMembershipController {
           next(err);
         }
       }
+
+      static async getMemberships(req, res) {
+        try {
+          const memberships = await Membership.findAll();
+          return res.send(memberships);
+        } catch (err) {
+          return res.status(500).send(err);
+        }
+      }
 }
 
 module.exports = AdminMembershipController
