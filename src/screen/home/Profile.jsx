@@ -14,7 +14,7 @@ export default function Profile(props) {
   const { navigation } = props;
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
-
+console.log(user)
   const userLogout = async () => {
     const user = await axios
       .post(`http://${localhost}/api/auth/logout`)
@@ -59,7 +59,7 @@ export default function Profile(props) {
           <Text style={styles.text}>Ronda</Text>
         </View>
       </View>
-      {user?.role !== "admin" ? (
+      {user?.role === "user" ||user?.role === "organizationAdmin"  ? (
         <View>
           {user?.org_state === "approved" ? (
             <View>

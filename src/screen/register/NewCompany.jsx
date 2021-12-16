@@ -8,28 +8,36 @@ import Gradient from "../../components/gradient/Gradient";
 import { localhost } from "../../localHostIP.json";
 import Button from "../../components/button/Button";
 import Input from "../../components/input/Input";
-import Drop from "../../components/reservation/Drop"
-import { Campus } from "../../utils/DataReservation";
+import Drop from "../../components/reservation/Drop";
+import { Campus, CampusID } from "../../utils/DataReservation";
 
 const NewCompany = (props) => {
   const { navigation } = props;
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [sedes, setSedes] = useState(Campus);
-  const goToLogin = () => {
-    navigation.navigate("Login");
-  };
+  const [name, setName] = useState(null);
+  const [CUIT, setCUIT] = useState(null);
+  const [socialReason, setSocialReason] = useState(null);
+  const [phone, setPhone] = useState(null);
 
-  const formik = useFormik({
-    initialValues: initialValues(),
-    validationSchema: Yup.object(validationSchema()),
-    validateOnChange: false,
-    onSubmit: async (data) => {
-      const company = await axios
-        .post(`http://${localhost}/api/organization/empresa`, data)
-        .then(() => navigation.navigate("Home"))
-    },
-  });
+  const handleSubmit = () => {
+    let id = CampusID(value);
+console.log(id)
+    axios.post(`http://${localhost}/api/organization/empresa`, {
+      name: name,
+      phone: phone,
+      CUIT: CUIT,
+      social_reason: socialReason,
+    });
+    axios
+      .put(`http://${localhost}/api/user/`, {
+        campusId: id,
+      })
+      .then(() => {
+        navigation.navigate("Home");
+      });
+  };
 
   return (
     <View style={styles.container}>
@@ -37,64 +45,51 @@ const NewCompany = (props) => {
         <Image source={logo} style={styles.logo} />
         <Input
           placeholder="Nombre de la empresa"
-          value={formik.values.name}
-          onChangeText={(text) => formik.setFieldValue("name", text)}
+          value={name}
+          onChangeText={(text) => setName(text)}
         />
         <Input
           placeholder="CUIT"
-          value={formik.values.CUIT}
-          onChangeText={(text) => formik.setFieldValue("CUIT", text)}
+          value={CUIT}
+          onChangeText={(text) => setCUIT(text)}
         />
         <Input
           placeholder="Razón Social"
-          value={formik.values.social_reason}
-          onChangeText={(text) => formik.setFieldValue("social_reason", text)}
+          value={socialReason}
+          onChangeText={(text) => setSocialReason(text)}
         />
-       
+
         <Input
           placeholder="Numero de telefono"
-          value={formik.values.phone}
-          onChangeText={(text) => formik.setFieldValue("phone", text)}
+          value={phone}
+          onChangeText={(text) => setPhone(text)}
         />
-           <Drop
-            placeholder="Sedes"
-            open={open}
-            value={value}
-            items={sedes}
-            setOpen={setOpen}
-            setValue={setValue}
-            setItems={setSedes}
-            zIndex={3}
-          />
-        <Text style={styles.error}>{formik.errors.name}</Text>
-        <Text style={styles.error}>{formik.errors.CUIT}</Text>
-        <Text style={styles.error}>{formik.errors.social_reason}</Text>
-        <Text style={styles.error}>{formik.errors.phone}</Text>
-        <Button onPress={formik.handleSubmit}>
+        <Drop
+          placeholder="Sedes"
+          open={open}
+          value={value}
+          items={sedes}
+          setOpen={setOpen}
+          setValue={setValue}
+          setItems={setSedes}
+          zIndex={3}
+        />
+
+        <Button onPress={handleSubmit}>
           <Text style={{ fontSize: 15, color: "#fff" }}>CREAR EMPRESA</Text>
         </Button>
       </Gradient>
     </View>
   );
 };
-function initialValues() {
-  return { name: "", CUIT: "", social_reason: "", phone: "" };
-}
-function validationSchema() {
-  return {
-    name: Yup.string().min(5).required("Nombre es requerido"),
-    CUIT: Yup.string().min(10).required("CUIT es requerido"),
-    social_reason: Yup.string().required("Razón social es requerida"),
-    phone: Yup.string().min(8).required("Telefono es requerido"),
-  };
-}
+
 const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: "100%",
   },
   logo: {
-    width: 300,
+    width: 333,
     height: 70,
     marginHorizontal: 70,
     marginVertical: 110,

@@ -27,22 +27,7 @@ export default function Chat(props) {
   const [send, setSend] = useState(1);
   const [text, setText] = useState("");
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => (
-        <View style={{ flexDirection: "row", alignItems: "flex-start", justifyContent: "center", marginLeft: 10,}}>
-          <Icon
-            name="arrow-left"
-            size={20}
-            style={styles.bars}
-            onPress={navigation.navigate("Inbox")}
-          />
-          <Image source={{uri: picture}} style={styles.logo} />
-          <Text style={styles.mainName}>{name}</Text>
-        </View>
-      ),
-    });
-  }, []);
+  
 
   useEffect(() => {
     axios

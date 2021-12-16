@@ -9,6 +9,7 @@ const fakeUsers = [
     role: "superadmin",
     phone: 1144495880,
     confirmed: true,
+    org_state: "approved"
   
   },
   {
@@ -26,6 +27,7 @@ const fakeUsers = [
     role: "admin",
     phone: 1148595880,
     confirmed: true,
+    org_state: "approved"
   },{
     name: "Martin",
     email: "martin@gmail.com",
