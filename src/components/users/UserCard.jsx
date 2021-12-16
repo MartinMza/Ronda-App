@@ -18,7 +18,7 @@ export default function UserCard(props) {
     <TouchableOpacity onPress={goToChat}>
       <View style={styles.input}>
         <View style={styles.header}>
-          {/* <Image source={{ uri: img }} style={styles.image} /> */}
+          <Image source={{ uri: item.picture }} style={styles.image} />
           <Text style={styles.mainName}>{item.name}</Text>
         </View>
       </View>
@@ -43,12 +43,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 17,
     fontStyle: "italic",
-    marginBottom: 10,
+    marginVertical: 10,
+    marginLeft: 10,
     flexDirection: "row",
   },
   header: {
-    justifyContent: "space-between",
     flexDirection: "row",
+    marginHorizontal: 10,
   },
   comment: {
     flexDirection: "row",
@@ -58,7 +59,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   image: {
-    width: 15,
-    height: 15,
+    borderRadius:50,
+    width: 45,
+    height: 45,
+    borderColor: "rgba(0,0,0,0.8)",
+    borderWidth: 1,
+    marginRight: 20,
   },
 });

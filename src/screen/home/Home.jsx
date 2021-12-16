@@ -24,6 +24,10 @@ export default function Home(props) {
   const goToInbox = () => {
     navigation.navigate("Inbox");
   };
+  const goToSearch = () => {
+    navigation.navigate("Search");
+  };
+
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -35,8 +39,7 @@ export default function Home(props) {
             style={{marginLeft: 17,}}
             onPress={goToInbox}
           />
-          <Icon name="bell" size={24} color="black" style={{marginLeft: 17,}} />
-          <Icon name="search" size={24} color="black" style={{marginLeft: 17,}} />
+          <Icon name="search" size={24} color="black" style={{marginLeft: 17,}} onPress={goToSearch} />
         </View>
       ),
       headerLeft: () => (

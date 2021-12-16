@@ -20,8 +20,11 @@ import Gradient from "../../components/gradient/Gradient";
 export default function Search(props) {
   const { navigation } = props;
   const user = useSelector(selectUser);
+  let oneUsers;
 
   const [users, setUsers] = useState([]);
+  const [filter, setFilter] = useState([]);
+  const [value, setValue] = useState("");
 
   useEffect(() => {
     navigation.setOptions({
@@ -40,7 +43,7 @@ export default function Search(props) {
             style={styles.bars}
             onPress={navigation.goBack}
           />
-          <Text style={styles.mainName}>Buscar Usuarios</Text>
+          <Text style={styles.mainName}> Buscar Usuarios</Text>
         </View>
       ),
     });
@@ -49,8 +52,17 @@ export default function Search(props) {
   useEffect(() => {
     axios
       .get(`http://${localhost}/api/user/users`)
-      .then((res) => setUsers(res.data));
+      .then((res) => setUsers(res.data))
+      .catch((err) => console.log(err));
   }, []);
+
+  useEffect(() => {
+    if(value.length > 1){
+    oneUsers = users.filter((items) =>
+      items.name.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilter(oneUsers?.length ? oneUsers : [{name: "No existe ese usuario", picture: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.latiendadirecta.es%2Fimages%2Fampliar%2Fno_encontrado.jpg&f=1&nofb=1"}])
+  }}, [value]);
 
   return (
     <View style={styles.container}>
@@ -63,11 +75,13 @@ export default function Search(props) {
               editable
               numberOfLines={1}
               style={{ width: 280, marginVertical: 15, marginHorizontal: 5 }}
-              // value={text}
-              onChangeText={(text) => console.log(text)}
+              value={value}
+              onChangeText={(text) => setValue(text)}
             />
           </View>
-          {users ? <UserList users={users} navigation={navigation} /> : null}
+          {users ? (
+            <UserList users={filter.length ? filter : users} navigation={navigation} />
+          ) : null}
         </View>
       </Gradient>
     </View>
@@ -85,7 +99,7 @@ const styles = StyleSheet.create({
     width: 350,
     height: 660,
     backgroundColor: "rgba(255,255,255,0.5)",
-    marginVertical: 15,
+    marginVertical: 38,
     marginLeft: 16,
     marginRight: 11,
     borderRadius: 6,
@@ -129,7 +143,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 17,
     fontStyle: "italic",
-    marginBottom: 10,
+    marginBottom: 5,
     flexDirection: "row",
+    paddingHorizontal: 8,
   },
 });

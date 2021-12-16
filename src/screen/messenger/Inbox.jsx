@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Image, Text, View, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Gradient from "../../components/gradient/Gradient";
-import MessageList from "../../components/menssenger/MessageList";
+import UserList from "../../components/users/UserList";
 
 import { selectUser } from "../../features/userSlice";
 import { useSelector } from "react-redux";
@@ -12,7 +12,6 @@ import { localhost } from "../../../localHostIP.json";
 export default function Inbox(props) {
   const { navigation } = props;
   const user = useSelector(selectUser);
-  console.log(user);
 
   const [message, setMessage] = useState();
   const [send, setSend] = useState(false);
@@ -48,34 +47,14 @@ export default function Inbox(props) {
     axios
       .get(`http://${localhost}/api/message/`)
       .then((res)=> setMessage(res.data))
-      .then(() => console.log("use Effect super ok"))
       .catch((err) => console.log(err));
   }, [send]);
-
-
-  const fakeData = [
-    {
-      id: 1,
-      content: "Hola pepe soy jose luis",
-      user: { name: "Jose Luis", id: 3 },
-    },
-    {
-      id: 2,
-      content: "Hola pepe soy jbalvin",
-      user: { name: "Jose ", id: 2 },
-    },
-    {
-      id: 3,
-      content: "Hola pepe tu vieja",
-      user: { name: "Luis", id: 4 },
-    },
-  ];
 
   return (
     <View style={styles.container}>
       <Gradient>
         <View style={styles.box}>
-          <MessageList message={message} />
+          <UserList users={message} navigation={navigation} />
           <View style={styles.newSend}>
             <Icon name="plus" size={35} color="white" onPress={goToSearch} />
           </View>
@@ -96,7 +75,7 @@ const styles = StyleSheet.create({
     width: 350,
     height: 660,
     backgroundColor: "rgba(255,255,255,0.5)",
-    marginVertical: 15,
+    marginVertical: 38,
     marginLeft: 16,
     marginRight: 11,
     borderRadius: 6,

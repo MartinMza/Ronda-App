@@ -15,43 +15,47 @@ import { selectUser } from "../../../features/userSlice";
 import { useSelector } from "react-redux";
 import * as WebBrowser from "expo-web-browser";
 
-export default function ApproveMembers(props) {
+export default function AllUserAdmin(props) {
   const { item } = props;
   const [pendingUsers, setPendingUsers] = useState([]);
   const [option, setOption] = useState(false);
   const user = useSelector(selectUser);
   useEffect(() => {
-    axios.get(`http://${localhost}/api/user/users/org`).then((data) => {
-      setPendingUsers(data.data);
-    })
-    .catch((err) => console.log(err));
-  }, []);
-
-  const handleApprove = (item) => {
-    axios.put(`http://${localhost}/api/organization/confirm/${item}`).catch((err) => console.log(err));
-  };
-
-  const handleDecline = (item) => {
     axios
-      .delete(`http://${localhost}/api/organization/decline/${item}`)
-      .then(() => axios.get(`http://${localhost}/api/user/users`))
+      .get(`http://${localhost}/api/admin/user/all`)
       .then((data) => {
         setPendingUsers(data.data);
       })
       .catch((err) => console.log(err));
+  }, []);
+
+  const handleApprove = (item) => {
+    axios
+      .put(`http://${localhost}/api/organization/confirm/${item}`)
+      .catch((err) => console.log(err));
+  };
+
+  const handleDecline = (itemId, itemRole) => {
+   axios
+      .delete(`http://${localhost}/api/admin/user/${itemId}`)
+      .then(() => axios.get(`http://${localhost}/api/admin/user/all`))
+      .then((data) => {
+        setPendingUsers(data.data);
+      })
+      .catch((err) => alert("No puedes eliminar a otro administrador"))
   };
 
   return (
     <View style={styles.container}>
       <Gradient>
-        <View style={{ marginTop: 80 }}>
-          <Text style={[styles.underText]}>MIEMBROS DE LA EMPRESA</Text>
+        <View style={{ marginTop: 40 }}>
+          <Text style={[styles.underText]}>MIEMBROS DE RONDA</Text>
           <FlatList
             data={pendingUsers}
             numColumns={2}
             style={{ borderRadius: 6 }}
             showsVerticalScrollIndicator={false}
-            keyExtractor={(usari) => String(usari.id)}
+            keyExtractor={(usari) => String(usari.id, usari.role)}
             columnWrapperStyle={styles.row}
             renderItem={({ item }) => (
               <View
@@ -61,7 +65,8 @@ export default function ApproveMembers(props) {
                   marginTop: 10,
                   marginHorizontal: 15,
                   alignItems: "center",
-                  width:150
+                  width: 150,
+                  padding:15
                 }}
               >
                 <Text
@@ -78,35 +83,35 @@ export default function ApproveMembers(props) {
                 >
                   {item.email}
                 </Text>
+                <Text
+                  style={
+                    ([styles.input], { marginBottom: 10 })
+                  }
+                >
+                <Text style={{fontWeight:"bold"}}> Rol:</Text> {item.role}
+                </Text>
+                <Text style={[styles.input]}>{item.org_state}</Text>
 
-                {(user.role === "organizationAdmin" ||user.role === "admin" )? (
-                  <Text style={[styles.input]}>{item.org_state}</Text>
-                ) : null}
-
-                {user.role === "organizationAdmin" ? (
-                  item.org_state === "pending" ? (
-                    <View style={{ flexDirection: "row" }}>
-                      <TouchableOpacity onPress={() => handleApprove(item.id)}>
-                        <Icon
-                          name="check-circle"
-                          size={24}
-                          solid
-                          color="green"
-                          style={{ padding: 10 }}
-                        />
-                      </TouchableOpacity>
-                      <TouchableOpacity onPress={() => handleDecline(item.id)}>
-                        <Icon
-                          name="times-circle"
-                          size={24}
-                          solid
-                          color="red"
-                          style={{ padding: 10 }}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  ) : null
-                ) : null}
+                <View style={{ flexDirection: "row"}}>
+                  {user.role==="superAdmin"?<TouchableOpacity onPress={() => handleApprove(item.id)}>
+                    <Icon
+                      name="user-cog"
+                      size={20}
+                      solid
+                      color="skyblue"
+                      style={{ padding: 12 }}
+                    />
+                  </TouchableOpacity>:null}
+                  <TouchableOpacity onPress={() => handleDecline(item.id, item.role)}>
+                    <Icon
+                      name="trash"
+                      size={20}
+                      solid
+                      color="red"
+                      style={{ padding: 10 }}
+                    />
+                  </TouchableOpacity>
+                </View>
               </View>
             )}
           />
@@ -135,7 +140,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textDecorationLine: "underline",
     padding: 10,
-    marginTop: 20,
+  
     marginBottom: 10,
   },
   row: {

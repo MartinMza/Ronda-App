@@ -3,7 +3,7 @@ import { View, Text, FlatList, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { useDispatch } from "react-redux";
-import { myMembership} from "../../features/membershipSlice";
+import { myMembership } from "../../features/membershipSlice";
 
 export default function MembershipList(props) {
   const { organizations, navigation } = props;
@@ -11,7 +11,7 @@ export default function MembershipList(props) {
 
   const handleEdit = (item) => {
     dispatch(myMembership(item));
-    navigation.navigate('AssignMembership')
+    navigation.navigate("EditInfo");
   };
   return (
     <FlatList
@@ -22,13 +22,16 @@ export default function MembershipList(props) {
       renderItem={({ item }) => (
         <View style={styles.card}>
           <TouchableOpacity onPress={() => handleEdit(item)}>
-            <Icon
-              name="pen-square"
-              size={20}
-              solid
-              color="gray"
-              style={{ alignSelf: "flex-end" }}
-            />
+            <Text style={{ alignSelf: "flex-end" }}>
+              Editar información{"  "}
+              <Icon
+                name="pen-square"
+                size={20}
+                solid
+                color="gray"
+                style={{ alignSelf: "flex-end" }}
+              />
+            </Text>
           </TouchableOpacity>
           <Text style={styles.text}>Nombre de la empresa:</Text>
           <Text>{item.name}</Text>

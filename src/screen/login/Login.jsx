@@ -33,7 +33,7 @@ const Login = (props) => {
       )
       .then(data=>dispatch(login(data.data))) 
       .then(()=>navigation.navigate("Home"))
-      .catch((err) => console.error(err) );
+      .catch((err) => console.error(err));
     },
   });
 

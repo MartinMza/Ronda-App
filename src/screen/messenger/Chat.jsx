@@ -23,8 +23,8 @@ export default function Chat(props) {
   const receiver = useSelector(selectMailUser);
   const {id, name, email, picture} = receiver
   
-  const [message, setMessage] = useState();
-  const [send, setSend] = useState(false);
+  const [message, setMessage] = useState("");
+  const [send, setSend] = useState(1);
   const [text, setText] = useState("");
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function Chat(props) {
             name="arrow-left"
             size={20}
             style={styles.bars}
-            onPress={navigation.goBack}
+            onPress={navigation.navigate("Inbox")}
           />
           <Image source={{uri: picture}} style={styles.logo} />
           <Text style={styles.mainName}>{name}</Text>
@@ -48,30 +48,20 @@ export default function Chat(props) {
     axios
       .get(`http://${localhost}/api/message/${id}`)
       .then((res)=> setMessage(res.data))
-      .then(() => console.log("use Effect super ok"))
       .catch((err) => console.log(err));
   }, [send]);
 
-
-  const fakeData = [
-    {
-      id: 1,
-      content: "Hola pepe soy jose luis",
-      user: { name: "Jose Luis", id: 1 },
-    },
-  ];
-
   const handleSubmit = async (text) => {
-    setSend(!send);
-    axios.post(`http://${localhost}/api/message/${id}`, { message: text });
+    axios.post(`http://${localhost}/api/message/${id}`, { message: text })
     setText("");
+    setSend(send+1)
   };
 
   return (
     <View style={styles.container}>
       <Gradient>
         <View style={styles.box}>
-          <MessageList message={message} />
+          <MessageList message={message} name={name} />
           <View style={styles.sendBox}>
             <TextInput
               placeholder="Envia un mensaje"
@@ -106,7 +96,7 @@ const styles = StyleSheet.create({
     width: 350,
     height: 660,
     backgroundColor: "rgba(255,255,255,0.5)",
-    marginVertical: 15,
+    marginVertical: 38,
     marginLeft: 16,
     marginRight: 11,
     borderRadius: 6,
@@ -150,7 +140,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 17,
     fontStyle: "italic",
-    marginBottom: 10,
+    marginBottom: 5,
     flexDirection: "row",
   },
 });

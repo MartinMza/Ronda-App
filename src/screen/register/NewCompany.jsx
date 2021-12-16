@@ -27,7 +27,7 @@ const NewCompany = (props) => {
     onSubmit: async (data) => {
       const company = await axios
         .post(`http://${localhost}/api/organization/empresa`, data)
-        .then(() => navigation.navigate("Home"));
+        .then(() => navigation.navigate("Home"))
     },
   });
 

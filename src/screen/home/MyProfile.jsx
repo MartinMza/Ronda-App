@@ -27,9 +27,10 @@ export default function MyProfile(props) {
         profession: `${myProfession ? myProfession : user.profession}`,
       })
       .then((data) => dispatch(login(data.data)))
-      .then(() => navigation.navigate("Home"));
+      .then(() => navigation.navigate("Home"))
+      .catch(() => alert("Error al actualizar"));
   };
-console.log(user)
+
   return (
     <View style={styles.container}>
       <Gradient>

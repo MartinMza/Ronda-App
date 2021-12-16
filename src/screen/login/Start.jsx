@@ -14,22 +14,12 @@ export default function Start(props) {
 
   let [result, setResult] = useState(null);
 
-  console.log(props.navigation.setParams);
-
   const goToRegister = () => {
     navigation.navigate("Register");
   };
   const goToLogin = () => {
     navigation.navigate("Login");
   };
-
-  const goToGoogle = async () => {
-    let result = await WebBrowser.openAuthSessionAsync(
-      `http://${localhost}/api/auth/google`
-    );
-    setResult(result);
-  };
-
 
   return (
     <View style={styles.container}>
@@ -43,10 +33,7 @@ export default function Start(props) {
           <Text style={styles.buttonText}>REGISTER</Text>
         </Button>
 
-        <Button onPress={goToGoogle}>
-          <Text style={styles.buttonText}>SIGN IN WITH GOOGLE</Text>
-        </Button>
-        <Text>{result && JSON.stringify(result)}</Text>
+     
       </Gradient>
     </View>
   );

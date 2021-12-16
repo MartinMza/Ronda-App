@@ -1,5 +1,7 @@
-import React from "react";
+import React from "react"
 import { createStackNavigator } from "@react-navigation/stack";
+import { Image, View, StyleSheet } from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome";
 import Start from "../screen/login/Start";
 import Home from "../screen/home/Home";
 import Profile from "../screen/home/Profile";
@@ -20,12 +22,36 @@ import Chat from "../screen/messenger/Chat";
 import Search from "../screen/messenger/Search";
 import CreateMembership from "../screen/admin/membreship/CreateMembership";
 import AssignMembership from "../screen/admin/membreship/AssignMembership";
+import AdminOrganization from "../screen/admin/organization/AdminOrganization"
+import EditInfo from "../screen/admin/organization/EditInfo"
+import AllUserAdmin from "../screen/admin/usersAdmin/AllUserAdmin"
+import ReservationAdmin from "../screen/admin/reservationAdmin/ReservationAdmin"
 
 const Stack = createStackNavigator();
 
 export default function NavigationStack() {
   return (
     <Stack.Navigator initialRouteName="Start" >
+        <Stack.Screen
+        name="AllUserAdmin"
+        component={AllUserAdmin}
+        options={{ title: ""}}
+      />
+      <Stack.Screen
+        name="ReservationAdmin"
+        component={ReservationAdmin}
+        options={{ title: ""}}
+      />
+      <Stack.Screen
+        name="AdminOrganization"
+        component={AdminOrganization}
+        options={{ title: ""}}
+      />
+      <Stack.Screen
+        name="EditInfo"
+        component={EditInfo}
+        options={{ title: "" }}
+      />
        <Stack.Screen
         name="AssignMembership"
         component={AssignMembership}
@@ -86,7 +112,6 @@ export default function NavigationStack() {
         options={{
           title: "",
           headerStyle: {
-            height: 50,
             backgroundColor: "rgba(255,255,255,0.5)",
           },
         }}
@@ -97,7 +122,7 @@ export default function NavigationStack() {
         options={{
           title: "",
           headerStyle: {
-            height: 50,
+
             backgroundColor: "rgba(255,255,255,0.5)",
           },
         }}
@@ -108,7 +133,7 @@ export default function NavigationStack() {
         options={{
           title: "",
           headerStyle: {
-            height: 50,
+
             backgroundColor: "rgba(255,255,255,0.5)",
           },
         }}

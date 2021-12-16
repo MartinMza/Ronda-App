@@ -20,33 +20,27 @@ import { selectMembership } from "../../../features/membershipSlice";
 
 const AssignMembership = (props) => {
   const { navigation } = props;
-  const goToConfirmation = () => {
-    navigation.navigate("Confirmation");
-  };
+
   const membership = useSelector(selectMembership);
 
-  const [openTwo, setOpenTwo] = useState(false);
   const [myMembership, setMyMembership] = useState(null);
   const [memberships, setMemberships] = useState([]);
-
-  const [name, setName] = useState("");
-  const [credits, setCredits] = useState("");
 
   useEffect(() => {
     axios
       .get(`http://${localhost}/api/admin/membership/all`)
       .then(({ data }) => setMemberships(data))
-      .catch((err) => console.log(err)); //anda a dormir kat
-  }, []); //anda a dormir kat
+      .catch((err) => console.log(err)); 
+  }, []); 
 
-  console.log(memberships); //que estas tomando
   const assignMembership = () => {
-    axios //kat esta tomando de la buena
-      .get(`http://${localhost}/api/admin/${membership}/${membership.name}`)
-      .then(({}) => alert("Membresia asignada correctamenta"))
+    axios 
+      .get(`http://${localhost}/api/admin/membership/${myMembership}/${membership.name}`)
+      .then(({}) => {alert("Membresia asignada correctamenta")
+    navigation.navigate("NewMembership")})
       .catch(() => alert("No se pudo asignar membresia"));
   };
-  console.log(myMembership);
+
   return (
     <View style={styles.container}>
       <Gradient>
@@ -58,13 +52,24 @@ const AssignMembership = (props) => {
           showsVerticalScrollIndicator={false}
           keyExtractor={(memberships) => String(memberships.id)}
           renderItem={({ item }) => (
-            <View style={styles.card}>
+            <View>
               <TouchableOpacity
                 onPress={() => {
                   setMyMembership(item.name);
                 }}
+                style={
+                  myMembership !== item.name
+                    ? [styles.card, { backgroundColor: "white" }]
+                    : [styles.card, { backgroundColor: "#8144CF" }]
+                }
               >
-                <Text>
+                <Text
+                  style={
+                    myMembership !== item.name
+                      ? { color: null }
+                      : { color: "white" }
+                  }
+                >
                   {item.name} ({item.location}), créditos: {item.credits}
                 </Text>
               </TouchableOpacity>
@@ -73,7 +78,7 @@ const AssignMembership = (props) => {
         />
 
         <TouchableOpacity onPress={assignMembership} style={styles.button}>
-          <Text style={styles.buttonText}>CREAR MEMBRESÍA</Text>
+          <Text style={styles.buttonText}>ASIGNAR MEMBRESÍA</Text>
         </TouchableOpacity>
       </Gradient>
     </View>
@@ -95,15 +100,6 @@ const styles = StyleSheet.create({
     marginTop: 50,
     marginBottom: 60,
   },
-  input: {
-    width: 333,
-    height: 52,
-    backgroundColor: "white",
-    borderRadius: 6,
- 
-    justifyContent: "center",
-
-  },
   button: {
     width: 243,
     height: 52,
@@ -111,22 +107,19 @@ const styles = StyleSheet.create({
     backgroundColor: "#8144CF",
     alignItems: "center",
     justifyContent: "center",
-    margin: 29,
+    margin: 59,
   },
   buttonText: {
     color: "white",
     fontSize: 15,
     //fontFamily: "Lato_Black"
   },
-  error: {
-    textAlign: "center",
-    color: "red",
-    fontSize: 13,
-  },
+
   card: {
-    backgroundColor: "white",
+    borderRadius: 6,
     padding: 20,
     width: 333,
+    margin: 5,
   },
 });
 

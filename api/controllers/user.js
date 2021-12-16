@@ -11,7 +11,12 @@ class UserController {
               {
                 role: "admin",
               },
-              { role: "superadmin" },
+              { 
+                role: "superadmin" 
+              },
+              {
+                id : req.user.id
+              }
             ],
           },
         },

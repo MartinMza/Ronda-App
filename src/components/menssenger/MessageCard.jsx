@@ -2,15 +2,21 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Image, Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import { selectUser } from "../../features/userSlice";
 
 export default function MessageCard(props) {
-  const { content, name } = props;
+
+  const { item, name } = props;
+  const {message, senderId } = item;
+  const user = useSelector(selectUser);
+  const { id } = user;
+
   return (
     <View style={styles.input}>
       <View style={styles.header}>
-        <Text style={styles.mainName}>{name}</Text>
+      {senderId == id ? <Text style={styles.mainName}>Yo</Text> : <Text style={styles.mainName}>{name}</Text>}
       </View>
-      <Text>{content}</Text>
+      <Text>{message}</Text>
     </View>
   );
 }

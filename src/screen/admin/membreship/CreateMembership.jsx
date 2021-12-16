@@ -37,7 +37,7 @@ const CreateMembership = (props) => {
         alert("Ya existe una membresia con ese nombre");
         navigation.navigate("Home");
       })
-      .catch((err) => alert("Ya existe una membresía con ese nombre"));
+      .catch(() => alert("Ya existe una membresía con ese nombre"));
   };
 
   return (

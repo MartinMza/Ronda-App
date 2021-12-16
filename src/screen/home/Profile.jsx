@@ -25,7 +25,7 @@ export default function Profile(props) {
 
   useEffect(() => {
     navigation.setOptions({
-      headerRight: () => <IconsRight />,
+      headerRight: () => <IconsRight navigation={navigation} />,
       headerLeft: () => (
         <View style={{ flexDirection: "row" }}>
           <Icon
@@ -86,7 +86,7 @@ export default function Profile(props) {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.touchable}
-                onPress={() =>navigation.navigate("Membership")}
+                onPress={() => navigation.navigate("Membership")}
               >
                 <Icon name="suitcase" size={25} style={styles.icons} />
                 <Text>Mi mebresía</Text>
@@ -110,7 +110,7 @@ export default function Profile(props) {
           <View>
             <TouchableOpacity
               style={styles.touchable}
-              onPress={() => navigation.navigate("Calendar")}
+              onPress={() => navigation.navigate("ReservationAdmin")}
             >
               <Icon name="calendar" size={25} style={styles.icons} />
               <Text>Reservas</Text>
@@ -127,13 +127,20 @@ export default function Profile(props) {
               onPress={() => navigation.navigate("NewMembership")}
             >
               <Icon name="suitcase" size={25} style={styles.icons} />
-              <Text>Membresías</Text>
+              <Text>Asignar/Crear membresías</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.touchable}
-              onPress={() => navigation.navigate("Approve")}
+              onPress={() => navigation.navigate("AdminOrganization")}
             >
               <Icon name="users" size={25} style={styles.icons} />
+              <Text>Organizaciones</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.touchable}
+              onPress={() => navigation.navigate("AllUserAdmin")}
+            >
+              <Icon name="address-book" size={25} style={styles.icons} />
               <Text>Usuarios</Text>
             </TouchableOpacity>
           </View>

@@ -11,7 +11,8 @@ const Membership = () => {
   useEffect(() => {
     axios
       .get(`http://${localhost}/api/membership/me`)
-      .then((res) => setMyMembership(res.data));
+      .then((res) => setMyMembership(res.data))
+      .catch((err) => console.log(err));
   }, []);
 
   return (

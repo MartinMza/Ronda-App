@@ -6,11 +6,14 @@ import Gradient from "../../../components/gradient/Gradient";
 import MembershipList from "../../../components/admin/MembershipList";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome5";
-
+import { useDispatch } from "react-redux";
+import { myMembership } from "../../../features/membershipSlice";
 
 export default function NewMembership(props) {
   const [organizations, setOrganizations] = useState([]);
   const { navigation } = props;
+  const dispatch = useDispatch();
+
   useEffect(() => {
     axios
       .get(`http://${localhost}/api/organization/`)
@@ -18,13 +21,20 @@ export default function NewMembership(props) {
       .catch((err) => console.log(err));
   }, []);
 
+  const handleEdit = (item) => {
+    dispatch(myMembership(item));
+    navigation.navigate("AssignMembership");
+  };
+
   return (
     <View style={styles.container}>
       <Gradient>
         <View>
-          <View style={{ flexDirection: "row" }}>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
             <Text style={[styles.title, { textDecorationLine: "underline" }]}>
-              ORGANIZACIONES
+              MEMBRESIAS
             </Text>
             <TouchableOpacity
               onPress={() => navigation.navigate("CreateMembership")}
@@ -36,7 +46,34 @@ export default function NewMembership(props) {
               </Text>
             </TouchableOpacity>
           </View>
-          <MembershipList organizations={organizations} navigation={navigation}/>
+          <FlatList
+            data={organizations}
+            numColumns={1}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={(organizations) => String(organizations.id)}
+            renderItem={({ item }) => (
+              <View style={styles.card}>
+                <View>
+                  <TouchableOpacity onPress={() => handleEdit(item)}>
+                    <Text style={{ alignSelf: "flex-end" }}>
+                      Asignar membresia{"  "}
+                      <Icon
+                        name="plus-circle"
+                        size={20}
+                        solid
+                        color="green"
+                        style={{ alignSelf: "flex-end" }}
+                      />
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <Text style={styles.text}>Nombre de la empresa:</Text>
+                <Text>{item.name}</Text>
+                <Text style={styles.text}>Creditos disponibles:</Text>
+                <Text>{item.avaliable_credits}</Text>
+              </View>
+            )}
+          />
         </View>
       </Gradient>
     </View>
@@ -52,7 +89,6 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: "bold",
     color: "#fff",
-
     marginVertical: 20,
     paddingHorizontal: 15,
   },
