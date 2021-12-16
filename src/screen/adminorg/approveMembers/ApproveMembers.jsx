@@ -21,17 +21,24 @@ export default function ApproveMembers(props) {
   const [option, setOption] = useState(false);
   const user = useSelector(selectUser);
   useEffect(() => {
-    axios.get(`http://${localhost}/api/user/users`).then((data) => {
+    axios.get(`http://${localhost}/api/user/users/org`).then((data) => {
       setPendingUsers(data.data);
-    });
+    })
+    .catch((err) => console.log(err));
   }, []);
 
   const handleApprove = (item) => {
-    axios.put(`http://${localhost}/api/organization/confirm/${item}`);
+    axios.put(`http://${localhost}/api/organization/confirm/${item}`).catch((err) => console.log(err));
   };
 
   const handleDecline = (item) => {
-    axios.delete(`http://${localhost}/api/organization/decline/${item}`);
+    axios
+      .delete(`http://${localhost}/api/organization/decline/${item}`)
+      .then(() => axios.get(`http://${localhost}/api/user/users`))
+      .then((data) => {
+        setPendingUsers(data.data);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -52,8 +59,9 @@ export default function ApproveMembers(props) {
                   borderRadius: 6,
                   backgroundColor: "white",
                   marginTop: 10,
-                  marginHorizontal: 25,
+                  marginHorizontal: 15,
                   alignItems: "center",
+                  width:150
                 }}
               >
                 <Text
@@ -71,7 +79,7 @@ export default function ApproveMembers(props) {
                   {item.email}
                 </Text>
 
-                {user.role === "organizationAdmin" ? (
+                {(user.role === "organizationAdmin" ||user.role === "admin" )? (
                   <Text style={[styles.input]}>{item.org_state}</Text>
                 ) : null}
 

@@ -1,4 +1,4 @@
-const { Message } = require("../models");
+const { Message, User } = require("../models");
 const S = require("sequelize");
 
 class MessageController {
@@ -8,10 +8,10 @@ class MessageController {
         senderId: req.user.id,
         receiverId: req.params.id,
         message: req.body.message,
+        userEmail: req.user.email,
       });
       res.status(201).json(message);
     } catch (err) {
-    console.log("ERRORRRR",err)
       res.status(500).send(err);
     }
   }
@@ -63,10 +63,33 @@ class MessageController {
             [S.Op.or]: [ { senderId: req.user.id, receiverId: req.params.id }, { senderId: req.params.id, receiverId: req.user.id } ]
         },
       });
-      console.log("MESSAGES",messages)
       res.status(200).json(messages);
     } catch (err) {
-        console.log("ERRORRRR",err)
+      res.status(500).json(err);
+    }
+  }
+  //get all users who have sent you a message or received a message from you
+  static async getChats(req, res) {
+    try {
+      const messages = await Message.findAll({
+        where: {
+          [S.Op.or]: [
+            { senderId: req.user.id },
+            { receiverId: req.user.id },
+          ],
+        },
+      });
+      const users = await User.findAll({
+        where: {
+          id: {
+            [S.Op.in]: messages.map((message) =>
+              message.senderId === req.user.id ? message.receiverId : message.senderId
+            ),
+          },
+        },
+      });
+      res.status(200).json(users);
+    } catch (err) {
       res.status(500).json(err);
     }
   }

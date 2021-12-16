@@ -20,34 +20,24 @@ const Foro = () => {
   const user = useSelector(selectUser);
   const [loadMore, setLoadMore] = useState(true);
   const [post, setPost] = useState();
-  const [load, setLoad] = useState(true)
+  const [load, setLoad] = useState(true);
   const formik = useFormik({
     initialValues: {
       content: "",
     },
-    //validationSchema: Yup.object(validationSchema()),
     validateOnChange: false,
-    onSubmit: async (data,{resetForm}) => {
+    onSubmit: async (data, { resetForm }) => {
       const post = await axios
         .post(`http://${localhost}/api/posts/`, data)
-        .then(()=>resetForm({data:""}))
+        .then(() => resetForm({ data: "" }));
     },
   });
   useEffect(() => {
     axios
       .get(`http://${localhost}/api/posts/1`)
-      .then((res) => setPost((res.data).reverse()))
+      .then((res) => setPost(res.data.reverse()))
       .catch((err) => console.error(err));
-  }, [load])
-
-  // const checkLike = async (postId) => { //chequea si el usuario ya le dio like al post
-  //   try {
-  //     const like = await axios.get(`http://${localhost}/api/likes/${postId}/single`)
-  //     return like ? true : false
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
+  }, [load]);
 
   console.log(`post`, post);
 
@@ -61,22 +51,33 @@ const Foro = () => {
             <Text style={styles.mainName}>{user?.name} --</Text>
             <MaterialCommunityIcons name="image-plus" size={20} color="black" />
           </View>
-
-          <TextInput
-            value={formik.values.content}
-            placeholder="¿Qué estas pensando?"
-            multiline={true}
-            onChangeText={(text) => formik.setFieldValue("content", text)}
-          ></TextInput>
+          <View>
+            <TextInput
+              value={formik.values.content}
+              placeholder={
+                user?.org_state === "approved" || user?.role === "admin"
+                  ? "¿Qué estas pensando?"
+                  : "Aún no puedes escribir posts. Espera que aprueben tu registro"
+              }
+              multiline={true}
+              onChangeText={(text) => {
+                (user?.org_state === "approved") | (user?.role === "admin")
+                  ? formik.setFieldValue("content", text)
+                  : null;
+              }}
+            ></TextInput>
+          </View>
         </View>
         <TouchableOpacity onPress={formik.handleSubmit} style={styles.button}>
           <Text style={styles.buttonText}>Publicar</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={()=>setLoad(!load)}>
+        <TouchableOpacity onPress={() => setLoad(!load)}>
           <Text style={styles.underText}>MÁS RECIENTES</Text>
         </TouchableOpacity>
-        {/* {post ? post.reverse().map((e,i) => {return <Post dataId={{postId: ... userId:...}} myLike={checkLike()} content={e.content} key={i} name={e.user.name} img={"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn-images-1.medium.com%2Fmax%2F2000%2F1*OsMBUUchHRtTT3n-ZX2xbA.jpeg&f=1&nofb=1"}/>}) : null} */}
-        {post ? <PostList posts={post}/> : null}
+
+        {(user?.role === "admin" || user?.org_state === "approved") && post ? (
+          <PostList posts={post} />
+        ) : null}
       </Gradient>
     </View>
   );
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 6,
     marginVertical: 30,
-    marginBottom:15,
+    marginBottom: 15,
     padding: 15,
   },
 

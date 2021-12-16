@@ -23,7 +23,7 @@ export default function Post(props) {
   const [send, setSend] = useState(false);
   const [text, setText] = useState("");
   const [like, setLike] = useState(false);
-  const [like2, setLike2] = useState(false); // backup -v (hardcode)
+  // const [like2, setLike2] = useState(false); // like's backup (hardcode)
 
   //------------------comment-------------------
 
@@ -48,27 +48,23 @@ export default function Post(props) {
   useEffect(() => {
     axios
       .get(`http://${localhost}/api/likes/${id}/single`)
-      .then(({ data }) => (data.like ? setLike(true) : setLike(false)))
+      .then(({data}) => data ? setLike(true) : setLike(false)) 
       .catch((err) => console.log(err));
   }, []);
 
-  const likeHandle = async () => {
-    try {
-      if (!like) {
-        await axios
-          .post(`http://${localhost}/api/likes/${id}`)
-          .then(() => setLike(true));
-      } else {
-        await axios
-          .delete(`http://${localhost}/api/likes/${id}`)
-          .then(() => setLike(false));
-      }
-    } catch (error) {
-      console.log(error);
-    }
+  const handleLike = () => {
+    if (like)
+      axios
+        .delete(`http://${localhost}/api/likes/${id}`)
+        .then(() => setLike(false))
+        .catch((err) => console.log(err)); 
+    axios
+      .post(`http://${localhost}/api/likes/${id}`)
+      .then(() => setLike(true))
+      .catch((err) => console.log(err)); 
   };
 
-  const likeHandle2 = () => (like2 ? setLike2(false) : setLike2(true)); //backup -v (hardcode)
+  // const likeHandle2 = () => (like2 ? setLike2(false) : setLike2(true)); //handleLike's backup (hardcode)
 
   return (
     <View>
@@ -100,7 +96,7 @@ export default function Post(props) {
             size={20}
             color={like ? "red" : "black"}
             solid={like ? true : false}
-            onPress={() => likeHandle()}
+            onPress={() => handleLike()}
           />
         </TouchableOpacity>
         <TouchableOpacity
@@ -146,9 +142,10 @@ const styles = StyleSheet.create({
   input: {
     width: 330,
     backgroundColor: "white",
-    borderRadius: 6,
+    
     marginTop: 30,
-    marginBottom: 15,
+    borderTopRightRadius:6,
+    borderTopLeftRadius:6,
     padding: 15,
   },
   mainName: {
@@ -167,8 +164,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-end",
     backgroundColor: "white",
-    borderRadius: 6,
-    marginTop: 5,
+    borderBottomRightRadius:6,
+    borderBottomLeftRadius:6,
+    borderTopColor:"gray",
+    borderTopWidth:1,
+    backgroundColor:"rgba(244,244,244,0.8)"
   },
   buttonFooter: {
     margin: 10,
@@ -185,12 +185,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "white",
     borderRadius: 6,
+    marginBottom:5
   },
   commentBox: {
     flexDirection: "row",
     backgroundColor: "white",
     borderRadius: 6,
-    marginTop: 5,
     justifyContent: "center",
     alignItems: "center",
   },

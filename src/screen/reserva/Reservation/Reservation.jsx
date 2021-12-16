@@ -1,23 +1,19 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
-import { Datepick } from "../../components/datepicker/Datepicker";
-import { Timepick } from "../../components/datepicker/Timepicker";
-import Gradient from "../../components/gradient/Gradient";
-import Drop from "../../components/reservation/Drop";
-import {
-  Campus,
-  Room,
-  Person,
-  idType,
-  Day,
-  Hour,
-} from "../../utils/DataReservation.jsx";
+import { View, TouchableOpacity, Text } from "react-native";
+import { Datepick } from "../../../components/datepicker/Datepicker";
+import { Timepick } from "../../../components/datepicker/Timepicker";
+import Gradient from "../../../components/gradient/Gradient";
+import Drop from "../../../components/reservation/Drop";
+import { Campus, Room } from "../../../utils/DataReservation.jsx";
+import styles from "./ReservationStyle";
 import moments from "moment-timezone";
-import Button from "../../components/button/Button";
+import Button from "../../../components/button/Button";
 import axios from "axios";
-import { localhost } from "../../localHostIP.json";
+import { localhost } from "../../../localHostIP.json";
+import * as WebBrowser from "expo-web-browser";
 
-const Reservation = () => {
+const Reservation = (props) => {
+  const { navigation } = props;
   //=============CAMPUS=======================//
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
@@ -48,19 +44,33 @@ const Reservation = () => {
         ehours: `${moments(OutTime).tz("Etc/GMT+5").format("HH")}`,
         eminutes: `${moments(OutTime).tz("Etc/GMT+5").format("mm")}`,
       })
-      .then(() => {alert("Tu reserva está lista")
-    navigation.navigate("Home")})
-    .catch((err) => console.log(err));
+      .then(() => {
+        alert("Tu reserva está lista");
+        navigation.navigate("Home");
+      })
+      .catch((err) => alert("No podemos generar tu reserva"));
   };
 
+  const handleCalendars = () => {
+    WebBrowser.openBrowserAsync(
+      `https://bit.ly/${value.toLowerCase()}-${typeValue.toLowerCase()}`
+    );
+  };
   return (
     <View style={styles.container}>
       <Gradient>
-        <View style={{marginTop:5}}>
-          <Text style={[styles.underText, { marginLeft: 20, marginTop:10 }]}>
+        <View style={{ marginTop: 5 }}>
+          <Text style={[styles.underText, { marginLeft: 20, marginTop: 10 }]}>
             HACÉ TU RESERVA
           </Text>
-          <Text style={{ color: "white", marginLeft: 33, marginTop: 20 }}>
+          <Text
+            style={{
+              color: "white",
+              marginLeft: 33,
+              marginTop: 20,
+              fontWeight: "bold",
+            }}
+          >
             Elige tu sede
           </Text>
           <Drop
@@ -73,7 +83,14 @@ const Reservation = () => {
             setItems={setSedes}
             zIndex={3}
           />
-          <Text style={{ color: "white", marginLeft: 33, marginTop: 11 }}>
+          <Text
+            style={{
+              color: "white",
+              marginLeft: 33,
+              marginTop: 7,
+              fontWeight: "bold",
+            }}
+          >
             Elige tu sala
           </Text>
           <Drop
@@ -86,7 +103,30 @@ const Reservation = () => {
             setItems={setType}
             zIndex={2}
           />
-          <Text style={{ color: "white", marginLeft: 33, marginTop: 11 }}>
+          {value && typeValue ? (
+            <TouchableOpacity onPress={handleCalendars}>
+              <Text
+                style={{
+                  color: "white",
+                  marginLeft: 33,
+                  marginTop: 5,
+                  fontWeight: "bold",
+                  textDecorationLine: "underline",
+                }}
+              >
+                VER DISPONIBILIDAD DE {value.toUpperCase()}
+                {""} {typeValue.toUpperCase()}
+              </Text>
+            </TouchableOpacity>
+          ) : null}
+          <Text
+            style={{
+              color: "white",
+              marginLeft: 33,
+              marginTop: 15,
+              fontWeight: "bold",
+            }}
+          >
             Elige el día
           </Text>
           <View
@@ -103,7 +143,14 @@ const Reservation = () => {
               onDateChange={(value) => setDate(value)}
             />
           </View>
-          <Text style={{ color: "white", marginLeft: 33, marginTop: 30 }}>
+          <Text
+            style={{
+              color: "white",
+              marginLeft: 33,
+              marginTop: 17,
+              fontWeight: "bold",
+            }}
+          >
             Elige la hora de ingreso
           </Text>
           <View
@@ -111,7 +158,7 @@ const Reservation = () => {
               backgroundColor: "#fff",
               borderRadius: 6,
               marginHorizontal: 30,
-              marginTop: 20,
+              marginTop: 17,
               flexDirection: "row",
             }}
           >
@@ -120,7 +167,14 @@ const Reservation = () => {
               onDateChange={(value) => setInitTime(value)}
             />
           </View>
-          <Text style={{ color: "white", marginLeft: 33, marginTop: 30 }}>
+          <Text
+            style={{
+              color: "white",
+              marginLeft: 33,
+              marginTop: 30,
+              fontWeight: "bold",
+            }}
+          >
             Elige la hora de salida
           </Text>
           <View
@@ -146,30 +200,5 @@ const Reservation = () => {
     </View>
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-    height: "100%",
-    flex: 1,
- 
-  },
-  input: {
-    paddingVertical: 15,
-    paddingHorizontal: 10,
-    borderRadius: 6,
-  },
-  underText: {
-    color: "white",
-    fontSize: 15,
-    fontWeight: "bold",
-    textDecorationLine: "underline",
-    padding: 10,
-    marginTop: 8,
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 15,
-    // fontFamily: "Lato_900Black",
-  },
-});
+
 export default Reservation;
