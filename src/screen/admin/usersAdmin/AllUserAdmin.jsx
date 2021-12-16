@@ -29,21 +29,47 @@ export default function AllUserAdmin(props) {
       .catch((err) => console.log(err));
   }, []);
 
-  const handleApprove = (item) => {
+  const handleUpgrade = (item) => {
+    console.log("tst item hanlde upgrade", item);
     axios
-      .put(`http://${localhost}/api/organization/confirm/${item}`)
+      .put(`http://${localhost}/api/admin/superAdmin/${item}`)
+      .then(() => {
+        axios.get(`http://${localhost}/api/admin/user/all`).then((data) => {
+          setPendingUsers(data.data);
+        });
+      })
       .catch((err) => console.log(err));
   };
 
   const handleDecline = (itemId, itemRole) => {
-   axios
-      .delete(`http://${localhost}/api/admin/user/${itemId}`)
-      .then(() => axios.get(`http://${localhost}/api/admin/user/all`))
-      .then((data) => {
-        setPendingUsers(data.data);
-      })
-      .catch((err) => alert("No puedes eliminar a otro administrador"))
+    console.log("tst item / role hanlde decline", itemId, user.role);
+    if (user.role === "superadmin") {
+      axios
+        .delete(`http://${localhost}/api/admin/superAdmin/${itemId}/`)
+        .then(() => {
+          axios.get(`http://${localhost}/api/admin/user/all`).then((data) => {
+            setPendingUsers(data.data);
+          });
+          alert("Usuario eliminado");
+        })
+        .catch(() => alert("Error al eliminar"));
+    } else {
+      axios
+        .delete(`http://${localhost}/api/admin/user/${itemId}`)
+        .then(() => axios.get(`http://${localhost}/api/admin/user/all`))
+        .then((data) => {
+          setPendingUsers(data.data);
+        })
+        .catch((err) => alert("No puedes eliminar a otro administrador"));
+    }
   };
+
+  // const deleteUser = (userId) => {//check user id
+  //   axios
+  //     .delete(`http://${localhost}/api/superadmin/${userId}/`)
+  //     .then(() => alert("Usuario eliminado"))
+  //     .catch(() => alert("Error al eliminar"));
+  // }; //comentado por bucles
 
   return (
     <View style={styles.container}>
@@ -66,7 +92,7 @@ export default function AllUserAdmin(props) {
                   marginHorizontal: 15,
                   alignItems: "center",
                   width: 150,
-                  padding:15
+                  padding: 15,
                 }}
               >
                 <Text
@@ -83,26 +109,26 @@ export default function AllUserAdmin(props) {
                 >
                   {item.email}
                 </Text>
-                <Text
-                  style={
-                    ([styles.input], { marginBottom: 10 })
-                  }
-                >
-                <Text style={{fontWeight:"bold"}}> Rol:</Text> {item.role}
+                <Text style={([styles.input], { marginBottom: 10 })}>
+                  <Text style={{ fontWeight: "bold" }}> Rol:</Text> {item.role}
                 </Text>
                 <Text style={[styles.input]}>{item.org_state}</Text>
 
-                <View style={{ flexDirection: "row"}}>
-                  {user.role==="superAdmin"?<TouchableOpacity onPress={() => handleApprove(item.id)}>
-                    <Icon
-                      name="user-cog"
-                      size={20}
-                      solid
-                      color="skyblue"
-                      style={{ padding: 12 }}
-                    />
-                  </TouchableOpacity>:null}
-                  <TouchableOpacity onPress={() => handleDecline(item.id, item.role)}>
+                <View style={{ flexDirection: "row" }}>
+                  {user.role === "superadmin" &&item.role==="user" ? (
+                    <TouchableOpacity onPress={() => handleUpgrade(item.id)}>
+                      <Icon
+                        name="user-cog"
+                        size={20}
+                        solid
+                        color="skyblue"
+                        style={{ padding: 12 }}
+                      />
+                    </TouchableOpacity>
+                  ) : null}
+                  <TouchableOpacity
+                    onPress={() => handleDecline(item.id, item.role)}
+                  >
                     <Icon
                       name="trash"
                       size={20}
@@ -140,7 +166,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textDecorationLine: "underline",
     padding: 10,
-  
+
     marginBottom: 10,
   },
   row: {

@@ -9,12 +9,12 @@ const checkAuth = (req, res, next) => {
   }
 };
 const checkAdmin = (req, res, next) => {
-  if (req.user.role === "admin") {
+  if (req.user.role === "admin" || req.user.role === "superadmin") {
     next();
   } else {
     return res.status(403).send({
       status: 403,
-      error: "You are not an admin",
+      error: "You are not an admin or superadmin",
     });
   }
 };

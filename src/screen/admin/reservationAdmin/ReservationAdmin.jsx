@@ -15,18 +15,17 @@ export default function ReservationAdmin() {
 
   useEffect(() => {
     axios
-      .get(`http://${localhost}/api/reservation/own`)
+      .get(`http://${localhost}/api/reservation/all`)
       .then((res) => setReservations(res.data))
       .catch((err) => console.error(err));
   }, []);
-  console.log(reservations);
 
   const cancelReservation = (id, eventId, location) => {
     axios
       .delete(`http://${localhost}/api/calendar/delete/${eventId}/${location}`); //delete from calendar
     axios
       .delete(`http://${localhost}/api/reservation/cancel/${id}`) // delete from db
-      .then(() => axios.get(`http://${localhost}/api/reservation/own`))
+      .then(() => axios.get(`http://${localhost}/api/reservation/all`))
       .then((data) => setReservations(data.data))
       .catch((err) => console.log(err));
   };
@@ -35,7 +34,7 @@ export default function ReservationAdmin() {
     <View style={styles.container}>
       <Gradient>
         <View>
-          <Text style={styles.textInput}>MIS RESERVAS</Text>
+          <Text style={styles.textInput}>TODAS LAS RESERVAS</Text>
         </View>
         <View>
           <FlatList

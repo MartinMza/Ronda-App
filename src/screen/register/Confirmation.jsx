@@ -31,21 +31,24 @@ export default function Confirmation(props) {
   const inputCuatro = useRef(null);
   let token = code + codeDos + codeTres + codeCuatro;
   const handleConfirmation = () => {
-    axios
-      .put(`http://${localhost}/api/auth/verify/${token}`, user.email)
-      .then(() => navigation.navigate("Company"))
-      .catch(() => alert("Código incorrecto"));
+    user.otp == token
+      ? axios
+          .put(`http://${localhost}/api/auth/verify/${token}`, user.email)
+          .then(() => navigation.navigate("Company"))
+          .catch(() => alert("Código incorrecto"))
+      : alert("El código no coincide");
   };
 
-  useEffect(() => {
-    axios
-      .post(`http://${localhost}/api/auth/login`, {
-        email: user.email,
-        password: user.password,
-      })
-      .then((data) => dispatch(login(data.data)))
-      .catch((err) => console.log(err));
-  }, [token.length > 3]);
+   useEffect(() => {
+        axios
+          .post(`http://${localhost}/api/auth/login`, {
+            email: user.email,
+            password: user.password,
+          })
+          .then((data) => dispatch(login(data.data)))
+          .catch((err) => console.log(err));
+      }, []);
+
   return (
     <View style={styles.container}>
       <Gradient>
