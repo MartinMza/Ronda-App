@@ -19,7 +19,7 @@ export default function Input(props) {
 
 const styles = StyleSheet.create({
   input: {
-    width: 300,
+    width: 333,
     height: 52,
     backgroundColor: "white",
     borderRadius: 6,

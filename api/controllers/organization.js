@@ -14,6 +14,19 @@ class OrganizationController {
     }
   }
 
+  static async getOne(req, res, next) {
+    try {
+      const org = await Organization.findOne({
+        where: {
+          id: req.params.orgId,
+        },
+      });
+      res.status(200).send(org);
+    } catch (err) {
+      next(err);
+    }
+  }
+
   static async createEmpresa(req, res, next) {
     try {
       const { name, CUIT, social_reason,phone } =
@@ -115,6 +128,7 @@ class OrganizationController {
      
       await user.update({
        org_state: "approved",
+       campusId: req.user.campusId
       });
       res.status(201).send("Usuario Confirmado");
       

@@ -2,6 +2,8 @@ const router = require('express').Router();
 const {OrganizationController} = require('../controllers');
 
 router.get('/', OrganizationController.getAllEmpresas);
+router.get('/:orgId', OrganizationController.getOne);
+
 
 router.post('/empresa', OrganizationController.createEmpresa);
 router.post('/particular', OrganizationController.createParticular);

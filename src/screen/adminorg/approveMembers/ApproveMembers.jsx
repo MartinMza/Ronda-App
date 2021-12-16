@@ -13,7 +13,6 @@ import { localhost } from "../../../localHostIP.json";
 import axios from "axios";
 import { selectUser } from "../../../features/userSlice";
 import { useSelector } from "react-redux";
-import * as WebBrowser from "expo-web-browser";
 
 export default function ApproveMembers(props) {
   const { item } = props;
@@ -21,20 +20,29 @@ export default function ApproveMembers(props) {
   const [option, setOption] = useState(false);
   const user = useSelector(selectUser);
   useEffect(() => {
-    axios.get(`http://${localhost}/api/user/users/org`).then((data) => {
-      setPendingUsers(data.data);
-    })
-    .catch((err) => console.log(err));
+    axios
+      .get(`http://${localhost}/api/user/users/org`)
+      .then((data) => {
+        setPendingUsers(data.data);
+      })
+      .catch((err) => console.log(err));
   }, []);
 
-  const handleApprove = (item) => {
-    axios.put(`http://${localhost}/api/organization/confirm/${item}`).catch((err) => console.log(err));
+  const handleApprove = (item, itemCampus) => {
+
+    axios
+      .put(`http://${localhost}/api/organization/confirm/${item}`)
+      .then(() => axios.get(`http://${localhost}/api/user/users/org`))
+      .then((data) => {
+        setPendingUsers(data.data);
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleDecline = (item) => {
     axios
       .delete(`http://${localhost}/api/organization/decline/${item}`)
-      .then(() => axios.get(`http://${localhost}/api/user/users`))
+      .then(() => axios.get(`http://${localhost}/api/user/users/org`))
       .then((data) => {
         setPendingUsers(data.data);
       })
@@ -51,7 +59,7 @@ export default function ApproveMembers(props) {
             numColumns={2}
             style={{ borderRadius: 6 }}
             showsVerticalScrollIndicator={false}
-            keyExtractor={(usari) => String(usari.id)}
+            keyExtractor={(usari) => String(usari.id,usari.campusId)}
             columnWrapperStyle={styles.row}
             renderItem={({ item }) => (
               <View
@@ -61,7 +69,7 @@ export default function ApproveMembers(props) {
                   marginTop: 10,
                   marginHorizontal: 15,
                   alignItems: "center",
-                  width:150
+                  width: 150,
                 }}
               >
                 <Text
@@ -79,14 +87,14 @@ export default function ApproveMembers(props) {
                   {item.email}
                 </Text>
 
-                {(user.role === "organizationAdmin" ||user.role === "admin" )? (
+                {user.role === "organizationAdmin" || user.role === "admin" ? (
                   <Text style={[styles.input]}>{item.org_state}</Text>
                 ) : null}
 
                 {user.role === "organizationAdmin" ? (
                   item.org_state === "pending" ? (
                     <View style={{ flexDirection: "row" }}>
-                      <TouchableOpacity onPress={() => handleApprove(item.id)}>
+                      <TouchableOpacity onPress={() => handleApprove(item.id, item.campusId)}>
                         <Icon
                           name="check-circle"
                           size={24}

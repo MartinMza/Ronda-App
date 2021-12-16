@@ -4,10 +4,13 @@ import Gradient from "../../components/gradient/Gradient";
 import logo from "../../../assets/logo.png";
 import axios from "axios";
 import { localhost } from "../../localHostIP.json";
+import { selectUser } from "../../features/userSlice";
+import { useSelector } from "react-redux";
 
 const Membership = () => {
   const [myMembership, setMyMembership] = useState([]);
-
+  const [credits, setCredits]=useState({})
+  const user= useSelector(selectUser)
   useEffect(() => {
     axios
       .get(`http://${localhost}/api/membership/me`)
@@ -15,6 +18,14 @@ const Membership = () => {
       .catch((err) => console.log(err));
   }, []);
 
+  useEffect(() => {
+    axios
+      .get(`http://${localhost}/api/organization/${user.organizationId}`)
+      .then((res) => setCredits(res.data.avaliable_credits))
+      .catch((err) => console.log(err));
+  }, []);
+  console.log(credits)
+  console.log(user)
   return (
     <View style={styles.container}>
       <Gradient>
@@ -27,8 +38,10 @@ const Membership = () => {
           <Text style={styles.text}>{myMembership.name}</Text>
           <Text style={styles.title}>Sede:</Text>
           <Text style={styles.text}>{myMembership.location}</Text>
-          <Text style={styles.title}>Créditos disponibles:</Text>
+          <Text style={styles.title}>Créditos totales:</Text>
           <Text style={styles.text}>{myMembership.credits}</Text>
+          <Text style={styles.title}>Créditos disponibles:</Text>
+          <Text style={styles.text}>{credits}</Text>
         </View>
       </Gradient>
     </View>

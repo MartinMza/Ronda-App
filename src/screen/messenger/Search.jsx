@@ -62,6 +62,8 @@ export default function Search(props) {
       items.name.toLowerCase().includes(value.toLowerCase())
     );
     setFilter(oneUsers?.length ? oneUsers : [{name: "No existe ese usuario", picture: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.latiendadirecta.es%2Fimages%2Fampliar%2Fno_encontrado.jpg&f=1&nofb=1"}])
+  }else{
+    setFilter(users)
   }}, [value]);
 
   return (
