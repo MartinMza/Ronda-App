@@ -78,7 +78,7 @@ const Register = (props) => {
         <Text style={styles.error}>{formik.errors.passwordConfirmation}</Text>
         <Text style={styles.error}>{formik.errors.email}</Text>
         <TouchableOpacity onPress={formik.handleSubmit} style={styles.button}>
-          <Text style={styles.buttonText}>REGISTER</Text>
+          <Text style={styles.buttonText}>REGISTRAR</Text>
         </TouchableOpacity>
       </Gradient>
     </View>

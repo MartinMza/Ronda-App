@@ -36,10 +36,9 @@ const Foro = () => {
     axios
       .get(`http://${localhost}/api/posts/1`)
       .then((res) => setPost(res.data.reverse()))
-      .catch((err) => console.error(err));
+      .catch((err) => console.log(err));
   }, [load]);
 
-  console.log(`post`, post);
 
   return (
     <View style={styles.container}>

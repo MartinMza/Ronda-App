@@ -5,7 +5,7 @@ import UserCard from "./UserCard";
 export default function UserList(props) {
   const { users, navigation } = props;
 
-  console.log("users", users)
+
   
   return (
     <FlatList

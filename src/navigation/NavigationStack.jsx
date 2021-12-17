@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Image, View, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -15,6 +15,8 @@ import NewCompany from "../screen/register/NewCompany";
 import Approve from "../screen/adminorg/approveMembers/ApproveMembers";
 import Calendar from "../screen/calendar/Calendar";
 import Salas from "../screen/salasyespacios/Salas";
+import Belgrano from "../screen/salasyespacios/Belgrano";
+import Recoleta from "../screen/salasyespacios/Recoleta";
 import Membership from "../screen/membresia/Membership";
 import NewMembership from "../screen/admin/membreship/NewMembership";
 import Inbox from "../screen/messenger/Inbox";
@@ -22,52 +24,62 @@ import Chat from "../screen/messenger/Chat";
 import Search from "../screen/messenger/Search";
 import CreateMembership from "../screen/admin/membreship/CreateMembership";
 import AssignMembership from "../screen/admin/membreship/AssignMembership";
-import AdminOrganization from "../screen/admin/organization/AdminOrganization"
-import EditInfo from "../screen/admin/organization/EditInfo"
-import AllUserAdmin from "../screen/admin/usersAdmin/AllUserAdmin"
-import ReservationAdmin from "../screen/admin/reservationAdmin/ReservationAdmin"
+import AdminOrganization from "../screen/admin/organization/AdminOrganization";
+import EditInfo from "../screen/admin/organization/EditInfo";
+import AllUserAdmin from "../screen/admin/usersAdmin/AllUserAdmin";
+import ReservationAdmin from "../screen/admin/reservationAdmin/ReservationAdmin";
 
 const Stack = createStackNavigator();
 
 export default function NavigationStack() {
   return (
-    <Stack.Navigator initialRouteName="Start" >
-        <Stack.Screen
+    <Stack.Navigator initialRouteName="Start">
+      <Stack.Screen
         name="AllUserAdmin"
         component={AllUserAdmin}
-        options={{ title: ""}}
+        options={{ title: "" }}
       />
       <Stack.Screen
         name="ReservationAdmin"
         component={ReservationAdmin}
-        options={{ title: ""}}
+        options={{ title: "" }}
       />
       <Stack.Screen
         name="AdminOrganization"
         component={AdminOrganization}
-        options={{ title: ""}}
+        options={{ title: "" }}
       />
       <Stack.Screen
         name="EditInfo"
         component={EditInfo}
         options={{ title: "" }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="AssignMembership"
         component={AssignMembership}
         options={{ title: "" }}
       />
-        <Stack.Screen
+      <Stack.Screen
         name="CreateMembership"
         component={CreateMembership}
         options={{ title: "" }}
       />
-        <Stack.Screen
+      <Stack.Screen
         name="NewMembership"
         component={NewMembership}
         options={{ title: "" }}
       />
       <Stack.Screen name="Salas" component={Salas} options={{ title: "" }} />
+      <Stack.Screen
+        name="Belgrano"
+        component={Belgrano}
+        options={{ title: "" }}
+      />
+      <Stack.Screen
+        name="Recoleta"
+        component={Recoleta}
+        options={{ title: "" }}
+      />
       <Stack.Screen
         name="Membership"
         component={Membership}
@@ -122,7 +134,6 @@ export default function NavigationStack() {
         options={{
           title: "",
           headerStyle: {
-
             backgroundColor: "rgba(255,255,255,0.5)",
           },
         }}
@@ -133,7 +144,6 @@ export default function NavigationStack() {
         options={{
           title: "",
           headerStyle: {
-
             backgroundColor: "rgba(255,255,255,0.5)",
           },
         }}

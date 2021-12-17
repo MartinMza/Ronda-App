@@ -36,7 +36,6 @@ export default function EditInfo(props) {
           facturationDay ? facturationDay : company.facturationDay
         }`,
       })
-      .then((data) => dispatch(login(data.data)))
       .then(() => navigation.navigate("Home"))
       .catch(() => alert("no fue posible actualizar la informacion "));
   };

@@ -20,7 +20,6 @@ class ReservationController {
   static async getByRoom(req, res) {
  
     try {
-      console.log(req.params)
       const reservations = await Reservation.findAll({
         where: {
           roomId: req.params.roomId,
@@ -56,7 +55,6 @@ class ReservationController {
     }
   }
   static async getTurnosFiltrados(req, res) {
-    console.log(req.params)
     try {
       const campus = await Campus.findOne({
         where: {
@@ -83,7 +81,6 @@ class ReservationController {
   static async turno(req, res) {
   
     try {
-      console.log(req.params)
       const room = await Room.findOne({
         where: {
           id: req.params.roomId,
@@ -151,7 +148,6 @@ class ReservationController {
           id: req.params.reservationId,
         },
       });
-      console.log(reservation);
      
     
       // const room = await Room.findOne({

@@ -14,13 +14,13 @@ export default function Profile(props) {
   const { navigation } = props;
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
-console.log(user)
+
   const userLogout = async () => {
     const user = await axios
       .post(`http://${localhost}/api/auth/logout`)
       .then(() => dispatch(logOut()))
       .then(() => navigation.navigate("Start"))
-      .catch((err) => console.log(err));
+      .catch((err) => alert("Ocurrio un problema"));
   };
 
   useEffect(() => {

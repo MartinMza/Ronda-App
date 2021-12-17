@@ -50,14 +50,12 @@ class LikeController {
 
   static async destroy(req, res) {
     try {
-      console.log("destroy user", req.user);
       const like = await Like.findOne({
         where: {
           userId: req.user.id,
           postId: req.params.id,
         },
       });
-      console.log("checking back like-->", like);
       if (req.user.id !== like.userId && req.user.role !== "admin") {
         return res.status(403).json({
           message: "You are not authorized to remove this like",

@@ -32,8 +32,8 @@ export default function Post(props) {
       axios
         .get(`http://${localhost}/api/comment/${id}`)
         .then((res) => setComments(res.data.reverse()))
-        .then(() => console.log("use Effect super ok"))
-        .catch((err) => console.error(err));
+       
+        .catch((err) => console.log(err));
     }
   }, [load, send]);
 
@@ -49,19 +49,18 @@ export default function Post(props) {
     axios
       .get(`http://${localhost}/api/likes/${id}/single`)
       .then(({data}) => data ? setLike(true) : setLike(false)) 
-      .catch((err) => console.log(err));
+      .catch((err) =>console.log(err));
   }, []);
 
   const handleLike = () => {
     if (like)
       axios
         .delete(`http://${localhost}/api/likes/${id}`)
-        .then(() => setLike(false))
-        .catch((err) => console.log(err)); 
+        .then(() => alert("Ocurrio un problema")); 
     axios
       .post(`http://${localhost}/api/likes/${id}`)
       .then(() => setLike(true))
-      .catch((err) => console.log(err)); 
+      .catch((err) => alert("Ocurrio un problema")); 
   };
 
   // const likeHandle2 = () => (like2 ? setLike2(false) : setLike2(true)); //handleLike's backup (hardcode)

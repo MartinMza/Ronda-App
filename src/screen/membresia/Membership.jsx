@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 
 const Membership = () => {
   const [myMembership, setMyMembership] = useState([]);
-  const [credits, setCredits]=useState({})
+  const [credits, setCredits]=useState([])
   const user= useSelector(selectUser)
   useEffect(() => {
     axios
@@ -22,10 +22,9 @@ const Membership = () => {
     axios
       .get(`http://${localhost}/api/organization/${user.organizationId}`)
       .then((res) => setCredits(res.data.avaliable_credits))
-      .catch((err) => console.log(err));
+      .catch((err) =>console.log(err));
   }, []);
-  console.log(credits)
-  console.log(user)
+
   return (
     <View style={styles.container}>
       <Gradient>

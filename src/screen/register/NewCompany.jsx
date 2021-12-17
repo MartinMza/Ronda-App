@@ -23,7 +23,7 @@ const NewCompany = (props) => {
 
   const handleSubmit = () => {
     let id = CampusID(value);
-console.log(id)
+
     axios.post(`http://${localhost}/api/organization/empresa`, {
       name: name,
       phone: phone,

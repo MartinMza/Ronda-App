@@ -29,14 +29,13 @@ export default function ApproveMembers(props) {
   }, []);
 
   const handleApprove = (item, itemCampus) => {
-
     axios
       .put(`http://${localhost}/api/organization/confirm/${item}`)
       .then(() => axios.get(`http://${localhost}/api/user/users/org`))
       .then((data) => {
         setPendingUsers(data.data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => alert("Ocurrio un problema"));
   };
 
   const handleDecline = (item) => {
@@ -46,7 +45,7 @@ export default function ApproveMembers(props) {
       .then((data) => {
         setPendingUsers(data.data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => alert("Ocurrio un problema"));
   };
 
   return (
@@ -59,7 +58,7 @@ export default function ApproveMembers(props) {
             numColumns={2}
             style={{ borderRadius: 6 }}
             showsVerticalScrollIndicator={false}
-            keyExtractor={(usari) => String(usari.id,usari.campusId)}
+            keyExtractor={(usari) => String(usari.id, usari.campusId)}
             columnWrapperStyle={styles.row}
             renderItem={({ item }) => (
               <View
@@ -94,7 +93,9 @@ export default function ApproveMembers(props) {
                 {user.role === "organizationAdmin" ? (
                   item.org_state === "pending" ? (
                     <View style={{ flexDirection: "row" }}>
-                      <TouchableOpacity onPress={() => handleApprove(item.id, item.campusId)}>
+                      <TouchableOpacity
+                        onPress={() => handleApprove(item.id, item.campusId)}
+                      >
                         <Icon
                           name="check-circle"
                           size={24}

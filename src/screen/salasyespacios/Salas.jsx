@@ -1,31 +1,49 @@
 import React from "react";
-import { View, Text, StyleSheet, ImageBackground } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ImageBackground,
+  TouchableOpacity,
+} from "react-native";
 import Gradient from "../../components/gradient/Gradient";
-import Recoleta from "../../../assets/icons/rondaRecoleta.png";
-import Belgrano from "../../../assets/icons/rondaBelgrano.png";
+import RecoletaPick from "../../../assets/icons/rondaRecoleta.png";
+import BelgranoPick from "../../../assets/icons/rondaBelgrano.png";
 
 const Salas = (props) => {
   const { navigation } = props;
+
+  const goToBelgrano = () => {
+    navigation.navigate("Belgrano");
+  };
+  const goToRecoleta = () => {
+    navigation.navigate("Recoleta");
+  };
   return (
     <View style={styles.container}>
       <Gradient>
         <View style={{ marginVertical: 60 }}>
           <Text style={styles.underText}>SEDES</Text>
-          <View style={styles.card} onPress={() => navigation.navigate()}>
-            <ImageBackground
-              source={Recoleta}
-              style={styles.image}
-              imageStyle={{ borderRadius: 6 }}
-            />
-            <Text style={styles.mainText}>RECOLETA</Text>
+          <View style={styles.card}>
+            <TouchableOpacity onPress={goToRecoleta}>
+              <ImageBackground
+                source={RecoletaPick}
+                style={styles.image}
+                imageStyle={{ borderRadius: 6 }}
+                
+              />
+              <Text style={styles.mainText}>RECOLETA</Text>
+            </TouchableOpacity>
           </View>
-          <View style={styles.card} onPress={() => navigation.navigate()}>
-            <ImageBackground
-              source={Belgrano}
-              style={styles.image}
-              imageStyle={{ borderRadius: 6 }}
-            />
-            <Text style={styles.mainText}>BELGRANO</Text>
+          <View style={styles.card}>
+            <TouchableOpacity onPress={goToBelgrano}>
+              <ImageBackground
+                source={BelgranoPick}
+                style={styles.image}
+                imageStyle={{ borderRadius: 6 }}
+              />
+              <Text style={styles.mainText}>BELGRANO</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Gradient>

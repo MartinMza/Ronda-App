@@ -4,7 +4,7 @@ import CommentCard from "./CommentCard";
 
 export default function CommentList(props) {
   const { comment } = props;
-console.log("AAAAAA",comment)
+
   return (
     <FlatList
       data={comment}
