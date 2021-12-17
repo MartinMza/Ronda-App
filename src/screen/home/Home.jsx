@@ -5,13 +5,13 @@ import logo from "../../../assets/LogoRondaColor.jpg";
 import Gradient from "../../components/gradient/Gradient";
 import IconsRight from "../../components/icons/IconsRight";
 import Foro from "../foro/Foro";
-import { useDispatch } from "react-redux";
-import { login } from "../../features/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { login, selectUser } from "../../features/userSlice";
 import { localhost } from "../../localHostIP.json";
 import axios from "axios";
 export default function Home(props) {
   const { navigation } = props;
-
+const user = useSelector(selectUser)
   const dispatch = useDispatch();
   useEffect(() => {
     axios
@@ -38,14 +38,14 @@ export default function Home(props) {
             size={24}
             color="black"
             style={{ marginLeft: 17 }}
-            onPress={goToInbox}
+            onPress={user?.org_state==="approved"? goToInbox:null}
           />
           <Icon
             name="search"
             size={24}
             color="black"
             style={{ marginLeft: 17 }}
-            onPress={goToSearch}
+            onPress={user?.org_state==="approved"? goToSearch:null}
           />
         </View>
       ),

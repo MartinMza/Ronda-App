@@ -7,8 +7,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Gradient from "../../components/gradient/Gradient";
-import Recoleta from "../../../assets/icons/rondaRecoleta.png";
-import Belgrano from "../../../assets/icons/rondaBelgrano.png";
+import RecoletaPick from "../../../assets/icons/rondaRecoleta.png";
+import BelgranoPick from "../../../assets/icons/rondaBelgrano.png";
 
 const Salas = (props) => {
   const { navigation } = props;
@@ -27,7 +27,7 @@ const Salas = (props) => {
           <View style={styles.card}>
             <TouchableOpacity onPress={goToRecoleta}>
               <ImageBackground
-                source={Recoleta}
+                source={RecoletaPick}
                 style={styles.image}
                 imageStyle={{ borderRadius: 6 }}
                 
@@ -38,7 +38,7 @@ const Salas = (props) => {
           <View style={styles.card}>
             <TouchableOpacity onPress={goToBelgrano}>
               <ImageBackground
-                source={Belgrano}
+                source={BelgranoPick}
                 style={styles.image}
                 imageStyle={{ borderRadius: 6 }}
               />

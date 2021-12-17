@@ -27,10 +27,10 @@ export default function Start(props) {
         <Image source={logo} style={styles.logo} />
 
         <Button onPress={goToLogin}>
-          <Text style={styles.buttonText}>SIGN IN</Text>
+          <Text style={styles.buttonText}>INGRESAR</Text>
         </Button>
         <Button onPress={goToRegister}>
-          <Text style={styles.buttonText}>REGISTER</Text>
+          <Text style={styles.buttonText}>REGISTRATE</Text>
         </Button>
 
      

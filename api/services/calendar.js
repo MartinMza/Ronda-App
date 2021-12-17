@@ -131,9 +131,7 @@ class GoogleCalendarAPI {
         (err, response) => {
           if (err){
             console.log("The API returned an error: " + err);
-            return res
-              .status(500)
-              .json({ message: "Free Busy query error", err });
+            return res.status(500).json({ message: "Free Busy query error", err });
           }
 
           const eventsArr = response.data.calendars[calendarId].busy;

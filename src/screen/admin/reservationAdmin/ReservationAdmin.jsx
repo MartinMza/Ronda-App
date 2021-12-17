@@ -17,7 +17,7 @@ export default function ReservationAdmin() {
     axios
       .get(`http://${localhost}/api/reservation/all`)
       .then((res) => setReservations(res.data))
-      .catch((err) => console.error(err));
+      .catch((err) => console.log(err));
   }, []);
 
   const cancelReservation = (id, eventId, location) => {
@@ -27,7 +27,7 @@ export default function ReservationAdmin() {
       .delete(`http://${localhost}/api/reservation/cancel/${id}`) // delete from db
       .then(() => axios.get(`http://${localhost}/api/reservation/all`))
       .then((data) => setReservations(data.data))
-      .catch((err) => console.log(err));
+      .catch((err) => alert("Ocurrio un problema"));
   };
 
   return (

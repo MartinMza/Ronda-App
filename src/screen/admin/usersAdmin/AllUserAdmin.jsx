@@ -26,11 +26,11 @@ export default function AllUserAdmin(props) {
       .then((data) => {
         setPendingUsers(data.data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) =>console.log(err));
   }, []);
 
   const handleUpgrade = (item) => {
-    console.log("tst item hanlde upgrade", item);
+   
     axios
       .put(`http://${localhost}/api/admin/superAdmin/${item}`)
       .then(() => {
@@ -38,11 +38,11 @@ export default function AllUserAdmin(props) {
           setPendingUsers(data.data);
         });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => alert("Ocurrio un problema"));
   };
 
   const handleDecline = (itemId, itemRole) => {
-    console.log("tst item / role hanlde decline", itemId, user.role);
+  
     if (user.role === "superadmin") {
       axios
         .delete(`http://${localhost}/api/admin/superAdmin/${itemId}/`)
@@ -63,13 +63,6 @@ export default function AllUserAdmin(props) {
         .catch((err) => alert("No puedes eliminar a otro administrador"));
     }
   };
-
-  // const deleteUser = (userId) => {//check user id
-  //   axios
-  //     .delete(`http://${localhost}/api/superadmin/${userId}/`)
-  //     .then(() => alert("Usuario eliminado"))
-  //     .catch(() => alert("Error al eliminar"));
-  // }; //comentado por bucles
 
   return (
     <View style={styles.container}>

@@ -194,8 +194,7 @@ fakeOrganization = [{
 
 const seed = async () => {
   try {
-   
-
+    
     console.log("Seeding...");
     await User.bulkCreate(fakeUsers);
     await Campus.bulkCreate(fakeCampus);

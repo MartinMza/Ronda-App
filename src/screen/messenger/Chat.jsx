@@ -33,7 +33,7 @@ export default function Chat(props) {
     axios
       .get(`http://${localhost}/api/message/${id}`)
       .then((res)=> setMessage(res.data))
-      .catch((err) => console.log(err));
+      .catch((err) =>console.log(err));
   }, [send]);
 
   const handleSubmit = async (text) => {

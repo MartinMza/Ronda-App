@@ -118,13 +118,11 @@ class OrganizationController {
       if (organization.dataValues.id !== req.user.organizationId) {
         return res.status(403).send("No tienes permisos para esta accion");
       }
-      console.log(organization)
       const user= await User.findOne({
         where:{
           id:req.params.userId
         }
       })
-      console.log("USERRRR",user)
      
       await user.update({
        org_state: "approved",

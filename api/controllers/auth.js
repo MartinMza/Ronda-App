@@ -184,7 +184,6 @@ class Auth {
   }
   static async logout(req, res) {
     try {
-      console.log(req.user);
       req.logout();
       res.send("done");
     } catch (error) {

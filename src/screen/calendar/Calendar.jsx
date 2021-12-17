@@ -17,9 +17,9 @@ export default function Calendar() {
     axios
       .get(`http://${localhost}/api/reservation/own`)
       .then((res) => setReservations(res.data))
-      .catch((err) => console.error(err));
+      .catch((err) =>console.log(err));
   }, []);
-  console.log(reservations);
+
 
   const cancelReservation = (id, eventId, location) => {
     axios
@@ -28,7 +28,7 @@ export default function Calendar() {
       .delete(`http://${localhost}/api/reservation/cancel/${id}`) // delete from db
       .then(() => axios.get(`http://${localhost}/api/reservation/own`))
       .then((data) => setReservations(data.data))
-      .catch((err) => console.log(err));
+      .catch((err) =>alert("Ocurrio un problema"));
   };
 
   return (

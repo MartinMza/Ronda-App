@@ -5,16 +5,16 @@ import Gradient from "../../components/gradient/Gradient";
 
 export default function Belgrano() {
   const url = [
-    "portafolio_01.jpg",
-    "portafolio_02.jpg",
-    "portafolio_03.jpg",
-    "portafolio_04.jpg",
-    "portafolio_05.jpg",
-    "portafolio_06.jpg",
-    "portafolio_07.jpg",
-    "portafolio_08.jpg",
-    "portafolio_09.jpg",
-    "portafolio_10.jpg",
+    require("../../../assets/sedes/portfolio_01.jpg"),
+    require("../../../assets/sedes/portfolio_02.jpg"),
+    require("../../../assets/sedes/portfolio_03.jpg"),
+    require("../../../assets/sedes/portfolio_04.jpg"),
+    require("../../../assets/sedes/portfolio_05.jpg"),
+    require("../../../assets/sedes/portfolio_06.jpg"),
+    require("../../../assets/sedes/portfolio_07.jpg"),
+    require("../../../assets/sedes/portfolio_08.jpg"),
+    require("../../../assets/sedes/portfolio_09.jpg"),
+    require("../../../assets/sedes/portafolio_10.jpg"),
   ];
 
   return (

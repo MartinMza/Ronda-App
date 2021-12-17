@@ -41,7 +41,6 @@ class UserController {
   }
   static async update(req, res) {
     try {
-      console.log(req.user)
       const user = await User.findOne({
         where: {
           id: req.user.id,

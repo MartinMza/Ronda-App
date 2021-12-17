@@ -33,7 +33,7 @@ const Stack = createStackNavigator();
 
 export default function NavigationStack() {
   return (
-    <Stack.Navigator initialRouteName="Salas">
+    <Stack.Navigator initialRouteName="Start">
       <Stack.Screen
         name="AllUserAdmin"
         component={AllUserAdmin}

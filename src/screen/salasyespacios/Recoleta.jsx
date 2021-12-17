@@ -5,16 +5,16 @@ import Gradient from "../../components/gradient/Gradient";
 
 export default function Recoleta() {
   const url = [
-    "R1_thumb.jpg",
-    "R2_thumb.jpg",
-    "R3_thumb.jpg",
-    "R4_thumb.jpg",
-    "R5_thumb.jpg",
-    "R6_thumb.jpg",
-    "R7_thumb.jpg",
-    "R8_thumb.jpg",
-    "R9_thumb.jpg",
-    "R10_thumb.jpg",
+    require("../../../assets/sedes/R1_thumb.jpg"),
+    require("../../../assets/sedes/R2_thumb.jpg"),
+    require("../../../assets/sedes/R3_thumb.jpg"),
+    require("../../../assets/sedes/R4_thumb.jpg"),
+    require("../../../assets/sedes/R5_thumb.jpg"),
+    require("../../../assets/sedes/R6_thumb.jpg"),
+    require("../../../assets/sedes/R7_thumb.jpg"),
+    require("../../../assets/sedes/R8_thumb.jpg"),
+    require("../../../assets/sedes/R9_thumb.jpg"),
+    require("../../../assets/sedes/R10_thumb.jpg"),
   ];
 
   return (

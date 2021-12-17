@@ -34,7 +34,7 @@ const CreateMembership = (props) => {
         location: value,
       })
       .then(() => {
-        alert("Ya existe una membresia con ese nombre");
+        alert("Se creo correctamente la membresía");
         navigation.navigate("Home");
       })
       .catch(() => alert("Ya existe una membresía con ese nombre"));
@@ -44,8 +44,11 @@ const CreateMembership = (props) => {
     <View style={styles.container}>
       <Gradient>
         <Image source={logo} style={styles.logo} />
+        <Text style={[styles.title, { textDecorationLine: "underline" }]}>
+              CREAR MEMBRESIA
+            </Text>
         <TextInput
-          placeholder="Nombre de la membresia"
+          placeholder="Nombre de la membresía"
           style={styles.input}
           value={name}
           onChangeText={(text) => setName(text)}
@@ -62,7 +65,7 @@ const CreateMembership = (props) => {
           zIndex={3}
         />
         <TextInput
-          placeholder="Credits"
+          placeholder="Créditos"
           style={styles.input}
           value={credits}
           onChangeText={(text) => setCredits(text)}
@@ -115,11 +118,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
     //fontFamily: "Lato_Black"
   },
-  error: {
-    textAlign: "center",
-    color: "red",
-
-    fontSize: 13,
+  title: {
+    fontWeight: "bold",
+    color: "#fff",
+    marginVertical: 20,
+    paddingHorizontal: 15,
   },
 });
 

@@ -33,7 +33,7 @@ const Login = (props) => {
       )
       .then(data=>dispatch(login(data.data))) 
       .then(()=>navigation.navigate("Home"))
-      .catch((err) => console.error(err));
+      .catch((err) =>console.log(err));
     },
   });
 
@@ -61,7 +61,7 @@ const Login = (props) => {
         <Text style={styles.error}>{formik.errors.password}</Text>
 
         <TouchableOpacity onPress={formik.handleSubmit} style={styles.button}>
-          <Text style={styles.buttonText}>LOG IN</Text>
+          <Text style={styles.buttonText}>INGRESAR</Text>
         </TouchableOpacity>
       </Gradient>
     </View>

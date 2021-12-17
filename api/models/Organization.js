@@ -39,7 +39,6 @@ Organization.init({
     beforeCreate: (organization) => {
         organization.creationDate = `${new Date().getDate()}/${new Date().getMonth()}/${new Date().getFullYear()}`;
         organization.facturationDay = `${new Date().getDate()}/${new Date().getMonth()}/${new Date().getFullYear()}`;
-        console.log(organization);
     }
 },sequelize, modelName: "organization"});
     
